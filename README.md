@@ -1,4 +1,4 @@
-# thesis-NTNU
+# Forked thesis-NTNU
 
 CoPCSE@NTNU – Community of Practice for Computer Science Education at the Norwegian University of Science and Technology – is an informal forum for lecturers in computer science and related fields across campuses and departments.
 

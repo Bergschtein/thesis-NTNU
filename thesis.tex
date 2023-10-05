@@ -1,19 +1,33 @@
 \documentclass[british,titlepage]{ntnuthesis}
 
-\title{An NTNU Thesis \LaTeX{} Document Class}
-\shorttitle{An NTNU Thesis Document Class}
+\title{Generative ML for time series}
+%\shorttitle{An NTNU Thesis Document Class}
 \author{Johan Vik Mathisen}
 %\shortauthor{CoPCSE$@$NTNU}
-\date{CC-BY \ntnuthesisdate}
+\date{\today}
 
 \addbibresource{thesis.bib}
 
 \input{glossary.tex} % add glossary and acronym lists before document
+\input{preamble.tex}
+    \usepackage{subfiles}
+    % Allows compilation of each subfile, rather to compile everything at once
+    % Subfiles must have this file as option while using the documentclass subfile
+    % Loading a subfile is done with \subfile{"path-to-file"}
 
 \begin{document}
 
-\input{chapters/0a-abstract.tex}
-\input{chapters/0b-sammendrag.tex}
+
+
+
+\chapter*{Abstract}
+\subfile{chapters/0-abstract/0a-abstract.tex}
+\chapter*{Sammendrag}
+\subfile{chapters/0-abstract/0b-sammendrag.tex}
+
+% Both norwegian and english abstract. 
+
+%\input{chapters/0b-sammendrag.tex}
 
 \tableofcontents
 \listoffigures
@@ -23,10 +37,13 @@
 \printglossary[type=\acronymtype] % Print acronyms
 \printglossary                    % Print glossary
 
-\input{chapters/1-introduction}
-\input{chapters/2-usage.tex}
-\input{chapters/3-structure.tex}
-\input{chapters/4-conclusion.tex}
+\chapter{Introduction}
+\subfile{chapters/1-introduction/1-introduction.tex}
+
+\chapter{VQ-VAE}
+\subfile{chapters/3-VQ-VAE/3-VQ-VAE.tex}
+
+
 
 \chapter*{\bibname}
 \printbibliography[heading=none]

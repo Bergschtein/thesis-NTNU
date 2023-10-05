@@ -1,0 +1,9 @@
+[0] Config.pm:311> INFO - This is Biber 2.16
+[0] Config.pm:314> INFO - Logfile is 'chapters/3-VQ-VAE/3-VQ-VAE.blg'
+[120] biber-darwin:340> INFO - === Thu Oct  5, 2023, 11:35:16
+[145] Biber.pm:415> INFO - Reading 'chapters/3-VQ-VAE/3-VQ-VAE.bcf'
+[296] Biber.pm:952> INFO - Found 0 citekeys in bib section 0
+[308] Utils.pm:395> WARN - The file 'chapters/3-VQ-VAE/3-VQ-VAE.bcf' does not contain any citations!
+[320] bbl.pm:654> INFO - Writing 'chapters/3-VQ-VAE/3-VQ-VAE.bbl' with encoding 'UTF-8'
+[320] bbl.pm:757> INFO - Output to chapters/3-VQ-VAE/3-VQ-VAE.bbl
+[321] Biber.pm:128> INFO - WARNINGS: 1
