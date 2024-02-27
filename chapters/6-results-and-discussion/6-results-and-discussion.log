@@ -1,17 +1,17 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.3)  22 FEB 2024 15:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.3)  27 DEC 2023 14:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.tex
-(/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.tex
+**/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex
+(/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.cls
 Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
 Preamble taken from file `../../thesis.tex'
 (/usr/local/texlive/2021/texmf-dist/tex/latex/import/import.sty
 Package: import 2020/04/01  v 6.2
-) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/../../thesis.tex (./ntnuthesis.cls
+) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/../../thesis.tex (./ntnuthesis.cls
 Document Class: ntnuthesis 2019/07/18 CC-BY CoPCSE at NTNU 2019
 (/usr/local/texlive/2021/texmf-dist/tex/latex/pdfpages/pdfpages.sty
 Package: pdfpages 2021/03/06 v0.5t Insert pages of external PDF documents (AM)
@@ -748,11 +748,11 @@ Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 ))
 \verbatim@out=\write5
-runsystem(touch w18-test-2024222951.tex)...disabled (restricted).
+runsystem(touch w18-test-20231227867.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2024222951.tex)...disabled (restricted).
+runsystem(rm -f w18-test-20231227867.tex)...disabled (restricted).
 
-runsystem(rm -f "1-introduction.gnuploterrors")...disabled (restricted).
+runsystem(rm -f "6-results-and-discussion.gnuploterrors")...disabled (restricted).
 
 
 
@@ -993,13 +993,13 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 309.
 ) (./glossary.tex
 \glswrite=\write6
 \glo@main@file=\write7
-\openout7 = `1-introduction.glo'.
+\openout7 = `6-results-and-discussion.glo'.
 
-Package glossaries Info: Writing glossary file 1-introduction.glo on input line 4.
+Package glossaries Info: Writing glossary file 6-results-and-discussion.glo on input line 4.
 \glo@acronym@file=\write8
-\openout8 = `1-introduction.acn'.
+\openout8 = `6-results-and-discussion.acn'.
 
-Package glossaries Info: Writing glossary file 1-introduction.acn on input line 4.
+Package glossaries Info: Writing glossary file 6-results-and-discussion.acn on input line 4.
 ) (./preamble.tex (/usr/local/texlive/2021/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2020/08/18 v1.1.3 Todonotes source and documentation.
 Package: todonotes 2018/11/22
@@ -1189,8 +1189,8 @@ Package csquotes Info: Redefining alias 'default' -> 'british'.
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count498
 \l__pdf_internal_box=\box70
-) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.aux)
-\openout1 = `1-introduction.aux'.
+) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.aux)
+\openout1 = `6-results-and-discussion.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
@@ -1325,7 +1325,7 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 5.76004pt on input line 3.
  [1
 
-\openout6 = `1-introduction.ist'.
+\openout6 = `6-results-and-discussion.ist'.
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 \c@lstlisting=\count505
@@ -1395,11 +1395,11 @@ Package biblatex Info: ... and expl3
  (/usr/local/texlive/2021/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse-2020-10-01.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex)))
 Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 )
-\openout3 = `1-introduction.bcf'.
+\openout3 = `6-results-and-discussion.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file '1-introduction.bbl' found.
- (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.bbl)
+Package biblatex Info: ... file '6-results-and-discussion.bbl' found.
+ (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.bbl)
 Package biblatex Info: Reference section=0 on input line 3.
 Package biblatex Info: Reference segment=0 on input line 3.
 Package hyperref Info: Link coloring ON on input line 3.
@@ -1415,40 +1415,144 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 3.
 LaTeX Info: Redefining \pageref on input line 3.
 LaTeX Info: Redefining \nameref on input line 3.
- (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.out) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.out)
 \@outlinefile=\write10
-\openout10 = `1-introduction.out'.
+\openout10 = `6-results-and-discussion.out'.
 
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 13.82408pt on input line 5.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 13.82408pt on input line 5.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `OMS/xmdcmsy/m/n' will be
+(Font)              scaled to size 10.32576pt on input line 11.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 10.51207pt on input line 11.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 10.51207pt on input line 16.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `OMS/xmdcmsy/m/n' will be
+(Font)              scaled to size 9.42993pt on input line 28.
+LaTeX Font Info:    Font shape `OMS/xmdcmsy/m/n' will be
+(Font)              scaled to size 6.60095pt on input line 28.
+LaTeX Font Info:    Font shape `OMS/xmdcmsy/m/n' will be
+(Font)              scaled to size 4.71497pt on input line 28.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 9.60007pt on input line 28.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 6.72005pt on input line 28.
+LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
+(Font)              scaled to size 4.80003pt on input line 28.
 
 
 Package glossaries Warning: No \printglossary or \printglossaries found. 
 (Remove \makeglossaries if you don't want any glossaries.) 
 This document will not have a glossary.
 
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 11.
 LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 11.
-[2] (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.aux)
-Package rerunfilecheck Info: File `1-introduction.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package logreq Info: Writing requests to '1-introduction.run.xml'.
-\openout1 = `1-introduction.run.xml'.
+(Font)              scaled to size 9.60007pt on input line 130.
+[2]
+/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex:130: Undefined control sequence.
+<recently read> \ch@ptermark 
+                             
+l.130 \end{document}
+                    
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[3] [4] (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `6-results-and-discussion.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `6-results-and-discussion.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  F44D37F8809A817B2C07D618BAA41D4E;230.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                6-results-and-discussion
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to '6-results-and-discussion.run.xml'.
+\openout1 = `6-results-and-discussion.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41748 strings out of 478994
- 781115 string characters out of 5858185
- 1531327 words of memory out of 5000000
- 58493 multiletter control sequences out of 15000+600000
- 427733 words of font info for 68 fonts, out of 8000000 for 9000
+ 41822 strings out of 478994
+ 782187 string characters out of 5858185
+ 1552141 words of memory out of 5000000
+ 58550 multiletter control sequences out of 15000+600000
+ 457065 words of font info for 117 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 137i,6n,148p,1096b,2340s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb>
-Output written on /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.pdf (2 pages, 29676 bytes).
+ 137i,9n,148p,1116b,2340s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7t.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chri7m.pfb>
+Output written on /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.pdf (4 pages, 58458 bytes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
+ 90 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
+ 12 named destinations out of 1000 (max. 500000)
  109 words of extra memory for PDF output out of 10000 (max. 10000000)
 

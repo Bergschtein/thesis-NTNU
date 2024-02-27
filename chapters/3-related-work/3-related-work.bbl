@@ -1,0 +1,61 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{TimeVQVAE}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=bb6256c07bc7d489dd5578d9b5b9293a}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Daesoo},
+           giveni={D\bibinitperiod}}}%
+        {{hash=0bd0170fcef6f3d7f0156792dc5fd927}{%
+           family={Malacarne},
+           familyi={M\bibinitperiod},
+           given={Sara},
+           giveni={S\bibinitperiod}}}%
+        {{hash=ba9713bfce73f4db6fc8739967b68fdc}{%
+           family={Aune},
+           familyi={A\bibinitperiod},
+           given={Erlend},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{1bf0723a3072c3264fe3dc34ad95a4ac}
+      \strng{fullhash}{5a5a91031f861a534eb00d3511d62304}
+      \strng{bibnamehash}{5a5a91031f861a534eb00d3511d62304}
+      \strng{authorbibnamehash}{5a5a91031f861a534eb00d3511d62304}
+      \strng{authornamehash}{1bf0723a3072c3264fe3dc34ad95a4ac}
+      \strng{authorfullhash}{5a5a91031f861a534eb00d3511d62304}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Vector Quantized Time Series Generation with a Bidirectional Prior Model}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2303.04743
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

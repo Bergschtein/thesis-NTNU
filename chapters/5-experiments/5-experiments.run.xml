@@ -44,10 +44,10 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>3-VQ-VAE.bcf</file>
+      <file>5-experiments.bcf</file>
     </provides>
     <requires type="dynamic">
-      <file>3-VQ-VAE.bbl</file>
+      <file>5-experiments.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -67,19 +67,19 @@
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
-      <infile>3-VQ-VAE</infile>
+      <infile>5-experiments</infile>
     </cmdline>
     <input>
-      <file>3-VQ-VAE.bcf</file>
+      <file>5-experiments.bcf</file>
     </input>
     <output>
-      <file>3-VQ-VAE.bbl</file>
+      <file>5-experiments.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>3-VQ-VAE.bbl</file>
+      <file>5-experiments.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>3-VQ-VAE.bcf</file>
+      <file>5-experiments.bcf</file>
     </requires>
     <requires type="editable">
       <file>thesis.bib</file>

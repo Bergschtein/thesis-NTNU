@@ -1,17 +1,17 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.3)  5 OCT 2023 11:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.3)  22 DEC 2023 17:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.tex
-(/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.tex
+**/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.tex
+(/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.cls
 Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
 Preamble taken from file `../../thesis.tex'
 (/usr/local/texlive/2021/texmf-dist/tex/latex/import/import.sty
 Package: import 2020/04/01  v 6.2
-) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/../../thesis.tex (./ntnuthesis.cls
+) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/../../thesis.tex (./ntnuthesis.cls
 Document Class: ntnuthesis 2019/07/18 CC-BY CoPCSE at NTNU 2019
 (/usr/local/texlive/2021/texmf-dist/tex/latex/pdfpages/pdfpages.sty
 Package: pdfpages 2021/03/06 v0.5t Insert pages of external PDF documents (AM)
@@ -748,11 +748,11 @@ Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 ))
 \verbatim@out=\write5
-runsystem(touch w18-test-2023105714.tex)...disabled (restricted).
+runsystem(touch w18-test-202312221027.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2023105714.tex)...disabled (restricted).
+runsystem(rm -f w18-test-202312221027.tex)...disabled (restricted).
 
-runsystem(rm -f "3-VQ-VAE.gnuploterrors")...disabled (restricted).
+runsystem(rm -f "3-related-work.gnuploterrors")...disabled (restricted).
 
 
 
@@ -993,13 +993,13 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 309.
 ) (./glossary.tex
 \glswrite=\write6
 \glo@main@file=\write7
-\openout7 = `3-VQ-VAE.glo'.
+\openout7 = `3-related-work.glo'.
 
-Package glossaries Info: Writing glossary file 3-VQ-VAE.glo on input line 4.
+Package glossaries Info: Writing glossary file 3-related-work.glo on input line 4.
 \glo@acronym@file=\write8
-\openout8 = `3-VQ-VAE.acn'.
+\openout8 = `3-related-work.acn'.
 
-Package glossaries Info: Writing glossary file 3-VQ-VAE.acn on input line 4.
+Package glossaries Info: Writing glossary file 3-related-work.acn on input line 4.
 ) (./preamble.tex (/usr/local/texlive/2021/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2020/08/18 v1.1.3 Todonotes source and documentation.
 Package: todonotes 2018/11/22
@@ -1189,8 +1189,8 @@ Package csquotes Info: Redefining alias 'default' -> 'british'.
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count498
 \l__pdf_internal_box=\box70
-) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.aux)
-\openout1 = `3-VQ-VAE.aux'.
+) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.aux)
+\openout1 = `3-related-work.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
 LaTeX Font Info:    ... okay on input line 3.
@@ -1325,7 +1325,7 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 5.76004pt on input line 3.
  [1
 
-\openout6 = `3-VQ-VAE.ist'.
+\openout6 = `3-related-work.ist'.
 
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 \c@lstlisting=\count505
@@ -1395,11 +1395,11 @@ Package biblatex Info: ... and expl3
  (/usr/local/texlive/2021/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse-2020-10-01.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.tex)))
 Package: blx-case-expl3 2020/12/31 v3.16 expl3 case changing code for biblatex
 )
-\openout3 = `3-VQ-VAE.bcf'.
+\openout3 = `3-related-work.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file '3-VQ-VAE.bbl' found.
- (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.bbl)
+Package biblatex Info: ... file '3-related-work.bbl' found.
+ (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.bbl)
 Package biblatex Info: Reference section=0 on input line 3.
 Package biblatex Info: Reference segment=0 on input line 3.
 Package hyperref Info: Link coloring ON on input line 3.
@@ -1415,14 +1415,13 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 3.
 LaTeX Info: Redefining \pageref on input line 3.
 LaTeX Info: Redefining \nameref on input line 3.
- (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.out) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.out)
+ (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.out) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.out)
 \@outlinefile=\write10
-\openout10 = `3-VQ-VAE.out'.
+\openout10 = `3-related-work.out'.
 
-LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 13.82408pt on input line 5.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 5.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 13.82408pt on input line 5.
+(Font)              scaled to size 10.51207pt on input line 5.
 
 
 Package glossaries Warning: No \printglossary or \printglossaries found. 
@@ -1430,29 +1429,31 @@ Package glossaries Warning: No \printglossary or \printglossaries found.
 This document will not have a glossary.
 
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 13.
+(Font)              scaled to size 9.60007pt on input line 14.
 LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 13.
-[2] (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.aux)
-Package rerunfilecheck Info: File `3-VQ-VAE.out' has not changed.
+(Font)              scaled to size 9.60007pt on input line 14.
+[2] (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.aux)
+Package rerunfilecheck Info: File `3-related-work.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package logreq Info: Writing requests to '3-VQ-VAE.run.xml'.
-\openout1 = `3-VQ-VAE.run.xml'.
+Package logreq Info: Writing requests to '3-related-work.run.xml'.
+\openout1 = `3-related-work.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41755 strings out of 478994
- 780953 string characters out of 5858185
- 1532310 words of memory out of 5000000
- 58495 multiletter control sequences out of 15000+600000
- 432735 words of font info for 72 fonts, out of 8000000 for 9000
+ 42018 strings out of 478994
+ 786880 string characters out of 5858185
+ 1533400 words of memory out of 5000000
+ 58758 multiletter control sequences out of 15000+600000
+ 430669 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 137i,6n,148p,1084b,2340s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb>
-Output written on /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-VQ-VAE/3-VQ-VAE.pdf (2 pages, 32258 bytes).
+ 137i,7n,148p,1096b,2340s stack positions out of 5000i,500n,10000p,200000b,80000s
+pdfTeX warning (dest): name{cite.0@TimeVQVAE} has been referenced but does not exist, replaced by a fixed one
+
+{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr8t.pfb>
+Output written on /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.pdf (2 pages, 40967 bytes).
 PDF statistics:
- 59 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 64 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  5 named destinations out of 1000 (max. 500000)
  109 words of extra memory for PDF output out of 10000 (max. 10000000)
 
