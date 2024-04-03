@@ -1342,12 +1342,6 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tr
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
-INPUT ./glossary.tex
-INPUT glossary.tex
-INPUT ./glossary.tex
-INPUT glossary.tex
-OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.glo
-OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.acn
 INPUT ./preamble.tex
 INPUT preamble.tex
 INPUT ./preamble.tex
@@ -1548,6 +1542,7 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/pgf/libraries/pgflibraryfad
 INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/pgf/libraries/pgflibraryfadings.code.tex
 OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.pdf
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/calc.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.sty
@@ -1676,7 +1671,6 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/mathdesign/mdbch/mdbmdbch.fd
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
-OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/1-introduction/1-introduction.ist
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchr8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr8y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr8t.tfm
