@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.3)  22 FEB 2024 16:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2022.2.3)  4 APR 2024 14:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -748,9 +748,9 @@ Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 ))
 \verbatim@out=\write5
-runsystem(touch w18-test-2024222968.tex)...disabled (restricted).
+runsystem(touch w18-test-202444859.tex)...disabled (restricted).
 
-runsystem(rm -f w18-test-2024222968.tex)...disabled (restricted).
+runsystem(rm -f w18-test-202444859.tex)...disabled (restricted).
 
 runsystem(rm -f "5-experiments.gnuploterrors")...disabled (restricted).
 
@@ -990,16 +990,6 @@ Package: glossary-tree 2020/03/19 v4.46 (NLCT)
 ))
 \c@paper=\count475
 Package hyperref Info: Option `colorlinks' set `true' on input line 309.
-) (./glossary.tex
-\glswrite=\write6
-\glo@main@file=\write7
-\openout7 = `5-experiments.glo'.
-
-Package glossaries Info: Writing glossary file 5-experiments.glo on input line 4.
-\glo@acronym@file=\write8
-\openout8 = `5-experiments.acn'.
-
-Package glossaries Info: Writing glossary file 5-experiments.acn on input line 4.
 ) (./preamble.tex (/usr/local/texlive/2021/texmf-dist/tex/latex/todonotes/todonotes.sty
 Package: todonotes 2020/08/18 v1.1.3 Todonotes source and documentation.
 Package: todonotes 2018/11/22
@@ -1018,7 +1008,7 @@ Package: pgfsys 2020/12/27 v3.1.8b (3.1.8b)
 \pgf@yc=\dimen271
 \pgf@xd=\dimen272
 \pgf@yd=\dimen273
-\w@pgf@writea=\write9
+\w@pgf@writea=\write6
 \r@pgf@reada=\read6
 \c@pgf@counta=\count476
 \c@pgf@countb=\count477
@@ -1325,8 +1315,6 @@ LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
 (Font)              scaled to size 5.76004pt on input line 3.
  [1
 
-\openout6 = `5-experiments.ist'.
-
 {/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 \c@lstlisting=\count505
 
@@ -1416,63 +1404,58 @@ LaTeX Info: Redefining \ref on input line 3.
 LaTeX Info: Redefining \pageref on input line 3.
 LaTeX Info: Redefining \nameref on input line 3.
  (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.out) (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.out)
-\@outlinefile=\write10
-\openout10 = `5-experiments.out'.
+\@outlinefile=\write7
+\openout7 = `5-experiments.out'.
 
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
 (Font)              scaled to size 13.82408pt on input line 5.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
 (Font)              scaled to size 13.82408pt on input line 5.
+LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
+(Font)              scaled to size 11.52008pt on input line 9.
 LaTeX Font Info:    Font shape `OT1/mdbch/m/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `OML/mdbch/m/it' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `OMS/mdbch/m/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `OMX/mdbch/m/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `OMS/xmdcmsy/m/n' will be
-(Font)              scaled to size 10.32576pt on input line 10.
+(Font)              scaled to size 10.32576pt on input line 12.
 LaTeX Font Info:    Font shape `OML/mdbch/m/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `MDA/mdbch/m/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `MDB/mdbch/m/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
+(Font)              scaled to size 10.51207pt on input line 12.
 LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 10.51207pt on input line 10.
-LaTeX Font Info:    Font shape `T1/mdbch/b/n' will be
-(Font)              scaled to size 11.52008pt on input line 14.
-
-
-Package glossaries Warning: No \printglossary or \printglossaries found. 
-(Remove \makeglossaries if you don't want any glossaries.) 
-This document will not have a glossary.
-
+(Font)              scaled to size 10.51207pt on input line 12.
+Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 41.
 LaTeX Font Info:    Font shape `T1/mdbch/m/n' will be
-(Font)              scaled to size 9.60007pt on input line 20.
+(Font)              scaled to size 9.60007pt on input line 48.
 LaTeX Font Info:    Font shape `T1/mdbch/m/it' will be
-(Font)              scaled to size 9.60007pt on input line 20.
-[2] (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.aux)
+(Font)              scaled to size 9.60007pt on input line 48.
+ [2] (/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.aux)
 Package rerunfilecheck Info: File `5-experiments.out' has not changed.
-(rerunfilecheck)             Checksum: 5540FA0AB590AE484A8712D18EA58D39;428.
+(rerunfilecheck)             Checksum: FE8902F5BFC7E5DC606A9DDC9DCF8AE9;1043.
 Package logreq Info: Writing requests to '5-experiments.run.xml'.
 \openout1 = `5-experiments.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41780 strings out of 478994
- 781514 string characters out of 5858185
- 1533324 words of memory out of 5000000
- 58513 multiletter control sequences out of 15000+600000
+ 41668 strings out of 478994
+ 780257 string characters out of 5858185
+ 1538401 words of memory out of 5000000
+ 58401 multiletter control sequences out of 15000+600000
  442115 words of font info for 87 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 137i,6n,148p,1094b,2340s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 137i,7n,148p,1094b,2340s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/bitstrea/charter/bchri8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/mathdesign/mdbch/md-chr7y.pfb>
-Output written on /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.pdf (2 pages, 40254 bytes).
+Output written on /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.pdf (2 pages, 46717 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
- 7 named destinations out of 1000 (max. 500000)
- 141 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 97 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
+ 12 named destinations out of 1000 (max. 500000)
+ 173 words of extra memory for PDF output out of 10000 (max. 10000000)
 

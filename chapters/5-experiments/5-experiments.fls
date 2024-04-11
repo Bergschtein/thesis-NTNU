@@ -1342,12 +1342,6 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tr
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/glossaries/styles/glossary-tree.sty
-INPUT ./glossary.tex
-INPUT glossary.tex
-INPUT ./glossary.tex
-INPUT glossary.tex
-OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.glo
-OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.acn
 INPUT ./preamble.tex
 INPUT preamble.tex
 INPUT ./preamble.tex
@@ -1548,6 +1542,7 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/pgf/libraries/pgflibraryfad
 INPUT /usr/local/texlive/2021/texmf-dist/tex/generic/pgf/libraries/pgflibraryfadings.code.tex
 OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.pdf
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/tools/calc.sty
+INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.sty
 INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/subfiles/subfiles.sty
@@ -1676,7 +1671,6 @@ INPUT /usr/local/texlive/2021/texmf-dist/tex/latex/mathdesign/mdbch/mdbmdbch.fd
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
-OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.ist
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchr8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr8y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr8t.tfm
@@ -1807,6 +1801,7 @@ INPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiment
 OUTPUT /Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.out
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchr8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchb8t.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchb8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchr7t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchri7m.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchr7y.tfm
@@ -1815,7 +1810,6 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchr7m.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrma.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchrmb.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchb8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchb8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchr8t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/mdbchri8t.tfm
@@ -1831,11 +1825,11 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-ch
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchr8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr8y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr8t.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchr7y.vf
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr7y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchb8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chb8y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chb8t.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchr7y.vf
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chr7y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/public/mathdesign/mdbch/mdbchb8t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chb8y.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/public/mathdesign/mdbch/md-chb8t.tfm

@@ -12,6 +12,7 @@ The VQ-VAE model is baseline for our experiments.\\
 
 An encoder, decoder, and codebook are to be optimized by compressing the input into discrete latent space, minimizing information loss by comparing input to the output, which ideally are equal. We follow \cite{TimeVQVAE} and augment time-series into time-frquency domain, but leave the high-low frequency split for future work. \\
 
+\subsubsection{Model Architecture}
 A schematic overwiew of the VQ-VAE model is presented in "Figure here"
 
 A time series is first augmented into time-frequency domain using the Short-time Fourier Transform (cite pytorch stft). Then it is encoded into the continious latent space, and is discretized by the codebook via the argmin process. In the argmin process the continious token is compared to every discrete token in the codebook, and replaced by the closes discrete token in terms of euclidean distance. Then, the decoder maps the discrete token back to time-frequency domain, before finally being mapped back to time domain using the ISTFT.
@@ -19,6 +20,8 @@ A time series is first augmented into time-frequency domain using the Short-time
 
 
 \subsection{Barlow Twins VQ-VAE}
+\subsubsection{Model Architecture}
+
 
 An encoder, decoder, codebook, and projector are to be optimized.
 
@@ -37,6 +40,8 @@ We used the following collection of augmentation techniques throughout. Never da
     \item Adding slope
     \item STFT Augmentation
 \end{itemize}
+
+\subsubsection{Model Architecture}
 
 \subsubsection{Training}
 

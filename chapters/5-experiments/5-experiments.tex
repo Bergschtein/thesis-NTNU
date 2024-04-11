@@ -11,6 +11,9 @@ As mentioned in the section on representation learning, one needs to determine a
 \begin{itemize}
     \item \textbf{Reconstruction}: We evaluate the models ability to reconstruct the original data from latent representation. Success indicating perservation of information.
     \item \textbf{Downstream classification}: We evaluate the latent representations on its ability  linear classification. 
+    \item \textbf{Training time}
+    \item \textbf{Number of parameters}
+    \item 
 \end{itemize}
 
 \subsection{Reconstruction}
@@ -24,5 +27,22 @@ In the two tokenization models, how does the codebooks differ? Look at codebook 
 \section{Stage 2}
 
 \subsection{Evaluation metrics}
+\begin{itemize}
+    \item \textbf{IS}:
+    \item \textbf{FID}:
+    \item \textbf{Visual inspection}:
+    \item \textbf{Token usage}:
+    \item \textbf{Generating distribution}:
+\end{itemize}
+
+
+\section{Ablation studies}
+
+\TODO{Could it be interesting to investigate different masking designs for time series? Is cosine the ubiquitous choice}
+The masking design does not affect (gradients) training, only the iterative decoding. Can do tests on trained models!
+
+Different sampling scheme? Instead of TopK try Nucleus sampling?
+
+
 
 \end{document}

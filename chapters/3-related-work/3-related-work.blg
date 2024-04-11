@@ -1,15 +1,15 @@
 [0] Config.pm:311> INFO - This is Biber 2.16
 [0] Config.pm:314> INFO - Logfile is 'chapters/3-related-work/3-related-work.blg'
-[133] biber-darwin:340> INFO - === Wed Apr  3, 2024, 19:00:48
-[167] Biber.pm:415> INFO - Reading 'chapters/3-related-work/3-related-work.bcf'
-[320] Biber.pm:952> INFO - Found 1 citekeys in bib section 0
-[343] Biber.pm:4340> INFO - Processing section 0
-[363] Biber.pm:4531> INFO - Looking for bibtex format file 'thesis.bib' for section 0
-[365] bibtex.pm:1689> INFO - LaTeX decoding ...
-[386] bibtex.pm:1494> INFO - Found BibTeX data source 'thesis.bib'
-[454] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'variable = shifted' with 'variable = non-ignorable'
-[454] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[454] Biber.pm:4168> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-GB'
-[454] Biber.pm:4174> INFO - No sort tailoring available for locale 'en-GB'
-[456] bbl.pm:654> INFO - Writing 'chapters/3-related-work/3-related-work.bbl' with encoding 'UTF-8'
-[457] bbl.pm:757> INFO - Output to chapters/3-related-work/3-related-work.bbl
+[175] biber-darwin:340> INFO - === Mon Apr  8, 2024, 11:32:02
+[216] Biber.pm:415> INFO - Reading 'chapters/3-related-work/3-related-work.bcf'
+[428] Biber.pm:952> INFO - Found 1 citekeys in bib section 0
+[474] Biber.pm:4340> INFO - Processing section 0
+[498] Biber.pm:4531> INFO - Looking for bibtex format file 'thesis.bib' for section 0
+[501] bibtex.pm:1689> INFO - LaTeX decoding ...
+[544] bibtex.pm:1494> INFO - Found BibTeX data source 'thesis.bib'
+[704] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[705] UCollate.pm:68> INFO - Overriding locale 'en-GB' defaults 'variable = shifted' with 'variable = non-ignorable'
+[705] Biber.pm:4168> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-GB'
+[705] Biber.pm:4174> INFO - No sort tailoring available for locale 'en-GB'
+[708] bbl.pm:654> INFO - Writing 'chapters/3-related-work/3-related-work.bbl' with encoding 'UTF-8'
+[709] bbl.pm:757> INFO - Output to chapters/3-related-work/3-related-work.bbl

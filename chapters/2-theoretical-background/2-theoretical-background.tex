@@ -4,6 +4,16 @@
 
 \TODO{Introduce the section, what we think and the philosophy of presenting material in such a way.}
 
+
+\section{Information theoretic/basic stats used in evaluation}
+
+- mutual information
+- entropy
+- perplexity
+
+\section{General time series stuff}
+- short-time-fourier transform etc.
+
 \section{Neural Network}
 
 Ref is \cite{deeplearningbook} chapter 6. ISLRv2 chapter 10
@@ -27,12 +37,70 @@ Two of the most commonly used activation functions are $\text{Sigmoid}(x) = \tfr
 
 \TODO{Sneak in something about universal approximation theorem}
 
-
 \section{Convolutional Neural Network}
+
+A convolutional neural network (CNN) is a particular type of neural network that is developed to learn local features in the data. This local feature learning is enabled by the mathematical operation of convolution. 
+
+In essence a CNN is a neural network where matrix multiplication is switched for convolution at least one of the layers \cite{deeplearningbook}. 
+
+Some history: 1959 visual cortex cells. The Neocognitron 1980. CNN for MNIST Yann LeCun 1989- 1998. AlexNet: GPU training and popularization of deep neural nets.
+
+Why was it introduced? 
+Fully connected neural networks suffer badly from overfitting. Vanishing gradient / exploding gradient.
+
+What problems did it solve?
+
+
+
+
+Mathematical def:
+Discrete and continious
+
+
+
+
+
+Convolution in machine learning does not allways correspond exactly to the mathematical definition of the operation. Cross-correation.
+
+
+
+
+"Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
+
+
+\subsection{Transposed Convolutional Networks}
+Upsampling techneque
+
+
+\subsection{Pooling}
 
 
 
 \section{Residual Neural Network}
+
+Deep neural networks are hard to train. But we want deeper networks as the representations learned in deeper networks tend to be higher level/more abstract \cite{zeiler2013visualizing}. 
+
+The problem of exploding/vanishing gradients \todo{write about and explain what this is} has been to a large extent been solved by normalized initialization and intermediate normalization layers. This has enabled networks of tens of layers to start converging for SDG with backprop \cite{he2015deep}. \TODO{Rewrite the above in more of my own words}.
+
+
+
+The degeneration problem: 
+
+The deep residual learning framework was developed to address the degeneration problem.
+
+\cite{he2015deep}
+
+
+
+\section{Visualization techniques}
+
+\subsection{PCA}
+
+\subsection{t-SNE}
+
+\subsection{UMAP}
+\subsubsection{densMAP}
+
 
 
 \section{Representation Learning}
@@ -72,6 +140,8 @@ One fo the main novelties of the architecture is not relying on recurrence, and 
 
 \subsection{The attention mechanism}
 
+\TODO{Wait for 3b1b video for context}
+
 \begin{figure}[h]
     \includegraphics[scale=0.1]{Transformer_architecture}
     \centering    
@@ -86,35 +156,80 @@ Positional encoding
 
 Transformer layer (encoder/decoder)
 
+\subsection{Bi-directional transformer (BERT)}
 
-Unidirectional / bi-directional
-
-
-
-
-\section{Variational Autoencoder}
+Unidirectional / 
 
 
-- Encoder network which parameterizes the approximate posterior distribution $q(z|x$) of latent variables $z$ given the data $x$.
-- Prior $p(z)$
-- Decoder with distribution $p(x|z)$. 
-- Note that we get the joint distribution $p(z)p(x|z) = p(x,z)$
 
-ELBO and why
 
-ELBO is a lower bound for the log likelihood of the data.
+\section{VQVAE}
 
-Maximizing ELBO w.r.t $\phi, \theta$  will concurrently (simultaneously)
-- Approximately maximize the marginal likelihood $p_\theta(x)$ 
-	- Generative model gets better
-- Minimize the KL-divergence of the approximate posterior to true posterior. 
-	- $q(z|x)$ becomes better
+\subsection{VAE}
+Variational Autoencoders (VAE) is a family of latent variable models. 
+\\\\
+
+Dataset $X = \{x_i\}_{i=1}^{N}$ of iid samples (is this a nessecary assumption?). We then assume that the data is a realization of some unobservable random process $Z$. This is to say that we assume there is a random variable $Z$ such that $x_i \sim p_{\theta}(x|z_i)$, where $z_i \sim p_{\theta}(z)$. As $Z$ is unobservable and the true distributions are unknown, one has to assume the form of the prior distribution $p_{\theta}(z)$ and the likelihood $p_{\theta}(x|z)$. Typically these are assumed to be Normal, as it allows for an array of numerical tricks to speed things up \todo{Reparameterization trick, etc, why do we use normal?}. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument. \\\\
+VAEs have two components to their architecture. The first is an encoder, often called the inference model, $q_\phi(z|x)$ which approximates the true posterior. Secondly a decoder, often called the generative model $p_\theta(x|z)$, which approximates the likelihood. These models are typically parameterized by some type of neural network, and in that case $\phi$ and $\theta$ are the weights and biases of the two networks. 
+
+\subsubsection{Training objective}
+
+As with other variational methods, VAEs are optimized with respect to the \textit{evidence lower bound} or ELBO for short. Let $X$ and $Z$ be two jointly distributed variables, with distribution $p_\theta$. Then for any distribution $q_\phi$ the ELBO is defined as
+
+\begin{equation}
+    \begin{aligned}
+        \label{eq:ELBO}
+        \mathcal{L}_{\theta,\phi}(x) 
+        &= \mathbb{E}_{q_\phi(z|x)} \log \left( \frac{p_\theta(x,z)}{q_\phi(z|x)}\right) \\ 
+        &=  \mathbb{E}_{q_\phi(z|x)} \log \left( p_\theta(x)\right) + \mathbb{E}_{q_\phi(z|x)} \log \left( \frac{p_\theta(z|x)}{q_\phi(z|x)}\right) \\
+        &= \log \left( p_\theta(x)\right) - \textrm{KL}(q_\phi(z|x)|| p_\theta(z|x)).
+    \end{aligned}
+\end{equation}
+
+Due to the non-negativity of the KL-divergence, we see that the ELBO bounds the log likelihood of the data from below. By maximizing the ELBO with respect to the model parameters $\phi$ and $\theta$ one simultaneously maximizes the marginal likelihood, which improves the generative model, as well as reducing the KL-divergence of the approximate to the true posterior, which improves the inference model.
+
+
+
+\begin{figure}[h]
+    \includegraphics[scale=0.3]{VAE}
+    \centering  
+    \caption{\cite{VAE}, need to ask for premission or make own}  
+\end{figure}
 
 \subsection{VQVAE}
+The Vector Quantized Variational AutoEncoder (VQ-VAE) was first introduced in \cite{VQVAE}. 
 
-with and without decorr
+In contrast to VAEs, the prior and posterior is assumed to be categorical, as opposed to normal. 
+
+Difference between VAE and VQ-VAE: 1. Maps input to discrete latent space insted of continious. 2. The prior, $p(z)$, is learned rather than static.
+
+The posterior categorical distribution probabilities are defined as
+
+\begin{equation}
+    p(z=k | x) = 
+    \begin{cases} 
+        1 \quad \text{for }k = \textrm{argmin}_j||z_e(x) - e_j||_2 \\
+        0 \quad \text{otherwise}
+    \end{cases},
+\end{equation}
+
+
+
+
+\begin{figure}[h]
+    \includegraphics[scale=0.5]{quantization}
+    \centering    
+\end{figure}
 
 \subsubsection{Codebook}
+
+\subsubsection{Orthogonal regularization loss}
+
+\cite{shin2023exploration} 
+
+% \TODO{Reference https://github.com/lucidrains/vector-quantize-pytorch some way.}
+
+
 
 
 \section{Self-supervised Learning}
@@ -122,7 +237,19 @@ Self-supervised learning (SSL) has had great success in natural language process
 
 Establish context:
 What is supervised learning? 
+
+Supervised learning refers to models who learn using labeled data. That is to say for a given input $x$ we already know what the desired output $y$ is during training, and can therefore supervise (update) our models parameters by directly comparing model output and the true value. Common approaches to supervised learning for neural networks is to calculate some distance metric between the predicted value $\hat{y}$ and the true value $y$, and update parameters by backpropagation.
+
+The models falling under the supervised learning category are widely deployed and has seen tremendus success. Classical statisctical regression models, linear, logistic, more generally generalized linear models, as well as support vector machines and decision tree based models are examples of models in this learning paradigm. 
+
+The main issue with supervised learning is the need for labeled data, and labeled data is in many ways scarce.  
+
+
 What is unsupervised learing?
+Unsupervised learning refers to models or algorithms who learn exclusively from unlabled data. That is to say that the models learn intrinsic patterns in the data. Examples of unsupervised learning models are clustering methods as K-means, K Nearest Neighbour and Gaussian mixture models, dimmension reduction techniques as PCA/SVD, neural network architectures as Variational Autoencoders, Autoencoders and 
+
+
+
 How does SSL differ from the previous two?
 
 Explain why we care:
@@ -131,13 +258,14 @@ Its relationship to representation learning?
 
 Explain where we are now:
 What are the different flavours of SSL? Contrastive vs non-contrastive
-What are some of the issues? Collapse, where encodes produce uniformative or constant vectors.
+What are some of the issues? 
+Contrastive: Collapse, where encodes produce uniformative or constant vectors.
 Some mainstream models? 
 Where has it seen success?\\\\
 
 Joint embedding architecture: An architecure where two networks are trained to produce similar embeddings for different views of the same data. A popular joint embedding architecture is the siamese network architecture \cite{siamese}, in which the two networks share the same weights. In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is reffered to as \textit{collapse} of the model.
 
-Augmentations for creating different views. The role of augmentations, types etc. 
+Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. 
 
 
 Autoassociative SSL - Autoencoder type - Essentialy try to make composition the identity despite a compression. 
@@ -146,11 +274,30 @@ Contrastive SSL includes both positive and negative samples. The loss function o
 
 vs non contrastive
 
+\subsection{BYOL}
+Bootstrap Your Own Latents
+
 
 \subsection{Barlow Twins}
 What is it?
 
+Barlow Twins is a non-constrastive SSL method based on applying the \textit{redundancy-reduction principle} (or efficient coding hypothesis) \cite{Barlow_origin} from the neroscientist H. Barlow to a pair of identical networks. 
+
+In essence the models encurage representations of similar samples to be similar, while simultaneously reducing the amount of redundancy between the components of the vectors. This is done by producing two distorted views of each sample and embedding these in a vast feature space, in such a way that their cross-correalion is close to the identity. 
+
 How does it work?
+
+Start out with a sample $X$ and creates two augmented (distported) views $X_1$ and $X_2$. The views are then mapped to a latent space by two identical encoders, giving $Y_1$ and $Y_2$. Then the projector embeds the latent representations in a vast space, giving $Z_1$ and $Z_2$. Finally the similarity of the two embeddings are measured by the empirical cross-corelation.
+
+\TODO{Ask for premission?? to use this or make own}
+\begin{figure}[h]
+    \includegraphics[scale=0.2]{BarlowTwins.png}
+    \centering    
+    \caption{\cite{zbontar2021barlow}}
+\end{figure}
+
+The loss function is calculated as the difference of the empirical cross-correlations of $Z_1$ and $Z_2$ is then calculated and the identiry matrix. 
+
 
 \subsection{VIbCReg}
 What is it?
@@ -158,6 +305,14 @@ What is it?
 VIbCReg \cite{lee2024vibcreg} is a non-contrastive SSL model based on VICReg \cite{bardes2022vicreg}. It has a joint embedding architecture,
 
 How does it work?
+
+
+\TODO{Ask Daeso if i can use image}
+\begin{figure}[h]
+    \includegraphics[scale=0.15]{VICReg_VIbCReg.png}
+    \centering    
+    \caption{\cite{lee2024vibcreg}}
+\end{figure}
 
 
 \section{MaskGIT}
@@ -180,8 +335,8 @@ The bi-directional transformer could in principle predict all [MASK] tokens and 
 The decoding process goes from $t = 0$ to $T$. To genereate a sample at inference time one starts out with a all masked sequence which we denote by $s_M^{(0)}$. At iteration $t$ the model predicts the probabilities for all the [MASK] tokens, $p(\hat{s}_{ij}^{(t)}|s_M^{(t)})$, in parallell. Then at each masked entry $ij$ we sample a token index based on its predicted distribution.  
 
 \subsection{Masking design}
-\TODO{Could it be interesting to investigate different masking designs for time series? Is cosine the ubiquitous choice}
 
+For image generation, cosine schedulig function proved best across all experiments in the original paper. Start out by selecing just a few 
 
 
 \end{document}
