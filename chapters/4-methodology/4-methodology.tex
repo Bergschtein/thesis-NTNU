@@ -2,10 +2,21 @@
 
 \begin{document}
 
-% \section{Dataset}
+Our work, as well as out models can be divided into two stages. Firstly we investigate the effect of non-contrastive SSL on a proven tokenization model, VQVAE \cite{VQVAE}, with the goal of learning more expressive representations. The expressiveness is measured in terms of the models ability to reconstruct unseen data, as well at the performance of learned latent representations on a downstream classification task. The SSL models we consider are, as introduced in section 2 \todo{make hyperlink}, BarlowTwins, VIbCReg and BYOL.\\\\
+
+Secondly we investigate the effects of SSL-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models.
+
+
+\begin{figure}[h]
+    \includegraphics[scale=0.5]{Siam-VQVAE.png}
+    \centering    
+\end{figure}
+
 
 \section{Stage 1}
 We compare the latent representations learned from basic TimeVQVAE with a Barlow Twins extended version on downstream tasks as classification and reconstruction.
+
+
 
 \subsection{VQ-VAE}
 The VQ-VAE model is baseline for our experiments.\\
