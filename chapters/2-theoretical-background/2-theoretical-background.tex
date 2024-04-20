@@ -22,17 +22,19 @@
 
 Ref is \cite{deeplearningbook} chapter 6. ISLRv2 chapter 10
 
-\textit{Feedforward neural network}, \textit{artificial neural network}, \textit{multilayer perceptron} or simply \textit{neural network} is a fundemental model in machine learning, and more specifically in \textit{deep learning}. \TODO{History}
+\textit{Feedforward neural network}, \textit{artificial neural network}, \textit{multilayer perceptron} or simply \textit{neural network} is a fundamental model in machine learning, and more specifically in \textit{deep learning}. \TODO{History}
+
+\TODO{Inform that neural networks, and most specializations thereof, are very sequential in nature. They can effectively be described as compositions of some combination of a flavour of matrix multiplication, non-linear transformation and down/upsampling}
 
 A neural network takes in a vector of $x \in \mathbb{R}^n$ variables and builds a nonlinear function $f(x)$ to predict the response $y\in \mathbb{R}^m$. In particular a neural network maps an input vector $x$ to an output vector $y$ through a series of non-linear functions of linear combinations of the input. This particular structure, presented in figure [fig of nn here] is what distinguishes neural networks from other nonlinear prediction models. The variables $x = [x_1,...,x_n]$ constitutes the units of \textit{input layer}. The intermediate layers are called the \textit{hidden layers}, and the final mapping to $y$ is called the \textit{output layer}.
 
 A neural network is parameterized by a set of \textit{weight} matrices $W_i$ and \textit{bias} vectors $b_i$, together with a specified non-linear \textit{activation function} $\sigma$. Written out a $K$ layered neural network is given by 
 \[ 
-f(x) = f_o \circ f_K \circ \ldots \circ f_1(x),
+f(x) = f_o \circ f_K \circ \ldots \circ f_1 \circ f_I(x),
 \]
 where 
 $$f_i = \sigma(W_ix+b_i), \quad i \in \{1,...,K\},$$ 
-and $f_o$ is the output layer whos form is application dependent. It is worth mentioning that $\sigma$ is applied pointwise.
+and $f_o$ is the output layer, with application dependent structure. It is worth mentioning that $\sigma$ is applied pointwise.
 
 Two of the most commonly used activation functions are $\text{Sigmoid}(x) = \tfrac{1}{1+\exp(-x)}$ and $\text{ReLU}(x) = \max(0,x)$.  
 
@@ -173,8 +175,22 @@ Multitask.
 \TODO{Sneak in something about Gödel and Turing in terms of representation. There are many philosophical aspects of this}
 
 \subsection{What is representation learning?}
-Representation learning is a term not too easily defined, one reason being the abstraction level. It relates closely to \textit{representation} of information, and representation of information can be many things. Lets begin by walking through a familiar and illustrative example. Consider the base $10$ integer $4$, or your favourite number. The number can equivalently (in terms of information content) be expressed, that is represented, in any other base. The particular base we choose depends on our intention with the number. If we want to work with digital electronics, a binary representation ($10$) is very useful, as transistors has two states. When humans do arithmetic, base $10$ representations of the integers are very natural, as we have $10$ fingers. A particular representation of information can make a task easier or harder.
-\\ The information content is unchanged by a change of representation between $4$ in base $10$, $10$ when written in base $2$ or \RN{4} when written in roman numerals. What is changed is the challenges or easiness or difficulty of certain information processing tasks. Representation learning is then the process of learning a certain representation of information. 
+Representation learning is a term not too easily defined, one reason being the abstraction level. It relates closely to \textit{representation} of information, and representation of information can be many things. Lets begin by walking through a familiar and illustrative example. Consider the base $10$ integer $4$, or your favorite number. The number can equivalently (in terms of information content) be expressed, that is represented, in any other base. The particular base we choose depends on our intention with the number. If we want to work with digital electronics, a binary representation ($10$) is very useful, as transistors has two states. When humans do arithmetic, base $10$ representations of the integers are very natural, as we have $10$ fingers. A particular representation of information can make a task easier or harder.
+\\ The information content is unchanged by a change of representation between $4$ in base $10$, $10$ when written in base $2$ or \RN{4} when written in roman numerals. What is changed is the challenges or easiness or difficulty of certain information processing tasks. Representation learning is then the process of learning a certain representation of information. \\\\
+
+One of the intriguing and promising features of neural networks, with its many specializations and architectures, is the ability to learn abstract representations of the data. \TODO{Find som references on higher order features learned in CNNs}
+The encodings of the input at some layer $n$, $f_n\circ ...\circ f_1(x)$, in a trained network is what is meant by the networks learned feature representations. In more general terms a feature extractor is a mapping $h:\mathbb{R}^I \to \mathbb{R}^d$, where $I$ is the input dimension of the model. Typically $d$ is smaller than $I$.\TODO{Something about compression and effective representations}
+
+In supervised representation learning, the feature extractor $h$ by solving a supervised task.  Examples include $h(x) = f_n\circ ...\circ f_1(x)$ in a NN or CNN.
+
+One of the advantages of supervised representation learning is that one obtains the feature extractor as a byproduct of supervised learning. 
+\\\\
+
+Unsupervised, or self-supervised representation learning. The difference form supervised representation learning is that the feature extractor $h$ is learned by an unsupervised objective. 
+
+Encoder 
+
+
 
 \subsection{What is a good representation?}
 
@@ -190,6 +206,16 @@ Representation learning is particularly interesting because it provides one way 
 \subsection{How does one evaluate representations?}
 
 
+pretext task training -> downstream task evaluating
+
+Visual inspections
+
+\cite{nozawa2022empirical}
+
+
+
+
+
 \section{Self-supervised Learning}
 Self-supervised learning (SSL) has had great success in natural language processing and computer vision in recent years. 
 
@@ -201,38 +227,45 @@ Unsupervised learning on the other hand refers to models or algorithms who learn
 \TODO{Pros and cons of unsupervised learning}
 
 
-Self-supervised learning is subcategory of unsupervised learning and refers to model who use the data itself to generate a supervisory signal, rather than external labels as in supervised learning. 
-
-How does SSL differ from the previous two?
+Self-supervised learning is subcategory of unsupervised learning and refers to model who use the data itself to generate a supervisory signal, rather than external labels as in supervised learning. \\\\
 
 - Explain why we care:
 
-Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pre-training. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pre-training networks enables foundation models, which can be trained for many different tasks in a supervised fashion, called fine-tuning, requiring a lot less resources.  
+A fruitful approach to unsupervised representation learning.
+
+Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pre-training. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pre-training networks enables foundation models, which can be trained for many different tasks in a supervised fashion, called fine-tuning, requiring a lot less resources.
 
 
+In recent years, especially in computer vision applications, SSL methods have shown incredible promise in representation learning. SSL methods have proven close to, and sometimes surpassing, supervised methods on downstream tasks. \TODO{Find sources backing this up.}
 
-What are som of the promises of SSL, how and why can it be useful?
-Its relationship to representation learning?
 
 - Explain where we are now:
 
+
 What are the different flavours of SSL? Contrastive vs non-contrastive
 What are some of the issues? 
-Contrastive: Collapse, where encodes produce uninformative or constant vectors.
+Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
+
+
 Some mainstream models? 
 Where has it seen success?\\\\
-
-Joint embedding architecture: An architecture where two networks are trained to produce similar embeddings for different views of the same data. A popular joint embedding architecture is the siamese network architecture \cite{siamese}, in which the two networks share the same weights. In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.
 
 
 Autoassociative SSL - Autoencoder type - Essentially try to make composition the identity despite a compression. 
 
+
+\subsubsection{Contrastive}
 Contrastive SSL includes both positive and negative samples. The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\\\\
 
-Non contrastive:
+\subsubsection{Non contrastive}
+
 Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. 
 
+\subsection{Joint embedding architecture}
 
+Joint embedding architecture: An architecture where two networks are trained to produce similar embeddings for different views of the same data. A popular joint embedding architecture is the siamese network architecture \cite{siamese}, in which the two networks share the same weights. In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.
+
+\subsubsection{The role of projectors}
 
 \subsection{BYOL}
 \cite{grill2020bootstrap}
@@ -318,7 +351,7 @@ Why and where is it now widely used?
 
 Wiki: A deep learning architecture based on the multi-headed attention mechanism proposed in the 2017 paper "Attention is all you need".
 
-One fo the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are, in computational aspects, inherently sequential, there are major challanges when training as context windows, and sequence lengths become longer. 
+One fo the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are, in computational aspects, inherently sequential, there are major challenges when training as context windows, and sequence lengths become longer. 
 
 
 
@@ -347,13 +380,14 @@ Unidirectional /
 
 
 
-\section{VQVAE}
+\section{Autoencoders}
+
 
 \subsection{VAE}
 Variational Autoencoders (VAE) is a family of latent variable models. 
 \\\\
 
-Dataset $X = \{x_i\}_{i=1}^{N}$ of iid samples (is this a nessecary assumption?). We assume that the data is a realization of some unobservable random process $Z$. This is to say that we assume there is a random variable $Z$ such that $x_i \sim p_{\theta}(x|z_i)$, where $z_i \sim p_{\theta}(z)$. As $Z$ is unobservable and the true distributions are unknown, one has to assume the form of the prior distribution $p_{\theta}(z)$ and the likelihood $p_{\theta}(x|z)$. Typically these are assumed to be Normal, as it allows for an array of numerical tricks to speed things up \todo{Reparameterization trick, etc, why do we use normal?}. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument. \\\\
+Let $X = \{x_i\}_{i=1}^{N}$ be a dataset of iid samples. In the VAE framework we assume that the data is a realization of some unobservable random process $Z$. This is to say that we assume there is a random variable $Z$ such that $x_i \sim p_{\theta}(x|z_i)$, where $z_i \sim p_{\theta}(z)$. As $Z$ is unobservable and the true distributions are unknown, one has to assume the form of the prior distribution $p_{\theta}(z)$ and the likelihood $p_{\theta}(x|z)$. Typically these are assumed to be Normal, as it allows for an array of numerical tricks to speed things up \todo{Reparameterization trick, etc, why do we use normal?}. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument. \\\\
 VAEs have two components to their architecture. The first is an encoder, often called the inference model, $q_\phi(z|x)$ which approximates the true posterior. Secondly a decoder, often called the generative model $p_\theta(x|z)$, which approximates the likelihood. These models are typically parameterized by some type of neural network, and in that case $\phi$ and $\theta$ are the weights and biases of the two networks. 
 
 \subsubsection{Training objective}
@@ -398,6 +432,18 @@ The posterior categorical distribution probabilities are defined as
 \end{equation}
 
 
+\subsubsection{Loss funciton}
+
+
+How is the codebook updated? Using VQ. Ether with $l_2$ error or moving average. 
+
+Terms with stop gradient are "frozen", so the $l_2$ codebook update loss, $||sg(z) - z_q ||_2^2$ pushes the embedding vectors towards the encoder output. \TODO{Dont really onderstand why this is so. Cant seem to figure it out in the code.}
+
+In the code quantize is x (all data) + sg(quantize - x).detatch()
+
+
+
+Codebook loss: Distance between $z$ and $z_q$ 
 
 
 \begin{figure}[h]
@@ -405,11 +451,15 @@ The posterior categorical distribution probabilities are defined as
     \centering    
 \end{figure}
 
+
+
+
+
 \subsubsection{Codebook}
+Vector Quantization (VQ) is a dictionary learning algorithm 
 
 \subsubsection{Orthogonal regularization loss}
-
-\cite{shin2023exploration} 
+There has been several attempts to improve vector quantization. In \cite{shin2023exploration} they advocate for learning orthogonal/decorated codewords. 
 
 % \TODO{Reference https://github.com/lucidrains/vector-quantize-pytorch some way.}
 
