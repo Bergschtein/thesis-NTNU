@@ -4,7 +4,7 @@
 
 Our work, as well as out models can be divided into two stages. Firstly we investigate the effect of non-contrastive SSL on a proven tokenization model, VQVAE \cite{VQVAE}, with the goal of learning more expressive representations. The expressiveness is measured in terms of the models ability to reconstruct unseen data, as well at the performance of learned latent representations on a downstream classification task. The SSL models we consider are, as introduced in section 2 \todo{make hyperlink}, BarlowTwins and VIbCReg.\\\\
 
-Secondly we investigate the effects of SSL-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models. \\\\
+Secondly we investigate the effects of SSL-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models.\\\\
 
 Additionally we provide ablations investigating robustness to augmentations and the effect of augmentations reconstruction weight. 
 
@@ -17,7 +17,7 @@ Additionally we provide ablations investigating robustness to augmentations and 
 \end{figure}
 
 
-\section{Stage 1}
+\section{Stage 1: Tokenization}
 
 
 \subsection{VQ-VAE}
@@ -29,6 +29,9 @@ An encoder, decoder, and codebook are to be optimized by compressing the input i
 A schematic overview of the VQ-VAE model is presented in "Figure here"
 
 A time series is first augmented into time-frequency domain using the Short-time Fourier Transform (cite pytorch stft). Then it is encoded into the continuous latent space, and is discretized by the codebook via the argmin process. In the argmin process the continuous token is compared to every discrete token in the codebook, and replaced by the closes discrete token in terms of euclidean distance. Then, the decoder maps the discrete token back to time-frequency domain, before finally being mapped back to time domain using the ISTFT.
+
+
+
 
 \subsubsection{Implementation details}
 
@@ -44,6 +47,9 @@ We compute a SSL loss between derived values of $z_q$ and $z'$. This part is dif
 
 We compute reconstruction losses $\mathcal{L}_{\text{Rec}}(\hat{x})$ and $\mathcal{L}_{\text{Rec}}'(\hat{x}')$, of both original and augmented view. 
 \subsubsection{Method}
+
+\subsubsection{Loss}
+
 
 \subsubsection{Augmentations}
 We used the following collection of augmentation techniques.
@@ -74,7 +80,7 @@ A schematic overview of the BT-VQ-VAE model is presented in "Figure here"
 
 \subsubsection{Training}
 
-\section{Stage 2}
+\section{Stage 2: Prior Learning}
 
 \subsection{MaskGIT}
 Regular MaskGIT, token context MaskGIT, learnable codebook MaskGIT
