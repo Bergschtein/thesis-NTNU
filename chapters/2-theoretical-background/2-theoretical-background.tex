@@ -5,6 +5,7 @@
 \TODO{Introduce the section, what we think and the philosophy of presenting material in such a way.}
 
 
+
 \section{Information theoretic/basic stats used in evaluation}
 
 - mutual information
@@ -15,14 +16,10 @@
 
 - KL-divergence
 
-\section{General time series stuff}
+\section{Time Series Inference}
 - short-time-fourier transform etc.
 
 \section{Neural Network}
-
-
-Ref is \cite{deeplearningbook} chapter 6. ISLRv2 chapter 10
-
 An \textit{artificial neural network} or simply \textit{neural network} is a fundamental model in machine learning, and more specifically in \textit{deep learning}. Neural networks are loosely inspired by the way neurons are assembled in the brain. The model can be traced back the year of 1943 when Warren McCulloch and Walter Pitts developed the first artificial neuron \cite{MCCULLOCH199099}, which is considered to be the first neural model invented. It was first set out in the real world by Frank Rosenblatt in 1957 \cite{rosenblatt1957perceptron}. But not until the development of the backpropagation algorithm in its modern form in the 1980's did the model really gain traction. Neural networks have since then been the backbone in the development of machine learning, with an impressive resume of applications. Some of which, if we stretch the definition a bit, include face recognition, beating humans in chess, go and Starcraft, self-driving cars and predicting the structure of proteins. The unreasonable effectiveness of neural networks on a broad range of tasks can in part be explained by the \textit{universal approximation theorem}, proven by Kurt Hornlik in 1989 \cite{HORNIK1989359}, which roughly states that a neural network can approximate any (Borel measurable) function to any desired degree of accuracy. 
 
 \begin{figure}
@@ -45,23 +42,25 @@ The architecture of neural networks, and most specializations thereof, is sequen
 
 \subsection{Training Neural Networks}
 
-The training of a neural network is the process of finding values for the weight and bias parameters. This is 
+The training of a neural network is the process of finding values for the weight and bias parameters. The general idea governing neural network training is to optimize the parameters based on some distance metric between the predicted values and the target values. This distance metric is referred to as the \textit{loss function}, and common examples of loss functions include mean squared error (MSE) and mean absolute error (MAE). Gradient based methods, such as backpropagation, are usually used to estimate the parameters based on the loss.\newline
 
-\TODO{Loss functions}
-\TODO{Gradient descent and its variants}
+The backpropagation algorithm is an efficient application of the Leibniz chain rule for differentiation.\newline
 
+
+For a through introduction to the subject of neural networks and the training thereof we refer to chapter 6 and 8 of \cite{deeplearningbook}.
 
 
 \section{Convolutional Neural Network}
 This section draws heavily on the presentation of convolutional networks in chapter 9 of \cite{deeplearningbook}.\\\\
 
-A convolutional neural network (CNN) is a particular type of neural network that is developed to learn local features in the data. This local feature learning is enabled by the mathematical operation of convolution. 
+A convolutional neural network (CNN) is a particular type of neural network that is developed to learn local features in the data. This local feature learning is enabled by the mathematical operation of convolution. In essence a CNN is a neural network where matrix multiplication is switched for convolution at least one of the layers \cite{deeplearningbook}. 
 
-In essence a CNN is a neural network where matrix multiplication is switched for convolution at least one of the layers \cite{deeplearningbook}. 
+\TODO{history}
+1959 visual cortex cells. The Neocognitron 1980. CNN for MNIST Yann LeCun 1989- 1998 \cite{LeCun1989ConvNet}. AlexNet: GPU training and popularization of deep neural nets.
 
-Some history: 1959 visual cortex cells. The Neocognitron 1980. CNN for MNIST Yann LeCun 1989- 1998. AlexNet: GPU training and popularization of deep neural nets.
+\TODO{Why was it introduced?}
+Regular neural networks have a fundamental drawback in that their computational complexity 
 
-Why was it introduced? 
 Fully connected neural networks suffer badly from overfitting. Vanishing gradient / exploding gradient.
 
 What problems did it solve?
@@ -88,6 +87,11 @@ Convolutions are naturally defined for higher dimensional functions, by componen
 \end{equation}
 
 \TODO{Figure of convolution}
+\begin{figure}[h]
+    \includegraphics[scale=0.5]{Convolution.png}
+    \centering    
+    \caption{Illustration of discrete two dimensional convolution}
+\end{figure}
 
 - In applications the kernel dimensions are much smaller than the input dimensions. 
 
@@ -105,7 +109,7 @@ Convolution in machine learning does not always correspond exactly to the mathem
 "Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
 
 \subsection{Pooling}
-A pooling operation is applied as a down sample technique on feature maps in CNNs, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the area of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. 
+A pooling operation is applied as a down sample technique on feature maps in CNNs, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the region of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. 
 
 \begin{figure}[h]
     \includegraphics[scale=0.5]{MP_stride2}
@@ -143,42 +147,40 @@ Transposed convolution, also known as fractionally-strided convolution is a tech
 
 
 
-\section{Residual Neural Network}
+% \section{Residual Neural Network}
 
-Deep neural networks are hard to train. But we want deeper networks as the representations learned in deeper networks tend to be higher level/more abstract \cite{zeiler2013visualizing}. 
+% Deep neural networks are hard to train. But we want deeper networks as the representations learned in deeper networks tend to be higher level/more abstract \cite{zeiler2013visualizing}. 
 
-The problem of exploding/vanishing gradients \todo{write about and explain what this is} has been to a large extent been solved by normalized initialization and intermediate normalization layers. This has enabled networks of tens of layers to start converging for SDG with backprop \cite{he2015deep}. \TODO{Rewrite the above in more of my own words}.
-
-
-
-The degeneration problem: 
-
-The deep residual learning framework was developed to address the degeneration problem.
-
-\cite{he2015deep}
-
-\section{Dimension reduction/visualization techniques}
-
-\subsection{PCA}
-Principle component analysis i a linear dimmension reduction technique which provides the axes of a point cloud 
- PCA provides a linear projection on the eigenspace of the covariance matrix of the data. 
+% The problem of exploding/vanishing gradients \todo{write about and explain what this is} has been to a large extent been solved by normalized initialization and intermediate normalization layers. This has enabled networks of tens of layers to start converging for SDG with backprop \cite{he2015deep}. \TODO{Rewrite the above in more of my own words}.
 
 
 
-\subsection{t-SNE}
-\cite{t-SNE}
-T distributed stochastic neighnourhood encoding.
+% The degeneration problem: 
 
-\subsection{UMAP}
-\cite{mcinnes2020umap}
+% The deep residual learning framework was developed to address the degeneration problem.
 
-\subsubsection{densMAP}
+% \cite{he2015deep}
+
+% \section{Dimension reduction/visualization techniques}
+
+% \subsection{PCA}
+% Principle component analysis i a linear dimmension reduction technique which provides the axes of a point cloud 
+%  PCA provides a linear projection on the eigenspace of the covariance matrix of the data. 
+
+
+
+% \subsection{t-SNE}
+% \cite{t-SNE}
+% T distributed stochastic neighnourhood encoding.
+
+% \subsection{UMAP}
+% \cite{mcinnes2020umap}
+
+% \subsubsection{densMAP}
+
 
 \section{Representation Learning}
 
-Unsupervised representation learning. Unsupervised loss function that is called "pretext task" (Reconstruction loss in (VQ)VAE).  
-
-Multitask.
 \TODO{Speak on the evaluation metrics for rep learning and the like from \cite{nozawa2022empirical}}
 \cite{Rep-rev-persp}
 \TODO{Sneak in something about Gödel and Turing in terms of representation. There are many philosophical aspects of this}
@@ -188,22 +190,19 @@ Representation learning is a term not too easily defined, one reason being the a
 
 Representations are too highly dependent on who, or what, that will process it. An example is time. Humans have developed a standardized system for writing timestamps which works fairly well for us. But, if we want to model time dependent phenomena, say using tabular data, the DateTime representation is of very little help to a tree based model for instance. The reason being that the numerical representation of timestamps close in time is not necessarily close in numerical value. Think of 23:59 to 00:00. A possible solution is to change the representation such that the numerical values actually respect the periodic nature by mapping to the circle. The new representation is then useless for humans, but quite a lot more useful to a computer. \\\\
 
-Anyone who has worked with data science or machine learning has come across feature engineering, and the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. One of the intriguing and promising features of neural networks, with its many specializations and architectures, is the ability to learn abstract representations of the data. This is sometimes referred to as automatic feature engineering. \todo{Find som references on higher order features learned in CNNs} In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of the data $x$ in some layer $n$, $f_n$, is what is meant by the networks learned feature representations. When we are interested in the representations learned it is helpful to dissect a model $f$, notation wise, into a \textit{feature extractor} $h$ and an \textit{output function} \todo{better name??} $g$ such that it can be factored as $f = g \circ h$. \newline
-Representation learning algorithms typically follow the pattern
-% \begin{itemize}
-%     \item Train $f= g \circ h$ on some task, be it supervised, unsupervised etc.
-%     \item Discard $g$
-%     \item Use the learned feature extractor $\widehat{h}$ as part of a new model. 
-% \end{itemize}
+Anyone who has worked with data science or machine learning has come across feature engineering, and the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. One of the intriguing and promising features of neural networks, with its many specializations and architectures, is the ability to learn abstract representations of the data. This is sometimes referred to as automatic feature engineering. \todo{Find som references on higher order features learned in CNNs} In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of the data $x$ in some layer $n$, $f_n$, is what is meant by the networks learned feature representations. When we are interested in the representations learned it is helpful to dissect a model $f$, notation wise, into a \textit{feature extractor} $h$ and an \textit{output function} \todo{better name??} $g$ such that it can be factored as $f = g \circ h$. Representation learning algorithms typically follow the pattern
+\begin{itemize}
+    \item Train $f= g \circ h$ on some task, be it supervised, unsupervised etc.
+    \item Discard $g$
+    \item Use the learned feature extractor $\widehat{h}$ as part of a new model. 
+\end{itemize}
 
 
 The different use cases of $\widehat{h}$ is as stand alone one/few-shot learners (downstream task / frozen protocol) or as initialization of other models (pre-trained / fine-tuning protocol). \newline
 
 When training a neural network of any variation in a supervised fashion, one always get a feature extractor, at no additional cost.  
-Unsupervised representation learning loss: reconstruction in (V)AE type, similarity losses in joint embedding networks
+Unsupervised representation learning loss: reconstruction in AE type, similarity losses in joint embedding networks
 \TODO{When mentioning autoencoders, it is a natural spot to talk about compression. "If you can still reconstruct the signal, then you know everything about it in a sense"}
-\TODO{Want to introduce the notion of a \textit{pretext task} here.}
-
 
 
 Typically in representation learning algorithms, the output dimension of $\widehat{h}$ is smaller than the input dimension. The idea of compression in representation learning has gotten theoretical and philosophical attention \todo{Information bottleneck, compression}. 
@@ -228,26 +227,20 @@ Representation learning is particularly interesting because it provides one way 
 
 
 \subsection{What is a good representation?}
-\TODO{Rewrite, i have copied to much}
-For any representations extracted of a non-invertible function, a downstream task can always be designed (in principle) to based on the lost information, hence achieve arbitrarily bad performance. The concept of universally good representations is therefore ill-defined. There is no free lunch in representation learning either. One must specify a set of predefined downstream tasks, and evaluate according to those. The goodness of a representation is determined by how easy it makes a subsequent task.
-
-
 \TODO{Talk about the trend of pre-trained models, language representations, tokenization, GPT etc}
+\TODO{Rewrite, i have copied to much}
+For any representations extracted of a non-invertible function, a downstream task can always be designed (in principle) to based on the lost information, hence achieve arbitrarily bad performance. The concept of universally good representations is therefore ill-defined. There is no free lunch in representation learning either. One must specify a set of predefined \textit{downstream tasks}, and evaluate according to those. The goodness of a representation is determined by how easy it makes the downstream task. Intuitively the quality of the representations are also considered higher if the the representations is able to perform well on several downstream tasks. 
 
 
 \subsection{How does one evaluate representations?}
-As defined in \cite{jing2019selfsupervised} a \textit{pretext task} is a pre-designed task for a network to solve, where the goal is to learn representation. A \textit{downstream task} is a task used to evaluate the quality of learned representations. In general the downstream task is solved in a supervised manner, using human annotated data.
+As defined in \cite{jing2019selfsupervised} a \textit{pretext task} is a pre-designed task for a network to solve, where the goal is to learn representation. A downstream task is a task used to evaluate the quality of learned representations. In general the downstream task is solved in a supervised manner, using human annotated data.\newline
+We let $f = g\circ h$ be a model and train it on a pretext task in order to obtain $\widehat{f} = \widehat{g}\circ \widehat{h}$. As mentioned previously, the quality of learned representations is determined by the performance of the feature extractor $\widehat{h}$ on the downstream task. The standard evaluation protocol is to train a linear head $g_D$ on top of the \textit{frozen} representations in a supervised manner and evaluate this models performance. This is to say that we train  $f_D = g_D\circ \widehat{h}$ by only updating the parameters of the linear model $g_D$, and evaluate $\widehat{f}_D$ on some test set. A common downstream task is classification, where the idea is that good and informative representations should differentiate data in such a way that it is easy to separate them. \newline
 
-
-We let $f = g\circ h$ be a model and train it on a pretext task in order to obtain $\widehat{h}$. As mentioned previously, the quality of learned representations is determined by its effect on a downstream task.
-The standard evaluation protocol is to train a linear classification head $g_D$ on top of the frozen representations and evaluate this classifiers performance. The idea is that good and informative representations differentiate data in such a way that it is easy to separate them. \newline
-
-The quality of the representations are also considered higher it they are able to perform well on several downstream tasks. 
 \TODO{The role of Visual inspection}
 
 
 
-\section{Learning paradigms}
+\section{Self-Supervised learning}
 
 Self-supervised learning (SSL) has had great success in natural language processing and computer vision in recent years. 
 
@@ -313,102 +306,6 @@ Joint embedding architecture: An architecture where two networks are trained to 
 
 \subsubsection{The role of projectors}
 
-\section{Important SSL models}
-
-\subsection{BYOL}
-\cite{grill2020bootstrap}
-Bootstrap Your Own Latents (BYOL) is an early non-contrastive self supervised learning algorithm developed by Google Research in 2020. BYOL was developed for image representation learning and provided a new state of the art for downstream classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture. 
-
-How it works:
-BYOL uses a joint embedding architecture, one \textit{online} network and a \textit{target} network. Both networks consists of an encoder $f$ and decoder $g$, while the online network too has a predictor $q$. The architecture of the networks are the same, but the target parameters $\zeta$ are exponential moving averages of the online parameters $\theta$. In particular, for a specified target decay rate $\tau\in[0,1]$, the target parameters are updated according to 
-\begin{equation}
-    \zeta \leftarrow \tau \zeta + (1-\tau)\theta
-\end{equation}
-after each training step. \\\\
-
-Let $\mathcal{D}$ be the data. As is typical for non contrastice SSL, data augmentations are applied in order to increase robustness of the representations. Let $\mathcal{T}$  and $\mathcal{T'}$ denote the set of augmentations for the online and target network respectively. BYOL samples a data point $x\sim \mathcal{D}$ and two augmentation $t\sim \mathcal{T}$ and $t'\sim \mathcal{T'}$, with whom it creates two views $v = t(x)$ and $v' = t'(x)$. The views maps through their respective branch as follows
-
-\begin{equation}
-    x \to t(x) = v \to f_\theta(v) = y_\theta \to g_\theta (y_\theta) = z_\theta \to p_\theta(z_\theta)
-\end{equation}
-\begin{equation}
-    x \to t'(x) = v' \to f_\zeta(v') = y'_\zeta \to g_\zeta (y'_\zeta) = z'_\zeta,
-\end{equation}
-and both outputs are $l_2$-normalized before their mean squared error is calculated. In other words the outputs are updated as
-\begin{equation}
-    \bar{p}_\theta(z_\theta) = \frac{p_\theta(z_\theta)}{||p_\theta(z_\theta)||_2}, \quad \bar{z}_\zeta' = \frac{z_\zeta'}{||z_\zeta'||_2},
-\end{equation}
-before the loss is obtained by 
-\begin{equation}
-    \mathcal{L}_{\theta,\zeta} = ||\bar{p}_\theta(z_\theta) - \bar{z}_\zeta'||_2^2 = 2-2 \frac{\langle p_\theta(z_\theta), z_\zeta'\rangle}{||p_\theta(z_\theta)||_2\cdot||z_\zeta'||_2}
-\end{equation}
-
-The BYOL loss is obtain by symmetrizing $\mathcal{L}_{\theta,\zeta}$. This is done by separately feeding $v'$ into the online network and $v$ into the target network, and calculating $\mathcal{\tilde{L}}_{\theta,\zeta}$ to obtain $\mathcal{L}^{\text{BYOL}}_{\theta,\zeta} = \mathcal{L}_{\theta,\zeta} + \mathcal{\tilde{L}}_{\theta,\zeta}$
-
-
-\TODO{Figure}
-
-
-
-
-\subsection{Barlow Twins}
-What is it?
-
-Barlow Twins is a non-constrastive SSL method based on applying the \textit{redundancy-reduction principle} (or efficient coding hypothesis) \cite{Barlow_origin} from the neroscientist H. Barlow to a pair of identical networks. 
-
-In essence the models encurage representations of similar samples to be similar, while simultaneously reducing the amount of redundancy between the components of the vectors. This is done by producing two distorted views of each sample and embedding these in a vast feature space, in such a way that their cross-correalion is close to the identity. 
-
-How does it work?
-
-Start out with a sample $X$ and creates two augmented (distorted) views $X_1$ and $X_2$. The views are then mapped to a latent space by two identical encoders, giving $Y_1$ and $Y_2$. Then the projector embeds the latent representations in a vast space, giving $Z_1$ and $Z_2$. Finally the similarity of the two embeddings are measured by the empirical cross-corelation.
-
-\TODO{Ask for premission?? to use this or make own}
-\begin{figure}[h]
-    \includegraphics[scale=0.2]{BarlowTwins.png}
-    \centering    
-    \caption{\cite{zbontar2021barlow}}
-\end{figure}
-
-The loss function is calculated as the difference of the empirical cross-correlations of $Z_1$ and $Z_2$ is then calculated and the identiry matrix. 
-
-
-\subsection{VIbCReg}
-\TODO{What is it?}
-
-VIbCReg \cite{lee2024vibcreg} is a non-contrastive SSL model based on VICReg \cite{bardes2022vicreg}, but with better covariance regularization.  It has a joint embedding architecture. 
-
-\TODO{How it works}
-Two different views of the input data is encoded into representations $Y$ $Y'$. The representations are further mapped to a larger space by a \textit{projector} with an IterNorm \cite{huang2019iterative} layer. The loss is computed using the projected values $Z$ and $Z'$. \newline
-The loss consists of a similarity loss between the branches, and feature decoration (FD) loss together with a feature component expressiveness (FcE) term at each branch. 
-
-\TODO{Loss}
-Input data is processed in batches. Denote $Z = [z_1,...,z_B]^T \in \mathbb{R}^{B\times F}$, and similarly for $Z'$, where $B$ and $F$ denotes the batch and feature sizes respectively. $\text{Var}()$ is a variance estimator, $\gamma$ is a target value for the standard deviation, which both in VIbCReg and VICReg is set to $1$. $\epsilon$ is a small scalar preventing numerical instabilities.\newline 
-Similarity loss
-
-\begin{equation}
-    s(Z,Z') = \frac{1}{B} \sum_{b=1}^B || Z_b-Z_b'||_2^2
-\end{equation}
-
-FcE/Variance term
-
-\begin{equation}
-    v(z) =  \frac{1}{F} \sum_{f=1}^F \max(0,\gamma - \sqrt{\text{Var}(Z_f)+\epsilon})
-\end{equation}
-
-
-FD/covariance term
-
-\begin{equation}
-    C(Z) = \frac{1}{B-1} \left(\frac{Z-\bar{Z}}{||Z-\bar{Z}||_2}\right)^T\left(\frac{Z-\bar{Z}}{||Z-\bar{Z}||_2}\right) \text{ where }  \bar{Z} = \sum_{b=1}^B  Z_b
-\end{equation}
-
-\TODO{Ask Daeso if i can use image}
-\begin{figure}[h]
-    \includegraphics[scale=0.15]{VICReg_VIbCReg.png}
-    \centering    
-    \caption{\cite{lee2024vibcreg}}
-\end{figure}
-
 
 
 \section{Transformers}
@@ -448,15 +345,14 @@ Unidirectional /
 
 
 
+\section{Vector Quantized Variantional Autoencoder (VQVAE)}
+\subsection{Autoencoder (AE)}
 
-\section{Autoencoders}
-
-
-\subsection{VAE}
-Variational Autoencoders (VAE) is a family of latent variable models. 
+\subsection{Variational Autoencoder (VAE)}
+Variational Autoencoders (VAE) were introduced in \cite{kingma2022autoencoding} in 2013, and is a variational Bayes approach to approximate inference and learning with directed . 
 \\\\
 
-Let $X = \{x_i\}_{i=1}^{N}$ be a dataset of iid samples. In the VAE framework we assume that the data is a realization of some unobservable random process $Z$. This is to say that we assume there is a random variable $Z$ such that $x_i \sim p_{\theta}(x|z_i)$, where $z_i \sim p_{\theta}(z)$. As $Z$ is unobservable and the true distributions are unknown, one has to assume the form of the prior distribution $p_{\theta}(z)$ and the likelihood $p_{\theta}(x|z)$. Typically these are assumed to be Normal, as it allows for an array of numerical tricks to speed things up \todo{Reparameterization trick, etc, why do we use normal?}. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument. \\\\
+Let $X = \{x_i\}_{i=1}^{N}$ be a dataset of iid samples. In the VAE framework we assume that the data is a realization of some unobservable random process $Z$. This is to say that we assume there is a random variable $Z$ such that $x_i \sim p_{\theta}(x|z_i)$, where $z_i \sim p_{\theta}(z)$. As $Z$ is unobservable and the true distributions are unknown, one has to assume the form of the prior distribution $p_{\theta}(z)$ and the likelihood $p_{\theta}(x|z)$. Typically these are assumed to be Gaussian, as it allows for an array of numerical tricks to speed things up \todo{Reparameterization trick, etc, why do we use normal?}. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument. \\\\
 VAEs have two components to their architecture. The first is an encoder, often called the inference model, $q_\phi(z|x)$ which approximates the true posterior. Secondly a decoder, often called the generative model $p_\theta(x|z)$, which approximates the likelihood. These models are typically parameterized by some type of neural network, and in that case $\phi$ and $\theta$ are the weights and biases of the two networks. 
 
 \subsubsection{Training objective}
@@ -482,6 +378,9 @@ Due to the non-negativity of the KL-divergence, we see that the ELBO bounds the 
     \centering  
     \caption{\cite{VAE}, need to ask for premission or make own}  
 \end{figure}
+
+\subsection{Vector Quantization (VQ)}
+Dictionary learning model
 
 \subsection{VQVAE}
 The Vector Quantized Variational AutoEncoder (VQ-VAE) was first introduced in \cite{VQVAE}. 
@@ -546,29 +445,26 @@ There has been several attempts to improve vector quantization. In \cite{shin202
 % \TODO{Reference https://github.com/lucidrains/vector-quantize-pytorch some way.}
 
 
+\section{Masked modelling}
 
-\section{MaskGIT}
 
-The Masked Generative Image Transformer is a generative transformer model for image synthesis developed by Google Research. The novelty of the model lies in the token generation. Unlike popular autoregressive generative transformers, who treat images as a sequence of tokens, MaskGIT introduces an image synthesis paradigm using a bi-directional transformer decoder. This means that during training MaskGIT learns to predict tokens in all directions, an intuitively more natural way to consider images. At inference time MaskGIT starts out with a blank canvas and predicts the entire image, and iteratively keeps and conditions on the most confident pixels.\\\\
+\section{Evaluation metrics}
 
-\TODO{Intuitive introduction of masked modelling. Figures and such.}
+\subsection{Tokenization model}
 
-The model assumes a tokenization procedure for stage 1, and in the original paper they used VQGAN \cite{VQGAN}. As MaskGIT only focuses on improving stage 2, present only that part. 
+\subsubsection{Reconstruction}
 
-\subsection{Prior learning}
+\subsubsection{Downstream Classification}
 
-Start out with a sequence $s$ (b,n) of codebook indeces corresponding to a discrete latent representation $z_q$. Determine the proportion of tokens to mask according to the mask scheduling function $\gamma(t)\in (0,1]$. 
-Sample a random subset of $s$ and replace values by [MASK] token in order to create the masked sequence $s_M$ (b,n). By a forward pass of the bi-directional transformer with $s_M$ as input obtain unnormalized logits (b,n,K), defining a distribution over the codebook indeces at each element. Calculate the loss as the binary cross-entropy of the logits and $s$. 
 
-\subsection{Iterative decoding}
 
-The bi-directional transformer could in principle predict all [MASK] tokens and generate a sample in a single pass by simply sampling from the logits obtained from a forward pass of an all masked sequence. However, there are challenges with this approach. In their original article \todo{spør om siteringsstil, og fiks denne setningen} \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to sythesize samples in a constant number of steps.\\\\
 
-The decoding process goes from $t = 0$ to $T$. To genereate a sample at inference time one starts out with a all masked sequence which we denote by $s_M^{(0)}$. At iteration $t$ the model predicts the probabilities for all the [MASK] tokens, $p(\hat{s}_{ij}^{(t)}|s_M^{(t)})$, in parallell. Then at each masked entry $ij$ we sample a token index based on its predicted distribution.  
+\subsection{Generative model}
 
-\subsection{Masking design}
+\subsubsection{Visual Inspection}
 
-For image generation, cosine schedulig function proved best across all experiments in the original paper. Start out by selecing just a few 
+\subsubsection{Inception Score (IS)}
 
+\subsubsection{Fréchet Inception Distance (FID)}
 
 \end{document}
