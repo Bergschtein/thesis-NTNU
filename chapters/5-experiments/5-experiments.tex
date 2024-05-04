@@ -40,6 +40,37 @@ In the two tokenization models, how does the codebooks differ? Look at codebook 
 
 \subsection{Augmentation Reconstruction Weight}
 
+\begin{figure}[h]
+    \includegraphics[scale=0.55]{BT_SVM_ReconsWeight.png}
+    \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight.png}
+    \includegraphics[scale=0.55]{BT_KNN_ReconsWeight.png}
+    \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight.png}
+    \centering  
+    \caption{Augmentations: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
+\end{figure}
+
+\begin{figure}[h]
+    \includegraphics[scale=0.55]{BT_SVM_ReconsWeight_Slice.png}
+    \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight_Slice.png}
+    \includegraphics[scale=0.55]{BT_KNN_ReconsWeight_Slice.png}
+    \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight_Slice.png}
+
+    % \centering  
+    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+\end{figure}
+
+\begin{figure}[h]
+    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
+    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
+    % \centering  
+    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+\end{figure}
+\begin{figure}[h]
+    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight_Slice.png}
+    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight_Slice.png}
+    % \centering  
+    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+\end{figure}
 \subsection{Augmentation robustness}
 
 \TODO{Download the Wandb data.}
