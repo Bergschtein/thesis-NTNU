@@ -39,7 +39,13 @@ In the two tokenization models, how does the codebooks differ? Look at codebook 
 \section{Ablation studies}
 
 \subsection{Augmentation Reconstruction Weight}
-
+Here are the results of the ablation on the effect of “Augmentation Reconstruction Weight” on Stage 1.
+“Augmentation Reconstruction Weight” is the weight given to the reconstruction loss on the augmented branch.
+Tested weights $0.05$, $0.1$, $0.15$ and $0.2$.
+Augmentations [Window Warp, Amplitude Resize] and [Slice and Shuffle].
+The weight has little effect on linear probe accuracy across the four datasets tested, and the two sets of augmentations.
+The effect on Validation reconstruction loss is small for all except FordA.
+It seems, not very surprisingly, that the choice of augmentations are of (much) greater importance.
 \begin{figure}[h]
     \includegraphics[scale=0.55]{BT_SVM_ReconsWeight.png}
     \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight.png}
@@ -63,7 +69,7 @@ In the two tokenization models, how does the codebooks differ? Look at codebook 
     \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
     \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
     % \centering  
-    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+    \caption{Augmentation: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
 \end{figure}
 \begin{figure}[h]
     \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight_Slice.png}
