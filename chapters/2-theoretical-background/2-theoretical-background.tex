@@ -444,14 +444,15 @@ Variational autoencoders has the issue of collapsing. Variance issues.
 Dictionary learning model \cite{Gray1984VQ}
 
 \subsection{VQVAE}
-The Vector Quantized Variational AutoEncoder (VQVAE) was first introduced in \cite{VQVAE} and presented a new way of training VAEs with discrete latent variables.
+The Vector Quantized Variational AutoEncoder (VQVAE) was first introduced in \cite{VQVAE} and presented a new way of training VAEs with discrete latent variables. It is the first discrete latent VAE model which has similar performance to the continuous variant. VQVAE was developed to learn useful discrete representations.
+Difference between VAE and VQ-VAE: 1. Maps input to discrete latent space instead of continuous. 2. The prior, $p(z)$, is learned rather than static.
 \newline
+
+
 
 In contrast to VAEs, the prior and posterior is assumed to be categorical, as opposed to normal. \newline
 
-Difference between VAE and VQ-VAE: 1. Maps input to discrete latent space instead of continuous. 2. The prior, $p(z)$, is learned rather than static.\newline 
-
-The overall architecture of VQVAE consists of an encoder and decoder as before, together with a \textit{codebook}.
+The overall architecture of VQVAE consists of an encoder and decoder as before, together with a \textit{codebook} which is used in the quantization process.  
 
 
 
@@ -467,7 +468,7 @@ The posterior categorical distribution probabilities are defined as
 
 Sampling from the posterior amounts to quantizing the output of the encoder. \newline
 
-VQVAE can be viewed as a VAE. Hence we can bound the marginal likelihood with the ELBO \ref{eq:ELBO_AE}. As the variational posterior is deterministic and the prior (during training) is uniform over $\{1,...,K\}$ we get
+VQVAE can be viewed as a VAE, hence we can bound the marginal likelihood with the ELBO \ref{eq:ELBO_AE}. As the variational posterior is deterministic and the prior (during training) is uniform over $\{1,...,K\}$ we get that the regularizing term
 
 \begin{equation}
     \begin{aligned}
@@ -477,7 +478,7 @@ VQVAE can be viewed as a VAE. Hence we can bound the marginal likelihood with th
                            &= \log(K), 
     \end{aligned}
 \end{equation}
-which reduces the ELBO to the reconstruction term only. \newline
+is constant. Consequently the ELBO reduces to the reconstruction term only. \newline
 
 A forward pass of a datapoint $x$ to a discrete latent is given 
 \subsubsection{Prior}
@@ -578,7 +579,25 @@ Issues with IS \cite{barratt2018note} (Use different network, for image classifi
 Also issues with IS \cite{borji2021pros}.\newline
 
 \subsubsection{Fréchet Inception Distance (FID)}
-
 Introduced in \cite{heusel2018gans}. \newline
+
+For any two probability distributions, $f,g$ over $\R^n$, with finite mean and variances, their \textit{Fréchet distance} is 
+\begin{equation}
+    d_F(f,g) = \left(\inf_{\gamma \in \Gamma(f,g)} \int_{\R^n\times\R^n}||x-y||_2^2d\gamma(x,y) \right)^{\frac{1}{2}},
+\end{equation}
+where $\Gamma(f,g)$ is the set of all \textit{couplings} of $f$ and $g$. In \cite{DOWSON1982450} it was shown that for two Gaussian distributions the Fréchet distance is explicitly solvable as
+
+\begin{equation}
+    d(\N(\mu,\Sigma),\N(\mu',\Sigma'))^2 = ||\mu-\mu'||_2^2 + \Tr \left( \Sigma + \Sigma' - 2(\Sigma\Sigma')^{\frac12}\right)
+\end{equation}
+
+The \textit{Fréchet Inception Distance} is an application of the Fréchet distance used to evaluate the generative distribution of a model against the ground truth. The name comes from its original application in image generation model. \newline
+
+The \textit{Fréchet Inception Distance} calculates the Fréchet distance between two distributions by embedding a sample of each in the representation space of a classifier (Inveptio v3 / SupervisedFCN). The distribution of these representations are assumed to be Gaussian. The mean and covariance is estimated from the sample and the explicit formula is used to calculate the FID. \newline
+
+Rethinking FID: \cite{jayasumana2024rethinking} 
+
+\cite{chong2020effectively} FID and IS are biased.
+
 
 \end{document}
