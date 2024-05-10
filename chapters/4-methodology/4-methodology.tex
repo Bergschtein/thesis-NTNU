@@ -6,7 +6,7 @@ Our work, as well as out models can be divided into two stages. Firstly we inves
 
 Secondly we investigate the effects of SSL-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models.\\\\
 
-Additionally we provide ablations investigating robustness to augmentations and the effect of augmentations reconstruction weight. 
+Additionally we provide ablations investigating robustness to augmentations and the effect of augmentations reconstruction weight. \newline
 
 
 
@@ -20,8 +20,8 @@ Additionally we provide ablations investigating robustness to augmentations and 
 \section{Stage 1: Tokenization}
 
 
-\subsection{VQ-VAE}
-The VQ-VAE model is baseline for our experiments.\\
+\subsection{TimeVQVAE}
+The TimeVQVAE model is baseline for our experiments.\\
 
 An encoder, decoder, and codebook are to be optimized by compressing the input into discrete latent space, minimizing information loss by comparing input to the output, which ideally are equal. We follow \cite{TimeVQVAE} and augment time-series into time-frquency domain, but leave the high-low frequency split for future work.
 
@@ -46,12 +46,15 @@ The framework is a joint embedding architecture with upper/original branch ident
 We compute a SSL loss between derived values of $z_q$ and $z'$. This part is different for VIbCReg and BarlowTwins.  
 
 We compute reconstruction losses $\mathcal{L}_{\text{Rec}}(\hat{x})$ and $\mathcal{L}_{\text{Rec}}'(\hat{x}')$, of both original and augmented view. 
+
+
 \subsubsection{Method}
 
 \subsubsection{Loss}
 
 
 \subsubsection{Augmentations}
+\TODO{Talk about soft vs hard augmentations. Temporal perserving vs not etc.}
 We used the following collection of augmentation techniques.
 \begin{itemize}
     \item Amplitude Resizing
@@ -84,5 +87,8 @@ A schematic overview of the BT-VQ-VAE model is presented in "Figure here"
 
 \subsection{MaskGIT}
 Regular MaskGIT, token context MaskGIT, learnable codebook MaskGIT
+
+
+\section{UCR Archive}
 
 \end{document}
