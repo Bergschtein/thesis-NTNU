@@ -8,11 +8,14 @@ In this thesis we investigate possible improvements on the TimeVQVAE model prese
 
 \section{Motivation}
 	- The role and importance of time series.
-	- The need for models that capture complex structures for which traditional statistical models fail. ML4ITS. 
+	- The need for models that capture complex structures for which traditional statistical models fail. 
+Real world time series data is often incomplete (missing datapoints), irregular (datapoints not evenly spaced in time) and noisy. 
+	ML4ITS. 
+	- 
 	- Why do people care about time series generation (TSG)?
 		- Applications
 	- Why is (unsupervised) representation learning for time series interesting?
-	- 
+Distributions of time series in their original temporal representation are complex and difficult to model. One would like to translate time series to a space where modelling is easier. This is one of the reasons to investigate representation learning for time series. Time series are recorded at record speed from sensors of various kinds (IoT, wearable devices). Unfortunately many of these do not have easily recognizable patterns for human observers, which makes labeling of such data quite difficult. In order to take advantage of this vast amount of unlabled data we need techniques that can extract useful patterns without supervision. This is one of the reasons for investigating possible unsupervised models. A subcategory of unsupervised learning called self-supervised learning has in recent times shown great potential for learning informative and useful representations without the need of labeled data in the fields of computer vision and natural language processing. Most notably the GPT models from OpenAI which utilizes masked language modelling for pre-training. 
 
 \section{Overview/structure}
 \begin{itemize}

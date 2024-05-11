@@ -4,7 +4,15 @@
 
 \TODO{Introduce the section, what we think and the philosophy of presenting material in such a way.}
 
+\section{Notation}
 
+\begin{itemize}
+    \item Encoder $E$
+    \item Decoder $D$
+    \item Estimated values are presented with a hat, $\widehat{x}$ for a reconstructed value, $\widehat{f}$ for a trained model etc.
+    \item Parameters $\theta$ 
+    \item Dataset $X = \{x_i\}_{i=1}^N$  
+\end{itemize}
 
 \section{Information theoretic/basic stats used in evaluation}
 
@@ -19,8 +27,13 @@
 - KL-divergence
 \url{https://stats.stackexchange.com/questions/188903/intuition-on-the-kullback-leibler-kl-divergence/189758#189758}
 
+- Cross entropy 
+
 - Graphical probabilistic models 
     - Ancestral sampling
+
+- Generative models
+
 
 \section{Time Series Inference}
 - short-time-fourier transform etc.
@@ -52,6 +65,8 @@ The training of a neural network is the process of finding values for the weight
 
 The backpropagation algorithm is an efficient application of the Leibniz chain rule for differentiation.\newline
 
+\TODO{Stochastic gradient decent}
+
 
 For a through introduction to the subject of neural networks and the training thereof we refer to chapter 6 and 8 of \cite{deeplearningbook}.
 
@@ -59,45 +74,39 @@ For a through introduction to the subject of neural networks and the training th
 \section{Convolutional Neural Network}
 This section draws heavily on the presentation of convolutional networks in chapter 9 of \cite{deeplearningbook}.\\\\
 
-A convolutional neural network (CNN) is a particular type of neural network that is developed to learn local features in the data. This local feature learning is enabled by the mathematical operation of convolution. In essence a CNN is a neural network where matrix multiplication is switched for convolution at least one of the layers \cite{deeplearningbook}. 
+A convolutional neural network (CNN) is a particular type of neural network that is developed to learn local features in the data. This local feature learning is enabled by the mathematical operation of convolution. In essence a CNN is a neural network where matrix multiplication is switched for convolution at least one of the layers \cite{deeplearningbook}. \newline
 
-\TODO{history}
-1959 visual cortex cells. The Neocognitron 1980. CNN for MNIST Yann LeCun 1989- 1998 \cite{LeCun1989ConvNet}. AlexNet: GPU training and popularization of deep neural nets.
-
-\TODO{Why was it introduced?}
-Regular neural networks have a fundamental drawback in that their computational complexity 
-
-Fully connected neural networks suffer badly from overfitting. Vanishing gradient / exploding gradient.
-
-What problems did it solve?
+Fully connected neural networks have a fundamental drawback in that their computational complexity grows intractably large when the input dimensionality is high. This makes them unsuited for high dimensional data, such as images. Convolutional neural networks directly address this issue via various downsampling techniques. Convolutional neural networks has a rich history and a long track record of success stories. They are inspired by the architecture of visual cortex cells in mammals. Inspired by the discovery of Hubel and Wiesel \cite{https://doi.org/10.1113/jphysiol.1968.sp008455} the neocognitron was proposed in 1980\cite{6313076}. The neocognitron is widely considered the predecessor of convolutional neural networks. In 1989 Yann LeCun et al. introduced the modern framework for CNNs \cite{LeCun1989ConvNet} and demonstrated its effectiveness on the task of hand written digit recognition. Since then CNNs have been an indispensable part of machine learning research, especially in the computer vision domain. For an exposition on the advances on convolutional neural networks and its applications we refer to \cite{gu2017recent}.
 
 \subsection{The convolution operation}
 
-The convolution operation is an integral transform with extensive applications. It generalizes the notion of a moving weighted average. In mathematics it is ubiquitous because of its relationship with the Fourier transform.
-\\\\
+"Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
+
+The convolution operation is an integral transform with extensive applications. It generalizes the notion of a moving weighted average. In mathematics it is ubiquitous because of its relationship with the Fourier transform.\newline
+
 Let $f$ and $g$ be real valued functions, then their convolution is defined as
 \begin{equation}
     (f*g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t-\tau) d\tau
 \end{equation}
 
-The mathematical nuances of the exact criteria for the above integral to exist is outside the scope of this thesis, and not particularly relevant. But if $f$ and $g$ are integrable (in the Riemann or Lebesgue sense) then the convolution exists. As a rule of thumb, the convolution of $f$ and $g$ is as "smooth" as the smoothest of $f$ and $g$. It is worth mentioning that convolution is commutative, i.e that $f*g = g*f$, which can be seen by a simple change of variables. 
-\\\\ 
+The mathematical nuances of the exact criteria for the above integral to exist is outside the scope of this thesis, and not particularly relevant. But if $f$ and $g$ are integrable (in the Riemann or Lebesgue sense) then the convolution exists. As a rule of thumb, the convolution of $f$ and $g$ is as "smooth" as the smoothest of $f$ and $g$. It is worth mentioning that convolution is commutative, i.e that $f*g = g*f$, which can be seen by a simple change of variables. \newline
+
 As is typical for integral transforms, the function $g$ is referred to as the \textit{kernel}. In the context of convolutional networks the kernel consists of learnable parameters and the function $f$ is the \textit{input}. The output is sometimes referred to as the \textit{feature map} \cite{deeplearningbook}. In machine learning we handle discrete signals, represented as multidimensional arrays. As a result we must employ a discrete variation of the convolution operation. Let $I$ be the input and $K$ be the kernel, both discrete, then their convolution is defined as
 \begin{equation}
     (I*K)[n] = \sum_{m=-\infty}^{\infty} I[m]K[n-m].
 \end{equation}
 In practice $I$ and $K$ typically has finite support, i.e they are zero for large positive and negative arguments, which circumvents any convergence problem.\\\\
-Convolutions are naturally defined for higher dimensional functions, by component wise extension. For a two dimensional image $I$ and a kernel $K$ we calculate their convolution as 
+Convolutions are naturally defined for higher dimensional functions by component wise extension. For a two dimensional image $I$ and a kernel $K$ we calculate their convolution as 
 \begin{equation}
     (I*K)[i,j] = \sum_{n=-\infty}^{\infty}\sum_{m=-\infty}^{\infty} I[n,m]K[i - n,j - m]. 
 \end{equation}
 
-\TODO{Figure of convolution}
 \begin{figure}[h]
     \includegraphics[scale=0.5]{Convolution.png}
     \centering    
     \caption{Illustration of discrete two dimensional convolution}
 \end{figure}
+
 
 - In applications the kernel dimensions are much smaller than the input dimensions. 
 
@@ -110,9 +119,12 @@ Convolutions are naturally defined for higher dimensional functions, by componen
 
 Convolution in machine learning does not always correspond exactly to the mathematical definition of the operation, but rather to cross-correlation. The difference is just a sign flip in the kernel arguments. Operation is no longer commutative, but in practice this does not affect anything as the learned kernel parameters will be equivalent \cite{deeplearningbook}. Machine learning applications are focused on what works, rather than writing proofs. \\\\
 
-
-
-"Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
+\TODO{Concolution in signal processing / image processing in non ml ways. Gaussian kernels, edge detection etc. Provide some hints at why on earth convnets should learn image features.}
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.5]{Kernel_illustration.png}
+    \caption{Illustration of discrete convolution applied to images. Image part of Scikit-image data package.}
+\end{figure}
 
 \subsection{Pooling}
 A pooling operation is applied as a down sample technique on feature maps in CNNs, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the region of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. 
@@ -128,6 +140,12 @@ A pooling operation is applied as a down sample technique on feature maps in CNN
     \caption{Max pooling of one dimensional array. Filter size: $2$, stride: $1$.}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.5]{pooling_illustration.png}
+    \caption{Illustration of mean and average pooling applied to images. Original image size is $512\times 512$, pooled images are $26\times26$. Image part of Scikit-image data package.}
+\end{figure}
+
 - Pooling assist in making the representations approximately invariant to small distortions of input. 
 
 - Pooling is often essential in handling variable input size.
@@ -135,7 +153,23 @@ A pooling operation is applied as a down sample technique on feature maps in CNN
 - 
 
 \subsection{Architecture}
-A typical layer in a convolutional network consists of three stages: 
+There are a large variety of specific architectures which fall in the category of a CNN, but their basic components are largely the same. They consist of convolutional layers, pooling layers and fully connected layers.\newline
+
+A convolutional layer consists of several kernels used to compute different \textit{feature maps}. Each kernel is applied to the entire input, and the different feature maps are produced by changing kernel. A nonlinear activation function is then applied pointwise to the feature maps.
+\TODO{Fig of conv layer}
+
+A pooling layer is typically placed between convolutional layers and work as a stronger downsampler which aims to enforce approximate translation invariance. A pooling operation is applied across each feature map. 
+\TODO{Fig of pooling layer}
+
+The fully connected layer is just your typical hidden layer in a neural network, i.e connect every input to every node in the output. 
+and is first introduced when the input data has been sufficiently downsampled. The role of these layers is to learn high level reasoning on 
+\TODO{Fig of fully connected layer}
+
+
+\TODO{Fig of CNN}
+
+
+
 
 Convolution: Hidden layer with regular matrix multiplication with weight matrix $W$ is switched out with convolution with kernel matrix $K$.
 
@@ -148,9 +182,13 @@ pooling layer: Max, average etc. pooling of feature map.
 
 
 \subsection{Transposed Convolutional Networks}
-Transposed convolution, also known as fractionally-strided convolution is a technique used to reverse the downsampling from convolutions. 
+Transposed convolution or deconvolution, also known as fractionally-strided convolution is a technique used to reverse the downsampling from convolutions. In essence it is an inpainting or upsampling technique known from digital signal processing. The flexibility of learning data dependent transposed convolutional kernels are. 
 
-
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.5]{deconv_illustration.png}
+    \caption{Illustration of deconvolution applied to images. Here using Gaussian blur and restoring using the Richardson Lucy algorithm with a Gaussian deconvolution kernel. Image part of Scikit-image data package.}
+\end{figure}
 
 
 % \section{Residual Neural Network}
@@ -245,6 +283,42 @@ We let $f = g\circ h$ be a model and train it on a pretext task in order to obta
 \TODO{The role of Visual inspection}
 
 
+\section{Transformers}
+
+When was it introduced, and by whom?
+What lead up to its creation?
+Why and where is it now widely used? 
+
+
+Wiki: A deep learning architecture based on the multi-headed attention mechanism proposed in the 2017 paper "Attention is all you need".
+
+One of the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are, in computational aspects, inherently sequential, there are major challenges when training as context windows, and sequence lengths become longer. 
+
+
+
+\subsection{The attention mechanism}
+
+\TODO{Wait for 3b1b video for context}
+
+\begin{figure}[h]
+    \includegraphics[scale=0.1]{Transformer_architecture}
+    \centering    
+\end{figure}
+
+\subsection{Architecture}
+
+Tokenizer
+
+Positional encoding
+
+
+Transformer layer (encoder/decoder)
+
+\subsection{Bi-directional transformer (BERT)}
+
+Unidirectional / 
+
+
 
 \section{Self-Supervised learning}
 
@@ -306,48 +380,27 @@ Contrastive SSL includes both positive and negative samples. The loss function o
 
 Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. 
 
-\subsection{Joint embedding architecture}
+\subsubsection{Joint embedding architecture}
 
 Joint embedding architecture: An architecture where two networks are trained to produce similar embeddings for different views of the same data. A popular joint embedding architecture is the siamese network architecture \cite{siamese}, in which the two networks share the same weights. In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.
 
 \subsubsection{The role of projectors}
 
+\subsection{Masked modelling}
+Masked modelling is a conceptually simple self-supervised learning technique for generative models. The idea is to mask or cover a portion of the input data and predict the masked portions. By comparing the prediction against unmasked data the model can learn useful representations without supervision. Since the introduction of masked modelling in natural language processing by \cite{devlin2019bert} it has been the de-facto standard for self-supervised pretraining of language models. BERT introduced masked modeling for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
+\TODO{When did GPT \cite{Radford2018ImprovingLU} use Masked modelling?}
 
-
-\section{Transformers}
-
-When was it introduced, and by whom?
-What lead up to its creation?
-Why and where is it now widely used? 
-
-
-Wiki: A deep learning architecture based on the multi-headed attention mechanism proposed in the 2017 paper "Attention is all you need".
-
-One fo the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are, in computational aspects, inherently sequential, there are major challenges when training as context windows, and sequence lengths become longer. 
+When vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers.\newline
+Masked image modelling \cite{he2021masked}: Mask image patched directly \newline
+Masked visual token modelling \cite{chang2022maskgit}: Tokenize the image and mask tokens. \newline
 
 
 
-\subsection{The attention mechanism}
+\TODO{Masking in original domain or tokens. Masking strategies.}
 
-\TODO{Wait for 3b1b video for context}
-
-\begin{figure}[h]
-    \includegraphics[scale=0.1]{Transformer_architecture}
-    \centering    
-\end{figure}
-
-\subsection{Architecture}
-
-Tokenizer
-
-Positional encoding
+For a thorough survey on masked modelling for SSL in the vision domain we refer to \cite{li2024masked}. 
 
 
-Transformer layer (encoder/decoder)
-
-\subsection{Bi-directional transformer (BERT)}
-
-Unidirectional / 
 
 
 
@@ -515,11 +568,6 @@ To illustrate the need for commitment loss and what it does consider a model whe
 There has been several attempts to improve vector quantization. In \cite{shin2023exploration} they advocate for learning orthogonal/decorated codewords. 
 % \TODO{Reference https://github.com/lucidrains/vector-quantize-pytorch some way.}
 
-\section{Masked modelling}
-First introduced in \cite{devlin2019bert} for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
-
-Masked visual token modelling \cite{chang2022maskgit}
-
 
 
 \section{Evaluation metrics}
@@ -570,7 +618,7 @@ Issues with visual inspection of time series data, compared to modalities as ima
 
 \subsubsection{Inception Score (IS)}
 Inception Score (IS) was first introduced in \cite{salimans2016improved} as an automatic evaluation method of synthetic samples.\newline
-The Inception Score works by applying a classifier to every generated sample to get the conditional label distribution $p(y|x)$. Samples containing meaningful "objects" should have low entropy, i.e be certain of the label. In addition we expect a good model to generate varied samples, so the marginal $\int p(y|x = G(z))dz$ should have high entropy. Here $G$ is our generative model. On this basis, the Inception Score is defined as 
+The Inception Score works by applying a classifier to every generated sample to get the conditional label distribution $p(y|x)$. Samples containing meaningful "objects" should have low entropy, i.e be certain of the label. In addition we expect a good model to generate varied samples, so the marginal $\int p(y|x = G(z))dz$ should have high entropy. Here $G$ is our generative model and $z$ the latent variable. On this basis, the Inception Score is defined as 
 
 \begin{equation}
     \label{IS}
@@ -578,6 +626,16 @@ The Inception Score works by applying a classifier to every generated sample to 
 \end{equation}
 
 In contrast to computer vision there is no widely adopted classification model for Time Series. In \cite{wang2016time} a fully convolutional network (FCN) was presented as a proposed baseline classification model, and we use the open source FCN trained on the UCR Archive presented in \cite{TimeVQVAE} for our evaluations. \newline
+
+Let $X_{\text{gen}} = \{x_{i,\text{gen}}\}_{i=1}^N$ be a set of generated samples. We use the apply a SoftMax layer to pretrained FCN representations to obtain an estimate of the conditional label distribution as follows
+\[
+    x_{i,\text{gen}} \xrightarrow{\mathrm{FCN} + \mathrm{SoftMax}} p(y |x_{i,\text{gen}}).
+\]
+The marginal label distribution is obtained by averaging across all the synthetic data as follows
+
+\[
+    p(y) = \frac{1}{N} \sum_{i=1}^N p(y |x_{i,\text{gen}}).
+\]
 
 Issues with IS \cite{barratt2018note} (Use different network, for image classification).  Important to report different metrics that indicate that the model has not overfitted. 
 Also issues with IS \cite{borji2021pros}.\newline
@@ -591,7 +649,9 @@ The primary concern with IS is, as mentioned earlier, that it does not use any s
             &= \left(\inf_{\gamma \in \Gamma(f,g)} \E_{(x,y)\sim \gamma} ||x-y||_2^2\right)^{\frac{1}{2}},
     \end{aligned}
 \end{equation}
-where $\Gamma(f,g)$ is the set of all \textit{couplings} of $f$ and $g$. In \cite{DOWSON1982450} it was shown that for two Gaussian distributions the Fréchet distance is explicitly solvable as
+where $\Gamma(f,g)$ is the set of all \textit{couplings} of $f$ and $g$. The Fréchet distance is a special case of the Wasserstein metric and will in literature be referred to as such.\newline 
+
+In \cite{DOWSON1982450} it was shown that for two Gaussian distributions the Fréchet distance is explicitly solvable as
 
 \begin{equation}
     \label{eq:FID Gaussian}
