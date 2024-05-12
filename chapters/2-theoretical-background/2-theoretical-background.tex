@@ -20,11 +20,30 @@
 
 - mutual information
 
-- entropy
+
+\begin{definition}[Differential entropy]
+    The differential entropy of a random variable $X$  with pdf or pmf $p$ defined on a sample space $\mathcal{X}$ is
+    \begin{equation}
+        h(X) =\E[-\log(f(X))] -\sum_{x\in \mathcal{X}} p(x)\log(p(x)),\text{ if $X$ is discrete,}
+    \end{equation}
+    \begin{equation}
+        h(X) =\E[-\log(f(X))] -\int_{\mathcal{X}} p(x)\log(p(x)),\text{ if $X$ is continuous}
+    \end{equation}
+\end{definition}
+
 
 - perplexity
 
-- KL-divergence
+\begin{definition}[KL-Divergence]
+    For probability distribution $P$ and $Q$ defined on the same sample space $\mathcal{X}$, if for all $x\in\mathcal{X} $ $Q(x)=0$ implies $P(x)=0$, the Kullback-Leibler divergence is defined as
+    \begin{equation}
+        \KL(P||Q) = \sum_{x\in\mathcal{X}} P(x)\log\left(\frac{P(x)}{Q(x)}\right), \text{ if $P$ and $Q$ are discrete,}
+    \end{equation}
+    \begin{equation}
+        \KL(P||Q) = \int_{x} p(x)\log\left(\frac{p(x)}{q(x)}\right)dx, \text{ if $P$ and $Q$ are continuous}.
+    \end{equation}
+\end{definition}
+
 \url{https://stats.stackexchange.com/questions/188903/intuition-on-the-kullback-leibler-kl-divergence/189758#189758}
 
 - Cross entropy 
@@ -107,27 +126,18 @@ Convolutions are naturally defined for higher dimensional functions by component
     \caption{Illustration of discrete two dimensional convolution}
 \end{figure}
 
+Convolution in machine learning does not always correspond exactly to the mathematical definition of the operation, but rather to cross-correlation. The difference is just a sign flip in the kernel arguments. Operation is no longer commutative, but in practice this does not affect anything as the learned kernel parameters will be equivalent \cite{deeplearningbook}. Machine learning applications are focused on what works, rather than writing proofs. \newline
 
-- In applications the kernel dimensions are much smaller than the input dimensions. 
-
-- Stride 
-
-- Kernel dim and stride length determines downsample rate (reduction in size). 
-
-- In a convolutional layer the kernel is learned such that the feature map is helpful for the training objective. 
-
-
-Convolution in machine learning does not always correspond exactly to the mathematical definition of the operation, but rather to cross-correlation. The difference is just a sign flip in the kernel arguments. Operation is no longer commutative, but in practice this does not affect anything as the learned kernel parameters will be equivalent \cite{deeplearningbook}. Machine learning applications are focused on what works, rather than writing proofs. \\\\
-
-\TODO{Concolution in signal processing / image processing in non ml ways. Gaussian kernels, edge detection etc. Provide some hints at why on earth convnets should learn image features.}
-\begin{figure}
+In the field of digital signal processing discrete convolutions are used extensively. Traditionally predefined kernels are used to alter a signal in predictable ways. Two well known kernels are Gaussian and edge detection kernels. Gaussian kernels are two dimensional gaussian distributions and are used for blurring. Edge detection kernels are designed in such a way that areas of similar intensity are mapped to $0$ and areas of variable intensity are mapped to high values. In figure \ref{fig:kernelIllustration} we demonstrate the effect of two such kernels. Edge detection in particular provide a hint to how CNNs learn interesting features in the data. In a convolutional layer the kernels are learned such that the feature map is helpful for the training objective. 
+\begin{figure}[h]
     \centering
     \includegraphics[scale = 0.5]{Kernel_illustration.png}
     \caption{Illustration of discrete convolution applied to images. Image part of Scikit-image data package.}
+    \label{fig:kernelIllustration}
 \end{figure}
 
 \subsection{Pooling}
-A pooling operation is applied as a down sample technique on feature maps in CNNs, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the region of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. 
+As mentioned earlier CNNs are mainly used when the data has high dimensionality. In order to reduce the dimension to a manageable level \textit{pooling} is used. A pooling operation is applied as a down sample technique on feature maps, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the region of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. In addition to dimension reduction, pooling assist in making the representations approximately invariant to small distortions of input. 
 
 \begin{figure}[h]
     \includegraphics[scale=0.5]{MP_stride2}
@@ -140,51 +150,38 @@ A pooling operation is applied as a down sample technique on feature maps in CNN
     \caption{Max pooling of one dimensional array. Filter size: $2$, stride: $1$.}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[scale = 0.5]{pooling_illustration.png}
-    \caption{Illustration of mean and average pooling applied to images. Original image size is $512\times 512$, pooled images are $26\times26$. Image part of Scikit-image data package.}
+    \caption{Illustration of mean and average pooling applied to images. Filter size and stride is $20\times 20$. Original image size is $512\times 512$, pooled images are $26\times26$. Image part of Scikit-image data package.}
 \end{figure}
 
-- Pooling assist in making the representations approximately invariant to small distortions of input. 
-
-- Pooling is often essential in handling variable input size.
-
-- 
 
 \subsection{Architecture}
-There are a large variety of specific architectures which fall in the category of a CNN, but their basic components are largely the same. They consist of convolutional layers, pooling layers and fully connected layers.\newline
+There are a large variety of specific architectures which fall in the category of a CNN, but their basic components are largely the same. They consist of convolutional layers, pooling layers and fully connected layers. In figure \ref{fig:LeNet5} an illustation of the original LeNet-5 \cite{LeCun1989ConvNet} is presented as an illustration of a general CNN.\newline
 
-A convolutional layer consists of several kernels used to compute different \textit{feature maps}. Each kernel is applied to the entire input, and the different feature maps are produced by changing kernel. A nonlinear activation function is then applied pointwise to the feature maps.
-\TODO{Fig of conv layer}
+A convolutional layer consists of several kernels used to compute different \textit{feature maps}. Each kernel convolved with entire input, and the different feature maps are produced by changing kernel. A nonlinear activation function is then applied pointwise to the feature maps.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.5]{convlayer.png}
+    \caption{Convolutional layer.}
+\end{figure}
+A pooling layer is typically placed between convolutional layers and work as a stronger downsampler which aims to enforce approximate translation invariance. A pooling operation is applied across each feature map.\newline
 
-A pooling layer is typically placed between convolutional layers and work as a stronger downsampler which aims to enforce approximate translation invariance. A pooling operation is applied across each feature map. 
-\TODO{Fig of pooling layer}
+The fully connected layer is just your typical hidden layer in a neural network, i.e connect every input to every node in the output. Because of computational issues mentioned earlier fully connected layers are first introduced when the input data has been sufficiently downsampled.
 
-The fully connected layer is just your typical hidden layer in a neural network, i.e connect every input to every node in the output. 
-and is first introduced when the input data has been sufficiently downsampled. The role of these layers is to learn high level reasoning on 
-\TODO{Fig of fully connected layer}
-
-
-\TODO{Fig of CNN}
-
-
-
-
-Convolution: Hidden layer with regular matrix multiplication with weight matrix $W$ is switched out with convolution with kernel matrix $K$.
-
-non-linear activation: Point wise nonlinearity, ReLU, sigmoid etc.
-
-pooling layer: Max, average etc. pooling of feature map.
-
-
-
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.25]{LeNet5.png}
+    \caption{LeNet-5 network \cite{LeCun1989ConvNet}}
+    \label{fig:LeNet5}
+\end{figure}
 
 
 \subsection{Transposed Convolutional Networks}
 Transposed convolution or deconvolution, also known as fractionally-strided convolution is a technique used to reverse the downsampling from convolutions. In essence it is an inpainting or upsampling technique known from digital signal processing. The flexibility of learning data dependent transposed convolutional kernels are. 
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[scale = 0.5]{deconv_illustration.png}
     \caption{Illustration of deconvolution applied to images. Here using Gaussian blur and restoring using the Richardson Lucy algorithm with a Gaussian deconvolution kernel. Image part of Scikit-image data package.}
@@ -224,61 +221,65 @@ Transposed convolution or deconvolution, also known as fractionally-strided conv
 
 
 \section{Representation Learning}
+\TODO{Write a short introduction}
 
-\TODO{Speak on the evaluation metrics for rep learning and the like from \cite{nozawa2022empirical}}
 \cite{Rep-rev-persp}
-\TODO{Sneak in something about Gödel and Turing in terms of representation. There are many philosophical aspects of this}
-
-\subsection{What is representation learning?}
-Representation learning is a term not too easily defined, one reason being the abstraction level. It is helpfull to first consider what is meant by \textit{representation} of information. Lets begin by walking through a familiar and illustrative example. Consider the base ten integer $(4)_{10} = 4$. The number can equivalently (in terms of information content) be expressed, that is represented, in any other base. The particular base we choose depends on our intention with the number. If we want to work with digital electronics, a binary representation ($(4)_{2} = 10$) is very useful, as transistors has two states. When humans do arithmetic, base ten representations of the integers are very natural, as we have ten fingers. A particular representation of information can make a task easier or harder. The information content is unchanged by a change of representation. What is changed is the easiness or difficulty of certain information processing tasks. Representation learning is then the process of learning a certain representation of information. \\\\
-
-Representations are too highly dependent on who, or what, that will process it. An example is time. Humans have developed a standardized system for writing timestamps which works fairly well for us. But, if we want to model time dependent phenomena, say using tabular data, the DateTime representation is of very little help to a tree based model for instance. The reason being that the numerical representation of timestamps close in time is not necessarily close in numerical value. Think of 23:59 to 00:00. A possible solution is to change the representation such that the numerical values actually respect the periodic nature by mapping to the circle. The new representation is then useless for humans, but quite a lot more useful to a computer. \\\\
-
-Anyone who has worked with data science or machine learning has come across feature engineering, and the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. One of the intriguing and promising features of neural networks, with its many specializations and architectures, is the ability to learn abstract representations of the data. This is sometimes referred to as automatic feature engineering. \todo{Find som references on higher order features learned in CNNs} In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of the data $x$ in some layer $n$ is what is meant by the networks learned feature representations. When we are interested in the representations learned it thus is helpful to dissect a model $f$, notation wise, into a \textit{feature extractor} $h$ and an \textit{output function} \todo{better name??} $g$ such that it can be factored as $f = g \circ h$. Representation learning algorithms typically follow the pattern
-\begin{itemize}
-    \item Train $f= g \circ h$ on some task, be it supervised, unsupervised etc.
-    \item Discard $g$
-    \item Use the learned feature extractor $\widehat{h}$ as part of a new model. 
-\end{itemize}
-
-
-The different use cases of $\widehat{h}$ is as stand alone one/few-shot learners (downstream task / frozen protocol) or as initialization of other models (pre-trained / fine-tuning protocol). \newline
-
-When training a neural network of any variation in a supervised fashion, one always get a feature extractor, at no additional cost.  
-Unsupervised representation learning loss: reconstruction in AE type, similarity losses in joint embedding networks
-\TODO{When mentioning autoencoders, it is a natural spot to talk about compression. "If you can still reconstruct the signal, then you know everything about it in a sense"}
-
-
-Typically in representation learning algorithms, the output dimension of $\widehat{h}$ is smaller than the input dimension. The idea of compression in representation learning has gotten theoretical and philosophical attention \todo{Information bottleneck, compression}. 
-
-
-% In more general terms a \textit{feature extractor} is a mapping $h:\mathbb{R}^I \to \mathbb{R}^d$, where $I$ is the input dimension of the model. Typically $d$ is smaller than $I$.\TODO{Something about compression and effective representations}
-
-
-
-% In supervised representation learning, the feature extractor $h$ by solving a supervised task.  Examples include $h(x) = f_n\circ ...\circ f_1(x)$ in a NN or CNN.
-
-% One of the advantages of supervised representation learning is that one obtains the feature extractor as a byproduct of supervised learning. 
-% \\\\
-
-% Unsupervised, or self-supervised representation learning. The difference form supervised representation learning is that the feature extractor $h$ is learned by an unsupervised objective. 
-
-% Encoder 
 
 \subsection{Why do we care about representation learning?}
-\TODO{Rewrite, i have copied to much}
-Representation learning is particularly interesting because it provides one way to perform unsupervised and semi-supervised learning. It promises to unlock deep learning for unlabeled datasets. Furthermore it is known that the performance of machine learning methods is heavily dependent on the choice of data representations. Therefore much of actual efforts in deploying machine learning algorithms revolves around constructing good data pipelines and data transformations that results in representations suited for the ML algorithm. Being able to automate such processes, i.e automatic feature engineering, would solve massive problems and ease the use of ML considerably. 
+Those who has worked with data science or machine learning and has come across feature engineering are familiar the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. In reality much of the actual time spent in the process of deploying machine learning methods revolves around constructing good data pipelines and applying transformations that produce representations beneficial for the algorithm at hand \cite{Rep-rev-persp}. Thus the ability to automate such tasks would be incredibly beneficial, and ease the use of ML algorithms significantly. It is here one of the intriguing and promising features of neural networks, with its many specializations and architectures, comes into play. They have shown the ability to learn useful abstract representations of the data and provide automatic feature engineering \cite{Rep-rev-persp}. 
+
+\subsection{What a representation?}
+
+Representation learning is a term not too easily defined, one reason being the abstraction level. It is helpful to first consider what is meant by \textit{representation} of information. Lets begin by walking through a familiar and illustrative example. Consider the base ten integer $(4)_{10} = 4$. The number can equivalently (in terms of information content) be expressed, that is represented, in any other base. The particular base we choose depends on our intention with the number. If we want to work with digital electronics, a binary representation ($(4)_{2} = 10$) is very useful, as transistors has two states. When humans do arithmetic, base ten representations of the integers are very natural, as we have ten fingers. A particular representation of information can make a task easier or harder. The information content is unchanged by a change of representation. What is changed is the easiness or difficulty of certain information processing tasks. Representation learning is then the process of learning a certain representation of information. \newline
+
+Representations are too highly dependent on who, or what, that will process it. An example is time. Humans have developed a standardized system for writing timestamps which works fairly well for us. But, if we want to model time dependent phenomena, say using tabular data, the DateTime representation is of very little help to a tree based model for instance. The reason being that the numerical representation of timestamps close in time is not necessarily close in numerical value. Think of 23:59 to 00:00. A possible solution is to change the representation such that the numerical values actually respect the periodic nature by mapping to the circle. The new representation is then useless for humans, but quite a lot more useful to a computer. \newline
+
+Representation learning in machine learning can thus be thought of as algorithms which are designed to learn representations which is useful for a ML objective.
 
 
 \subsection{What is a good representation?}
-\TODO{Talk about the trend of pre-trained models, language representations, tokenization, GPT etc}
-\TODO{Rewrite, i have copied to much}
-For any representations extracted of a non-invertible function, a downstream task can always be designed (in principle) to based on the lost information, hence achieve arbitrarily bad performance. The concept of universally good representations is therefore ill-defined. There is no free lunch in representation learning either. One must specify a set of predefined \textit{downstream tasks}, and evaluate according to those. The goodness of a representation is determined by how easy it makes the downstream task. Intuitively the quality of the representations are also considered higher if the the representations is able to perform well on several downstream tasks. 
 
+For any representations extracted of a non-invertible function, a downstream task can be designed (in principle) to based on the lost information, hence achieve arbitrarily bad performance. The concept of universally good representations is therefore ill-defined. There is no free lunch in representation learning either. One must specify a set of predefined \textit{downstream tasks}, and evaluate according to those. The goodness of a representation is then determined by how easy it makes the downstream tasks. Intuitively the quality of the representations are also considered higher if the the representations is able to perform well on several downstream tasks i.e when they are more general. 
 
 \subsection{How does one evaluate representations?}
-As defined in \cite{jing2019selfsupervised} a \textit{pretext task} is a pre-designed task for a network to solve, where the goal is to learn representation. A downstream task is a task used to evaluate the quality of learned representations. In general the downstream task is solved in a supervised manner, using human annotated data.\newline
-We let $f = g\circ h$ be a model and train it on a pretext task in order to obtain $\widehat{f} = \widehat{g}\circ \widehat{h}$. As mentioned previously, the quality of learned representations is determined by the performance of the feature extractor $\widehat{h}$ on the downstream task. The standard evaluation protocol is to train a linear head $g_D$ on top of the \textit{frozen} representations in a supervised manner and evaluate this models performance. This is to say that we train  $f_D = g_D\circ \widehat{h}$ by only updating the parameters of the linear model $g_D$, and evaluate $\widehat{f}_D$ on some test set. A common downstream task is classification, where the idea is that good and informative representations should differentiate data in such a way that it is easy to separate them. \newline
+There are several different evaluation protocols in representation learning and they involve training a model on a \textit{pretext task}, which as defined in \cite{jing2019selfsupervised} is a task for a network to solve, where the goal is to learn representation. Then the learned representations are evaluated on a downstream task. In general the downstream task is solved in a supervised manner, using human annotated data.\newline
+
+In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of the data $x$ in some layer $n$ is what is meant by the networks learned feature representations. When we are interested in the representations learned it thus is helpful to dissect a model $f$, notation wise, into a \textit{feature extractor} $h$ and an \textit{output function} $g$ such that it can be factored as $f = g \circ h$. Representation learning algorithms typically follow the pattern
+\begin{itemize}
+    \item Train $f= g \circ h$ on a pretext task.
+    \item Discard $g$
+    \item Use the learned feature extractor $\widehat{h}$ as part of a new model.
+    \item Evaluate the new model on the downstream task. 
+\end{itemize}
+
+
+
+
+% When training a neural network of any variation in a supervised fashion, one always get a feature extractor, at no additional cost.  
+% Unsupervised representation learning loss: reconstruction in AE type, similarity losses in joint embedding networks
+% \TODO{When mentioning autoencoders, it is a natural spot to talk about compression. "If you can still reconstruct the signal, then you know everything about it in a sense"}
+
+
+
+
+The standard evaluation protocol is to train a linear head $g_D$ on top of the \textit{frozen} representations in a supervised manner and evaluate this models performance. This is to say that we train  $f_D = g_D\circ \widehat{h}$ by only updating the parameters of the linear model $g_D$, and evaluate $\widehat{f}_D$ on some test set. This protocol is sometimes referred to as \textit{linear probing}. A common downstream task is classification, where the idea is that good and informative representations should differentiate data in such a way that it is easy to separate them. \newline
+
+An common alternative protocol is similar to the one above, but rather than freezing the feature extractor one let all parameters of $f_D$ to be learnable on the downstream task. This protocol is referred to as a pretraining-finetuning. It is of interest how $f_D$ performs in terms of accuracy on the downstream task and training time, and too how these sensitive metics are to training data size. The baseline comparison would then be an identical but randomly initialized model. It is considered highly advantageous if one is able to pretrain a feature extractor using cheap and abundant data in a way which ensures faster convergence on a downstream task where data is expensive or scarce.\newline
+
+It is with mentioning that in cases where the sole goal is to create the best performing model, a more complex task specific head $g_D$ is often used. For a comprehensive survey on representation learning we refer the reader to \cite{nozawa2022empirical}.
+
+
+\begin{figure}[h]
+    \includegraphics[scale=0.5]{rep_learnin_protocol.png}
+    \centering    
+    \caption{Taken from \cite{nozawa2022empirical}}
+\end{figure}
+
+
+
+% Typically in representation learning algorithms, the output dimension of $\widehat{h}$ is smaller than the input dimension. The idea of compression in representation learning has gotten theoretical and philosophical attention \todo{Information bottleneck, compression}. 
+
+
 
 \TODO{The role of Visual inspection}
 
@@ -352,33 +353,27 @@ For a dataset $X = \{x_i\}_{i=1}^N$ with \textit{pseudo labels} $P = \{p_i\}_{i=
     \widehat{f}_\theta = \min_\theta \frac{1}{N} \sum_{i=1}^N L(f_\theta(x_i),p_i).
 \end{equation}
 
-A pseudo label is an automatically generated label from the data attributes in the pretext task. In joint embedding architectures the pseudo labels are typically some \textit{augmentation} of the original data.
+A pseudo label is an automatically generated label from the data attributes in the pretext task. In joint embedding architectures the pseudo labels are typically some \textit{augmentation} of the original data.\newline
 
+SSL has in recent times (since 2018??) been a fruitful approach to unsupervised representation learning and has played an integral part in the boom of large language models together with the invention of the transfomer architecture. With models growing ever larger and more data hungry SSL is essential in pretraining. Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pretraining. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pretraining networks enables foundation models, which can be trained for many different tasks in a supervised fashion requiring a lot less resources.\newline
 
-\TODO{Explain why we care:}
-
-A fruitful approach to unsupervised representation learning.\\\\
-
-Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pre-training. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pre-training networks enables foundation models, which can be trained for many different tasks in a supervised fashion, called fine-tuning, requiring a lot less resources.
-
-\TODO{Explain where we are now:}
-In recent years, especially in computer vision applications, SSL methods have shown incredible promise in representation learning. SSL methods have proven close to, and sometimes surpassing, supervised methods on downstream tasks. \TODO{Find sources backing this up.}
+In recent years, especially in computer vision and natural language applications, SSL methods have shown incredible promise in representation learning. SSL methods have proven close to, and sometimes surpassing, supervised methods on downstream tasks. This has inspired researchers to apply SSL methods across other modalities. \TODO{Find sources backing this up.}
 
 
 \TODO{What are the different flavours of SSL? }
-Autoassociative SSL - Autoencoder type - Essentially try to make composition the identity despite a compression. Usually not considered SSL, but it technically is. 
-Contrastive vs non-contrastive
+Generative: Masked modelling 
+Discriminative: Contrastive/non-contrastive
+Autoassociative: Autoencoder type - Essentially try to make composition the identity despite a compression. Usually not considered SSL, but it technically is. 
 \TODO{What are some of the issues?}
 
-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
-
-
 \subsubsection{Contrastive}
-Contrastive SSL includes both positive and negative samples. The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\\\\
-
+Contrastive SSL includes both positive and negative samples. The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
 \subsubsection{Non contrastive}
 
-Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. 
+Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \newline
+
+Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
+
 
 \subsubsection{Joint embedding architecture}
 
@@ -390,8 +385,8 @@ Joint embedding architecture: An architecture where two networks are trained to 
 Masked modelling is a conceptually simple self-supervised learning technique for generative models. The idea is to mask or cover a portion of the input data and predict the masked portions. By comparing the prediction against unmasked data the model can learn useful representations without supervision. Since the introduction of masked modelling in natural language processing by \cite{devlin2019bert} it has been the de-facto standard for self-supervised pretraining of language models. BERT introduced masked modeling for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
 \TODO{When did GPT \cite{Radford2018ImprovingLU} use Masked modelling?}
 
-When vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers.\newline
 Masked image modelling \cite{he2021masked}: Mask image patched directly \newline
+When vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers.\newline
 Masked visual token modelling \cite{chang2022maskgit}: Tokenize the image and mask tokens. \newline
 
 

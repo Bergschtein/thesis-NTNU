@@ -2,129 +2,19 @@
 
 \begin{document}
 
-\section{Reconstruction}
 
-% We present the best validation reconstruction loss ($\mathcal{L}_{\text{val-recon}}$) for each model across the selected datasets in Table~\ref{tab:recon_loss}.
+\section{Stage 1}
 
-\begin{table}
-    \centering
-    \begin{tabular}{l c c c c}
-    \toprule
-    Dataset Name & VQVAE & BT-VQVAE & BT-VQVAE & BT-VQVAE \\
-    & & $\gamma = 0.5$ & $\gamma = 1.0$ & $\gamma = 2.0$ \\
-    \midrule
-    Wafer & \textbf{0.054} & 0.072 & 0.074 & 0.090 \\
-    FordA & 0.327 & \textbf{0.114} & 0.130 & 0.133 \\
-    FordB & 0.275 & \textbf{0.106} & 0.108 & 0.155 \\
-    StarLightCurves & 0.075 & 0.064 & 0.039 & \textbf{0.033} \\
-    ChlorineConcentration & \textbf{0.024} & 0.066 & 0.059 & 0.057 \\
-    TwoPatterns & 0.391 & \textbf{0.206} & 0.219 & 0.261 \\
-    ECG5000 & 0.087 & 0.062 & \textbf{0.061} & 0.085 \\
-    ElectricDevices & 0.071 & 0.066 & \textbf{0.060} & 0.072 \\
-    UWaveGestureLibraryAll & 0.418 & 0.245 & \textbf{0.203} & 0.213 \\
-    ShapesAll & 0.110 & 0.052 & \textbf{0.040} & 0.072 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Top $\mathcal{L}_\text{val-recon}$ ordered by class count. The best results are highlighted in bold.}
-    \label{tab:recon_loss}
-\end{table}
-
-\section{Classification}
-
-
-\begin{table}
-    \centering
-    \begin{tabular}{l c c c c}
-    \toprule
-    Dataset Name & VQVAE & BT-VQVAE & BT-VQVAE & BT-VQVAE \\
-    & & $\gamma = 0.5$ & $\gamma = 1.0$ & $\gamma = 2.0$ \\
-    \midrule
-    Wafer & 98.82 & 98.88 & 98.98 & \textbf{99.09} \\
-    FordA & 76.21 & 73.71 & 73.94 & \textbf{77.95} \\
-    FordB & 64.07 & 63.46 & \textbf{66.67} & \textbf{66.67} \\
-    StarLightCurves & 93.36 & 93.32 & \textbf{93.38} & 91.45 \\
-    ChlorineConcentration & 48.75 & \textbf{55.39} & 48.93 & 55.21 \\
-    TwoPatterns & 73.02 & 74.85 & \textbf{75.58} & 75.18 \\
-    ECG5000 & 84.4 & 90.87 & 92.31 & \textbf{92.38} \\
-    ElectricDevices & \textbf{57.52} & 49.98 & 51.24 & 48.79 \\
-    UWaveGestureLibraryAll & 94.08 & 93.16 & 93.83 & \textbf{94.84} \\
-    ShapesAll & 76.5 & 76.17 & \textbf{77.33} & 76.83 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Linear kernel SVM accuracy \%. The best results are highlighted in bold.}
-    \label{tab:svm_acc}
-\end{table}
+\subsection{Reconstruction}
 
 
 
-\begin{table}
-    \centering
-    \begin{tabular}{l c c c c}
-    \toprule
-    Dataset Name & VQVAE & BT-VQVAE & BT-VQVAE & BT-VQVAE \\
-    & & $\gamma = 0.5$ & $\gamma = 1.0$ & $\gamma = 2.0$ \\
-    \midrule
-    Wafer & 98.82 & 98.88 & 98.98 & \textbf{99.56} \\
-    FordA & \textbf{76.21} & 73.71 & 73.94 & 71.36 \\
-    FordB & 64.07 & 63.46 & \textbf{66.67} & 62.72 \\
-    StarLightCurves & 93.36 & 93.32 & \textbf{93.38} & 85.09 \\
-    ChlorineConcentration & 48.75 & 55.39 & 48.93 & \textbf{59.4} \\
-    TwoPatterns & 73.02 & 74.85 & 75.58 & \textbf{83.15} \\
-    ECG5000 & 84.4 & 90.87 & 92.31 & \textbf{92.76} \\
-    ElectricDevices & \textbf{57.52} & 49.98 & 51.24 & 56.7 \\
-    UWaveGestureLibraryAll & 94.08 & 93.16 & 93.83 & \textbf{95.25} \\
-    ShapesAll & 76.5 & 76.17 & \textbf{77.33} & 77.0 \\
-    \bottomrule
-    \end{tabular}
-    \caption{KNN accuracy \% for K=1. The best results are highlighted in bold.}
-    \label{tab:knn1_acc}
-\end{table}
+\subsection{Classification}
+\section{Stage 2}
+
+\TODO{Thought: }
+Better inception score and CAS of our models indicate that the class separability learned in latent space makes the conditional distributions more distinct easier to classify. The FID is variable, but in many cases better, which indicated that the generative distributions are closer to the ground truth.
 
 
-\begin{table}
-    \centering
-    \begin{tabular}{l c c c c}
-    \toprule
-    Dataset Name & VQVAE & BT-VQVAE & BT-VQVAE & BT-VQVAE \\
-    & & $\gamma = 0.5$ & $\gamma = 1.0$ & $\gamma = 2.0$ \\
-    \midrule
-    Wafer & 98.82 & 98.88 & 98.98 & \textbf{99.17} \\
-    FordA & \textbf{76.21} & 73.71 & 73.94 & 75.91 \\
-    FordB & 64.07 & 63.46 & \textbf{66.67} & \textbf{66.67} \\
-    StarLightCurves & 93.36 & 93.32 & \textbf{93.38} & 85.34 \\
-    ChlorineConcentration & 48.75 & \textbf{55.39} & 48.93 & 55.23 \\
-    TwoPatterns & 73.02 & 74.85 & 75.58 & \textbf{80.15} \\
-    ECG5000 & 84.4 & 90.87 & 92.31 & \textbf{94.13} \\
-    ElectricDevices & 57.52 & 49.98 & 51.24 & \textbf{59.42} \\
-    UWaveGestureLibraryAll & 94.08 & 93.16 & 93.83 & \textbf{94.44} \\
-    ShapesAll & 76.5 & 76.17 & \textbf{77.33} & 64.5 \\
-    \bottomrule
-    \end{tabular}
-    \caption{KNN accuracy \% for K=5. The best results are highlighted in bold.}
-    \label{tab:knn5_acc}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{tabular}{l c c c c}
-    \toprule
-    Dataset Name & VQVAE & BT-VQVAE & BT-VQVAE & BT-VQVAE \\
-    & & $\gamma = 0.5$ & $\gamma = 1.0$ & $\gamma = 2.0$ \\
-    \midrule
-    Wafer & 98.77 & \textbf{98.95} & 98.85 & 98.88 \\
-    FordA & 70.23 & 74.39 & 75.61 & \textbf{76.52} \\
-    FordB & 66.79 & \textbf{67.65} & 64.94 & 67.04 \\
-    StarLightCurves & 82.86 & \textbf{84.35} & 81.01 & 83.91 \\
-    ChlorineConcentration & 50.13 & 55.21 & \textbf{55.78} & 54.24 \\
-    TwoPatterns & 71.95 & 80.82 & \textbf{81.6} & 78.45 \\
-    ECG5000 & 93.8 & \textbf{94.16} & 94.11 & 93.93 \\
-    ElectricDevices & 52.17 & 60.01 & \textbf{62.6} & 59.56 \\
-    UWaveGestureLibraryAll & 93.38 & 92.71 & \textbf{93.77} & 93.58 \\
-    ShapesAll & 58.67 & 58.67 & 59.5 & \textbf{59.33} \\
-    \bottomrule
-    \end{tabular}
-    \caption{KNN accuracy \% for K=10. The best results are highlighted in bold.}
-    \label{tab:knn10_acc}
-\end{table}
 
 \end{document}
