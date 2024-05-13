@@ -80,12 +80,39 @@ The architecture of neural networks, and most specializations thereof, is sequen
 
 \subsection{Training Neural Networks}
 
-The training of a neural network is the process of finding values for the weight and bias parameters. The general idea governing neural network training is to optimize the parameters based on some distance metric between the predicted values and the target values. This distance metric is referred to as the \textit{loss function}, and common examples of loss functions include mean squared error (MSE) and mean absolute error (MAE). Gradient based methods, such as backpropagation, are usually used to estimate the parameters based on the loss.\newline
+The training of a neural network is the process of finding values for the weight and bias parameters. The general idea governing neural network training is to optimize the parameters based on some distance metric between the predicted values and the target values. This distance metric is referred to as the \textit{loss function}, and a common choice of loss function is the mean squared error (MSE).\newline
 
-The backpropagation algorithm is an efficient application of the Leibniz chain rule for differentiation.\newline
+For a multi-variable function $F$ which is differentiable around a point $a$, the direction which it decreases fastest when starting in the point $a$ is given by the negative gradient at $a$, $-\nabla F(a)$. The gradient descent algorithm utilizes this property to find local minima of $F$ by initilizing the function with a value $x_0$ and iteratively update 
+\[
+    x_{n+1} = x_{n} -\gamma \nabla F(x_{n}).
+\] 
+If the \textit{learning rate} $\gamma$ is small enough we are guaranteed that $F(x_{n+1})\geq F(x_{n})$, and the sequence $x_0,x_1,\dots$ converge to a local minima of $F$.\newline
 
-\TODO{Stochastic gradient decent}
+A neural network $f_\theta(x)$ is itself a multi-variable function, and as long as the loss and activation function are differentiable, the network is as well, both in terms of it argument and parameters. If one differentiates the network with respect to its parameters across its domain, the negative gradient indicates the fastest direction in which to update the parameters to minimize the loss. The optimization problem at hand, for a dataset $X = \{x_i\}_{i=1}^N$, is
+\[
+   \widehat{\theta} = \min_{\theta} \frac{1}{N}\sum_{i=1}^N f_\theta(x_i),
+\]
+and one would iteratively update the parameters by gradient descent 
+\[
+    \theta_{n+1} = \theta_{n} - \frac{\gamma}{N}\sum_{i=1}^N\nabla_\theta f_\theta(x_i).
+\]
 
+If the dataset $X$ is large, the gradient calculations are expensive. In these cases, which in modern machine learning is the standard scenario, an effect estimator for the true gradient is used instead. Stochastic gradient descent (SDG) is a very popular approach. Instead of computing the gradient at each datapoint every iteration, SDG updates the parameters by iterating through the dataset and using the gradient at each single datapoint. The dataset is then permuted and iterated through again until an approximate minimum is reached. In pseudocode 
+
+\begin{algorithm}
+\caption{Stochastic Gradient Descent (SDG)}
+\begin{algorithmic}
+    \State Initialize parameters $\theta$ and learning rate $\gamma$
+    \While{Not converged} 
+        \State Permute training set $X$
+    \For{$i$ in $1,\dots,N$}
+        \State $\theta \gets \theta - \gamma\nabla_\theta f_\theta(x_i)$
+    \EndFor
+    \EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+For the actual gradient computations, the backpropagation algorithm os used. It provides an efficient way of computing  based on gradient descent for neural networks where it leverages the compositional structure. In essence backpropagation is an efficient application of the Leibniz chain rule for differentiation.\newline
 
 For a through introduction to the subject of neural networks and the training thereof we refer to chapter 6 and 8 of \cite{deeplearningbook}.
 
@@ -286,18 +313,22 @@ It is with mentioning that in cases where the sole goal is to create the best pe
 
 \section{Transformers}
 
-When was it introduced, and by whom?
-What lead up to its creation?
-Why and where is it now widely used? 
+Since their introduction in the seminal paper titled "Attention is all you need"\cite{vaswani2023attention} transformers have taken the field of machine learning and artificial intelligence by storm. It is the enabling architecture behind large language models (LLMs) such as Googles BERT, Metas Llama and OpenAIs ChatGPT. Drawing inspiration from the initial success in natural language processing vision transformers \cite{dosovitskiy2021image} were developed for computer vision applications, and similar trends are shown for other modalities such as audio \cite{latif2023transformers} and time series \cite{wen2023transformers}. \newline
+
+Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the architecture is not relying on recurrence(what do i mean by this), and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are in computational aspects inherently sequential, and there are major challenges when training when one tries to capture longer dependencies with such models.
 
 
-Wiki: A deep learning architecture based on the multi-headed attention mechanism proposed in the 2017 paper "Attention is all you need".
+context windows, and sequence lengths become longer. 
 
-One of the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are, in computational aspects, inherently sequential, there are major challenges when training as context windows, and sequence lengths become longer. 
+
+
+
+
 
 
 
 \subsection{The attention mechanism}
+"Attention can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values and outputs are all vectors". 
 
 \TODO{Wait for 3b1b video for context}
 
@@ -366,24 +397,51 @@ Discriminative: Contrastive/non-contrastive
 Autoassociative: Autoencoder type - Essentially try to make composition the identity despite a compression. Usually not considered SSL, but it technically is. 
 \TODO{What are some of the issues?}
 
-\subsubsection{Contrastive}
-Contrastive SSL includes both positive and negative samples. The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
-\subsubsection{Non contrastive}
+\subsubsection{Siamese Architecture-based SSL }
+\cite{lee2024computer}
+A siamese network architecture \cite{siamese} consists of two networks, called branches, with a shared encoder on each branch. Such networks are trained to produce similar representations for different views of the same data. \newline
+
+In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.\newline
 
 Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \newline
+
+
+In the computer vision domain several representation learning algorithms utilizing a siamese architecture have been proposed. They mainly fall under two categories: \textit{contrasitive} and \textit{non-contrasitive} methods.\newline
+
+In contrastive SSL, uses positive and negative samples and learns representations by pulling positive pairs closer together and negative pairs further apart. Examples include MoCo \cite{he2020momentum} and SimCLR \cite{chen2020simple}. SimCLR constructs two correlated samples by applying augmentations to an input sample, and considers these as positive pairs. Requires large batch sizes in order to work well.
+
+Need large number of nagative pairs compared to positive in order to learn representaitons effectively \cite{lee2024computer}.
+
+The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
+
 
 Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
 
 
-\subsubsection{Joint embedding architecture}
 
-Joint embedding architecture: An architecture where two networks are trained to produce similar embeddings for different views of the same data. A popular joint embedding architecture is the siamese network architecture \cite{siamese}, in which the two networks share the same weights. In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.
 
-\subsubsection{The role of projectors}
+% \subsubsection{Contrastive}
+
+% Contrastive SSL uses positive and negative samples and learns representations by pulling positive pairs closer together and negaive pairs further apart.
+
+% Examples such as MoCo and SimCLR. 
+
+% Need large number of nagative pairs compared to positive in order to learn representaitons effectively \cite{lee2024computer}.
+
+% The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
+% \subsubsection{Non contrastive}
+% Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \newline
+
+% Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
+
+
+
+% \subsubsection{The role of projectors}
 
 \subsection{Masked modelling}
-Masked modelling is a conceptually simple self-supervised learning technique for generative models. The idea is to mask or cover a portion of the input data and predict the masked portions. By comparing the prediction against unmasked data the model can learn useful representations without supervision. Since the introduction of masked modelling in natural language processing by \cite{devlin2019bert} it has been the de-facto standard for self-supervised pretraining of language models. BERT introduced masked modeling for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
+Masked modelling is a conceptually simple self-supervised learning technique for generative models. The idea is to mask or cover a portion of the data and predict the masked portions. By comparing the prediction against unmasked data the model can learn useful representations without supervision. Since the introduction of masked modelling in natural language processing by \cite{devlin2019bert} it has been the de-facto standard for self-supervised pretraining of language models. BERT introduced masked modeling for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
 \TODO{When did GPT \cite{Radford2018ImprovingLU} use Masked modelling?}
+
 
 Masked image modelling \cite{he2021masked}: Mask image patched directly \newline
 When vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers.\newline
@@ -405,12 +463,18 @@ Our model is based on the Vector Quantized Variantional Autoencoder (VQVAE) intr
 \subsection{Autoencoder (AE)}
 
 Consists of two neural networks, an encoder $E$ and decoder $D$. They can be seen as maps between spaces $X$ and $Z$, where we refer to $X$ as the data space and $Z$ as the latent space. 
-\TODO{Architecture figure}
 \begin{equation}
     X \xrightarrow{E} Z \xrightarrow{D} X 
 \end{equation}
 
-The autoencoder is trained in such a way that the composition of encoder and decoder is approximate to the identity. Typically, if the model is to learn interesting, the dimension of the latent space is lower that that of the data space. Encoder and decoder then compresses and decompresses the data and learns efficient \textit{latent representations}. 
+\begin{figure}[h]
+    \includegraphics[scale = 0.3]{Autoencoder.png}
+    \centering
+    \caption{Schematics of the autoencoder architecture.}
+    \label{fig:autoencoder}
+\end{figure}
+
+The autoencoder is trained in such a way that the composition of encoder and decoder is approximate to the identity. Typically the dimension of the latent space is much lower that that of the data space. Encoder and decoder then compresses and decompresses the data and learns efficient \textit{latent representations}. 
 \TODO{Information bottleneck}
 \TODO{Issues with latent representations and the need for regularization}
 
@@ -439,9 +503,13 @@ The most common situation is to assume
 
 In a VAE the encoder maps datapoints to parameters of the variational distribution, i.e the approximate posterior $q$. $x \mapsto E(x) = (\mu_x, \Sigma_x)$. A latent representation $z$ is then sampled from $q$, which constitutes the random part of the algorithm. The decoder maps $z$ to the expected value of the likelihood $p(x|z)$. $z_i \mapsto D(z_i)$. \newline
 
-There are several reasons for choosing this family, one being that the Gaussian distribution a scale-location family. This enables us to circumvent the problematic random component in the VAE when using gradient based learning. As described above we sample $z\sim N(\mu_x,\Sigma_x)$ where $E(x) = (\mu_x,\Sigma_x)$. We can equivalently sample from $N(\mu_x,\Sigma_x)$ by reparameterization using the location-scale property. This means to introduce an auxillary variable $\epsilon \sim N(0,I)$ and rewriting $z = \mu_x + L_x\epsilon $, where $L_x$ is the Cholesky decomposition of $\Sigma_x$. This factors the random part out of path of gradient flow.\newline
-\TODO{Illustration of computational flow/gradient flow.}
-
+There are several reasons for choosing this family, one being that the Gaussian distribution a scale-location family. This enables us to circumvent the problematic random component in the VAE when using gradient based learning. As described above we sample $z\sim N(\mu_x,\Sigma_x)$ where $E(x) = (\mu_x,\Sigma_x)$. We can equivalently sample from $N(\mu_x,\Sigma_x)$ by reparameterization using the location-scale property. This means to introduce an auxillary variable $\epsilon \sim N(0,I)$ and rewriting $z = \mu_x + L_x\epsilon $, where $L_x$ is the Cholesky decomposition of $\Sigma_x$. This factors the random part out of path of gradient flow.
+\begin{figure}[h]
+    \includegraphics[scale = 0.2]{VAE_Normal.png}
+    \centering
+    \caption{Schematics of the VAE architecture with Gaussian reparameterization.}
+    \label{fig:VAE_Normal}
+\end{figure}
 
 
 \subsubsection{Training objective}
@@ -505,6 +573,15 @@ The overall architecture of VQVAE consists of an encoder and decoder as before, 
 \begin{equation}
     z_q = \argmin_{z_k\in\mathcal{Z}} ||E(x)-z_k||.
 \end{equation}
+
+\begin{figure}[h]
+    \includegraphics[scale = 0.2]{VQVAE.png}
+    \centering
+    \caption{Schematics of the VQVAE architecture.}
+    \label{fig:VQVAE}
+\end{figure}
+From \ref{fig:VQVAE} we can see that the VQVAE can be seen as an autoencoder with a nonlinearity introduced by the vector quantization. \newline
+
 In the original article \cite{VQVAE} they propose to separately learn the prior distribution, after the encoder, decoder and codebook is learned. During the initial training the prior is assumed to be uniform, which poses no constraint on the posterior learning. \newline
 
 In contrast to VAEs the posterior is assumed to be categorical, as opposed to normal and the probabilities are defined as
@@ -529,15 +606,15 @@ VQVAE can be viewed as a VAE, hence we can bound the marginal likelihood with th
 \end{equation}
 is constant. Consequently the ELBO reduces to the reconstruction term only. \newline
 
-\TODO{What do we gain by having a flexible posterior and a non-informative prior during training? The advantages for generative modelling to have a learnable prior? VAEs are traditionally quite bad when it comes to generative quality (sharpness). The flexibility of VQVAE seems to set the stage for better sample generation.}
+% \TODO{What do we gain by having a flexible posterior and a non-informative prior during training? The advantages for generative modelling to have a learnable prior? VAEs are traditionally quite bad when it comes to generative quality (sharpness). The flexibility of VQVAE seems to set the stage for better sample generation.}
 
 \TODO{Can think of the codes as the modes of a mixture of Gaussians, and instead of sampling from the mixtrure you just choose the closest mode.}
 
 \subsubsection{Prior Learning}
-During the initial training the prior is as mentioned constant and uniform. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling, i.e sample $z \sim p(z)$ and decode $D(z) = x$. The choice of prior model depends on the particular application and in VQVAE PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
+During the initial training the prior is as mentioned constant and uniform such that the posterior has more flexibility. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling. The prior is learned with a generative objective, which increases the quality of generated samples. The choice of prior model depends on the particular application and in VQVAE PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
 
 \subsubsection{Loss funciton}
-As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}.\newline
+As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different distcrete latent codes.\newline
 
 The loss function consists of three parts, the reconstruction loss, VQ loss and commitment loss. We already mentioned that the ELBO objective reduced to the reconstruction term only. In order to learn the codebook one uses the VQ loss, which is the euclidean distance between the encoder output and the quantized output. The final part of the loss is the commitment loss, which is introduced to keep the distance between embedding vectors (or codes) from growing arbitrarily large. To summarize the total loss is given by
 
@@ -551,7 +628,7 @@ The loss function consists of three parts, the reconstruction loss, VQ loss and 
 
 where $\beta$ is a tuning parameter typically set to be $0.25$ and $sg()$ is the stopgradient operation, defined to be the identity with zero partial derivatives. \newline
 
-To illustrate the need for commitment loss and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the VQ loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the VQ loss diverge. \newline 
+To illustrate the need for commitment loss and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the VQ loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the VQ loss diverge. This behavior is observed experimentaly. \newline 
 
 \begin{figure}[h]
     \includegraphics[scale=0.5]{quantization}
