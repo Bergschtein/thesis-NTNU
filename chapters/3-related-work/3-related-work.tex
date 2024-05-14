@@ -72,13 +72,30 @@ A bidirectional transformer is used to predict the probabilities $p(y_i|Y_\text{
 
 \subsection{Iterative decoding (Image generation)}
 
-The bi-directional transformer could in principle predict all [MASK] tokens and generate a sample in a single pass by simply sampling from the logits obtained from a forward pass of an all masked sequence. However, there are challenges with this approach. In their original article \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to sythesize samples in a constant number of steps.\newline
+The bi-directional transformer could in principle predict all $\M$ tokens and generate a sample in a single pass by simply sampling from the predicted probabilites $p(y_i|Y_\text{Mask})$ from a forward pass of an all masked sequence. However, there are challenges with this approach. In their original article \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to sythesize samples in a constant number of steps.\newline
 
-The decoding process goes from $t = 0$ to $T$. To genereate a sample at inference time one starts out with a all masked sequence which we denote by $s_M^{(0)}$. At iteration $t$ the model predicts the probabilities for all the [MASK] tokens, $p(\hat{s}_{ij}^{(t)}|s_M^{(t)})$, in parallell. Then at each masked entry $ij$ we sample a token index based on its predicted distribution.  
+The decoding process goes from $t = 0$ to $T$. To generate a sample at inference time one starts out with a all masked sequence which we denote by $Y_\text{Mask}^{(0)}$. At iteration $t$ the model predicts the probabilities for all the mask tokens, $p(y_i|Y_\text{Mask}^{(t)})$, in parallel. At each masked index $i$ a token $y_i^{(t)}$ is sampled according to the predicted distribution, and the corresponding probability $c_i^{(t)}$ is used as a measure of the confidence in the sample. For the unmasked tokens a confidence of $1$ is assigned to the true position. The number of $y_i^{(0)}$ with highest confidence kept for the next iteration is determined by the mask scheduling function. We mask $n = \lceil \gamma(t/T)\cdot N \rceil$ of the lower confidence tokens by calculating $M^{(t+1)}$ by 
+
+\begin{equation}
+    m_i^{(t+1)} = 
+    \begin{cases}
+        1, \text{ if } c_i < \text{Sort}([c_1^{(t)},\dots,c_N^{(t)}])[n]\\
+        0, \text{ otherwise} 
+    \end{cases}
+\end{equation}
+\begin{figure}[h]
+    \includegraphics[scale=0.35 ]{IterativeDecoding.png}
+    \centering 
+    \label{fig:IterativeDecoding}
+    \caption{Illustration of first pass of the iterative decoding algorithm.}
+\end{figure}
+
+The algorithm synthesizes a full image in $T$ steps.  
+
 
 \subsection{Masking design}
 
-For image generation, cosine schedulig function proved best across all experiments in the original paper. Start out by selecing just a few 
+For image generation, cosine scheduling function proved best across all experiments in the original paper. Start out by selecting just a few 
 
 
 
