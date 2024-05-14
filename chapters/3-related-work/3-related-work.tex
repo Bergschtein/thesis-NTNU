@@ -12,27 +12,67 @@
 
 \section{TimeVQVAE}
 
-Our work in this thesis can be seen as a tangent of the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. The TimeVQVAE model based on \cite{VQVAE} and is a two staged process. The TimeVQVAE model adressed some shortcomings of the VQVAE model when applied to time series data, most notably its inability/difficulty to generate/reconstruct high frequency components. In particular they train the quantizer on the time-frequency representation of the time series using the short time fourier transform and handle the high and low frequency components separately. \newline
-For prior learning TimeVQVAE uses a bi-directional transformer akin to \cite{chang2022maskgit}, but modified to handle the two modalities HF and LF.  \newline
+TimeVQVAE is a time series generation model based on VQVAE and MaskGIT. It is the first to our and the authors knowledge that utilizes vector quantization (VQ) to address the TSG problem. It leverages a two stage approach similar to VQVAE and uses a bidirectional transformer akin to MaskGIT for prior learning. Additionally, they propose VQ modeling in time-frequency domain, separating data into high and low frequency components to better retain temporal consistencies and generate higher quality samples.\newline
 
+TimeVQVAE provides class-guided conditional sampling.
 
+Our work in this thesis can be seen as a tangent of the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. We simplify the architecture by omitting the HF/LF split. This reduces prior learning to resemble MaskGIT to a larger degree. 
 
-\section{MaskGIT}
+% The TimeVQVAE model based on \cite{VQVAE} and is a two staged process. The TimeVQVAE model adressed some shortcomings of the VQVAE model when applied to time series data, most notably its inability/difficulty to generate/reconstruct high frequency components. In particular they train the quantizer on the time-frequency representation of the time series using the short time fourier transform and handle the high and low frequency components separately. \newline
+% For prior learning TimeVQVAE uses a bi-directional transformer akin to \cite{chang2022maskgit}, but modified to handle the two modalities HF and LF.  \newline
 
-The Masked Generative Image Transformer is a generative transformer model for image synthesis developed by Google Research. The novelty of the model lies in the token generation. Unlike popular autoregressive generative transformers, who treat images as a sequence of tokens, MaskGIT introduces an image synthesis paradigm using a bi-directional transformer decoder. This means that during training MaskGIT learns to predict tokens in all directions, an intuitively more natural way to consider images. At inference time MaskGIT starts out with a blank canvas and predicts the entire image, and iteratively keeps and conditions on the most confident pixels.\newline
-
-\TODO{Intuitive introduction of masked modelling. Figures and such.}
-
-The model assumes a tokenization procedure for stage 1, and in the original paper they used VQGAN \cite{VQGAN}. As MaskGIT only focuses on improving stage 2, present only that part. 
+\subsection{Tokenization}
 
 \subsection{Prior learning}
 
-Start out with a sequence $s$ (b,n) of codebook indices corresponding to a discrete latent representation $z_q$. Determine the proportion of tokens to mask according to the mask scheduling function $\gamma(t)\in (0,1]$. 
-Sample a random subset of $s$ and replace values by [MASK] token in order to create the masked sequence $s_M$ (b,n). By a forward pass of the bi-directional transformer with $s_M$ as input obtain unnormalized logits (b,n,K), defining a distribution over the codebook indices at each element. Calculate the loss as the binary cross-entropy of the logits and $s$. 
+\section{MaskGIT}
 
-\subsection{Iterative decoding}
+The Masked Generative Image Transformer (MaskGIT) is a generative transformer model for image synthesis developed by Google Research. The novelty of the model lies in the token generation. Unlike popular autoregressive generative transformers, who treat images as a sequence of tokens, MaskGIT introduces an image synthesis paradigm using a bi-directional transformer decoder. This means that during training MaskGIT learns to predict tokens in all directions, an intuitively more natural way to consider images. At inference time MaskGIT starts out with a blank canvas and predicts the entire image, and iteratively keeps and conditions on the most confident pixels.\newline
 
-The bi-directional transformer could in principle predict all [MASK] tokens and generate a sample in a single pass by simply sampling from the logits obtained from a forward pass of an all masked sequence. However, there are challenges with this approach. In their original article \todo{spør om siteringsstil, og fiks denne setningen} \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to sythesize samples in a constant number of steps.\\\\
+The model assumes a tokenization procedure for stage 1, and in the original paper they used VQGAN \cite{VQGAN}. As MaskGIT only focuses on improving stage 2, present only that part. 
+
+\subsection{Masked Visual Token Modeling (Prior learning)}
+
+For some image $X$ in the dataset $\mathcal{D}$, let $Y = \{y_i\}_{i=1}^N$ denote the latent tokens obtained by passing $X$ through the VQ-Encoder and denote the corresponding binary mask by $M = \{m_i\}_{i=1}^N$. During training a subset of $Y$ is replaced by a special masking token we denote by $\M$ according to the binary mask $M$. This is done by 
+
+\begin{equation}
+    Y_\text{Mask} = Y\odot (1_N-M) +  M\cdot\M,
+\end{equation}
+
+where $\odot$ is the Hadamard product, i.e point wise multiplication, and $1_N$ is a vector with the same shape as $M$ and $Y$.\newline
+
+The sampling procedure, or choice number of tokens to mask, is parameterized by a mask scheduling function $\gamma$. The sampling can be summarized as follows
+
+\begin{itemize}
+    \item Sample $r \sim U(0,1]$.
+    \item Sample $\lceil \gamma(r)\cdot N \rceil$ indices $I$ uniformly from $\{0,\dots,N-1\}$ without replacement. 
+    \item Create $M$ by setting $m_i = 1$ if $i\in I$, and $m_i = 0$ otherwise.
+\end{itemize}
+
+The training objective is to minimize the negative log likelihood of the masked tokes, conditional on the unmasked
+
+\begin{equation}
+    \loss_\text{Mask} = -\E_{Y\in \mathcal{D}}\left[\sum_{i \in I} p(y_i|Y_\text{Mask} ) \right]
+\end{equation}
+
+\begin{figure}[h]
+    \includegraphics[scale=0.23]{MaskGIT.png}
+    \centering 
+    \label{fig:MaskGIT}
+    \caption{MaskGIT forward computation.}
+\end{figure}
+
+A bidirectional transformer is used to predict the probabilities $p(y_i|Y_\text{Mask})$ of each masked token, and $\loss_\text{Mask}$ is computed as the cross entropy between the ground truth one-hot token and the predicted token.
+
+
+
+
+% Start out with a sequence $s$ (b,n) of codebook indices corresponding to a discrete latent representation $z_q$. Determine the proportion of tokens to mask according to the mask scheduling function $\gamma(t)\in (0,1]$. 
+% Sample a random subset of $s$ and replace values by [MASK] token in order to create the masked sequence $s_M$ (b,n). By a forward pass of the bi-directional transformer with $s_M$ as input obtain unnormalized logits (b,n,K), defining a distribution over the codebook indices at each element. Calculate the loss as the binary cross-entropy of the logits and $s$. 
+
+\subsection{Iterative decoding (Image generation)}
+
+The bi-directional transformer could in principle predict all [MASK] tokens and generate a sample in a single pass by simply sampling from the logits obtained from a forward pass of an all masked sequence. However, there are challenges with this approach. In their original article \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to sythesize samples in a constant number of steps.\newline
 
 The decoding process goes from $t = 0$ to $T$. To genereate a sample at inference time one starts out with a all masked sequence which we denote by $s_M^{(0)}$. At iteration $t$ the model predicts the probabilities for all the [MASK] tokens, $p(\hat{s}_{ij}^{(t)}|s_M^{(t)})$, in parallell. Then at each masked entry $ij$ we sample a token index based on its predicted distribution.  
 

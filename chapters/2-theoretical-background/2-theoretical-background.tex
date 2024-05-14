@@ -88,13 +88,13 @@ For a multi-variable function $F$ which is differentiable around a point $a$, th
 \] 
 If the \textit{learning rate} $\gamma$ is small enough we are guaranteed that $F(x_{n+1})\geq F(x_{n})$, and the sequence $x_0,x_1,\dots$ converge to a local minima of $F$.\newline
 
-A neural network $f_\theta(x)$ is itself a multi-variable function, and as long as the loss and activation function are differentiable, the network is as well, both in terms of it argument and parameters. If one differentiates the network with respect to its parameters across its domain, the negative gradient indicates the fastest direction in which to update the parameters to minimize the loss. The optimization problem at hand, for a dataset $X = \{x_i\}_{i=1}^N$, is
+A neural network $f_\theta(x)$ is itself a multi-variable function, and as long as the loss and activation function are differentiable, the network is as well, both in terms of it argument and parameters. If one differentiates the network with respect to its parameters across its domain, the negative gradient indicates the fastest direction in which to update the parameters to minimize the loss. The optimization problem at hand, for a dataset $X = \{x_i\}_{i=1}^N$ with corresponding labels $Y = \{y_i\}_{i=1}^N$, is
 \[
-   \widehat{\theta} = \min_{\theta} \frac{1}{N}\sum_{i=1}^N f_\theta(x_i),
+   \widehat{\theta} = \min_{\theta} \frac{1}{N}\sum_{i=1}^N \mathcal{L}(f_\theta(x_i),y_i),
 \]
 and one would iteratively update the parameters by gradient descent 
 \[
-    \theta_{n+1} = \theta_{n} - \frac{\gamma}{N}\sum_{i=1}^N\nabla_\theta f_\theta(x_i).
+    \theta_{n+1} = \theta_{n} - \frac{\gamma}{N}\sum_{i=1}^N\nabla_\theta \mathcal{L}(f_\theta(x_i),y_i).
 \]
 
 If the dataset $X$ is large, the gradient calculations are expensive. In these cases, which in modern machine learning is the standard scenario, an effect estimator for the true gradient is used instead. Stochastic gradient descent (SDG) is a very popular approach. Instead of computing the gradient at each datapoint every iteration, SDG updates the parameters by iterating through the dataset and using the gradient at each single datapoint. The dataset is then permuted and iterated through again until an approximate minimum is reached. In pseudocode 
@@ -104,15 +104,15 @@ If the dataset $X$ is large, the gradient calculations are expensive. In these c
 \begin{algorithmic}
     \State Initialize parameters $\theta$ and learning rate $\gamma$
     \While{Not converged} 
-        \State Permute training set $X$
+        \State Permute training set $(X,Y)$
     \For{$i$ in $1,\dots,N$}
-        \State $\theta \gets \theta - \gamma\nabla_\theta f_\theta(x_i)$
+        \State $\theta \gets \theta - \gamma\nabla_\theta \mathcal{L}(f_\theta(x_i),y_i)$
     \EndFor
     \EndWhile
 \end{algorithmic}
 \end{algorithm}
 
-For the actual gradient computations, the backpropagation algorithm os used. It provides an efficient way of computing  based on gradient descent for neural networks where it leverages the compositional structure. In essence backpropagation is an efficient application of the Leibniz chain rule for differentiation.\newline
+For the actual gradient computations, the backpropagation algorithm is used. It provides an efficient way of computing gradients in neural networks by leveraging the compositional structure. In essence backpropagation is an efficient application of the Leibniz chain rule for differentiation.\newline
 
 For a through introduction to the subject of neural networks and the training thereof we refer to chapter 6 and 8 of \cite{deeplearningbook}.
 
@@ -315,14 +315,15 @@ It is with mentioning that in cases where the sole goal is to create the best pe
 
 Since their introduction in the seminal paper titled "Attention is all you need"\cite{vaswani2023attention} transformers have taken the field of machine learning and artificial intelligence by storm. It is the enabling architecture behind large language models (LLMs) such as Googles BERT, Metas Llama and OpenAIs ChatGPT. Drawing inspiration from the initial success in natural language processing vision transformers \cite{dosovitskiy2021image} were developed for computer vision applications, and similar trends are shown for other modalities such as audio \cite{latif2023transformers} and time series \cite{wen2023transformers}. \newline
 
-Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the architecture is not relying on recurrence(what do i mean by this), and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are in computational aspects inherently sequential, and there are major challenges when training when one tries to capture longer dependencies with such models.
+Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are in computational aspects inherently sequential, and there are major challenges when training when one tries to capture longer dependencies.\newline
 
 
-context windows, and sequence lengths become longer. 
+The transformer takes as input a sequence of symbols , referred to as the \textit{input embedding} in \ref{fig:transformer}. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of vectors. In NLP this is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization which creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. \newline
 
 
+Transformers can be adopted for generative tasks, and has done so with great success. Autoregressive transformers such as the GPT series are trained to predict the next token in a sequence given the preceding tokens. By treating images as sequences of patches vision transformers can generate new images or inpaint missing patches conditional on the input.\newline
 
-
+With the introduction if vision transformers \cite{dosovitskiy2021image}, input images were split into patches and linearly projected before being processed by the transformer. Since then \textit{Vector-Quantized}-based tokenization introduced by \cite{VQVAE} has emerged as a popular approach.
 
 
 
@@ -332,12 +333,43 @@ context windows, and sequence lengths become longer.
 
 \TODO{Wait for 3b1b video for context}
 
+Scaled dot-product attention, 
+
 \begin{figure}[h]
-    \includegraphics[scale=0.1]{Transformer_architecture}
-    \centering    
+    \includegraphics[scale=0.25]{Attention.png}
+    \centering 
+    \label{fig:attention}
+    \caption{(left) Scaled dot-product attention. (right) Multi-headed attention. Taken with permission from \cite{vaswani2023attention}}
 \end{figure}
 
+
+\begin{equation}
+    \text{Attention}(Q,K,V) = \softmax \left(\frac{QK^T}{\sqrt{d_k}}\right)V
+\end{equation}
+
+Multi-headed attention
+
+\begin{equation}
+    \text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1,\dots, \text{head}_h)W^O
+\end{equation}
+where
+\begin{equation}
+    \text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,V_i^V)
+\end{equation}
 \subsection{Architecture}
+
+
+\begin{figure}[h]
+    \includegraphics[scale=0.1]{Transformer_architecture}
+    \centering 
+    \label{fig:transfomrer}
+    \caption{The Transformer - model architecture. Taken with permission from \cite{vaswani2023attention}}
+\end{figure}
+
+
+
+
+Encoder - decoder architecture. 
 
 Tokenizer
 
@@ -347,6 +379,10 @@ Positional encoding
 Transformer layer (encoder/decoder)
 
 \subsection{Bi-directional transformer (BERT)}
+
+Encoder only transformer
+
+
 
 Unidirectional / 
 
@@ -386,7 +422,7 @@ For a dataset $X = \{x_i\}_{i=1}^N$ with \textit{pseudo labels} $P = \{p_i\}_{i=
 
 A pseudo label is an automatically generated label from the data attributes in the pretext task. In joint embedding architectures the pseudo labels are typically some \textit{augmentation} of the original data.\newline
 
-SSL has in recent times (since 2018??) been a fruitful approach to unsupervised representation learning and has played an integral part in the boom of large language models together with the invention of the transfomer architecture. With models growing ever larger and more data hungry SSL is essential in pretraining. Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pretraining. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pretraining networks enables foundation models, which can be trained for many different tasks in a supervised fashion requiring a lot less resources.\newline
+SSL has in recent times (since 2018??) been a fruitful approach to unsupervised representation learning and has played an integral part in the boom of large language models together with the invention of the transformer architecture. With models growing ever larger and more data hungry SSL is essential in pretraining. Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pretraining. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pretraining networks enables foundation models, which can be trained for many different tasks in a supervised fashion requiring a lot less resources.\newline
 
 In recent years, especially in computer vision and natural language applications, SSL methods have shown incredible promise in representation learning. SSL methods have proven close to, and sometimes surpassing, supervised methods on downstream tasks. This has inspired researchers to apply SSL methods across other modalities. \TODO{Find sources backing this up.}
 

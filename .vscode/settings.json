@@ -3,6 +3,7 @@
         "autoencoders",
         "codebook",
         "datapoint",
-        "pretraining"
+        "pretraining",
+        "VQVAE"
     ]
 }
