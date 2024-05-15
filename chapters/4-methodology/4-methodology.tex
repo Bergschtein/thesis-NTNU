@@ -2,6 +2,8 @@
 
 \begin{document}
 
+Our work in this thesis can be seen as a tangent of the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. We simplify the architecture by omitting the HF/LF split. This reduces prior learning to resemble MaskGIT to a larger degree. \newline
+
 Our work, as well as out models can be divided into two stages. Firstly we investigate the effect of non-contrastive SSL on a proven tokenization model, VQVAE \cite{VQVAE}, with the goal of learning more expressive representations. The expressiveness is measured in terms of the models ability to reconstruct unseen data, as well at the performance of learned latent representations on a downstream classification task. The SSL models we consider are, as introduced in section 2 \todo{make hyperlink}, BarlowTwins and VIbCReg.\\\\
 
 Secondly we investigate the effects of SSL-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models.\\\\
@@ -26,7 +28,7 @@ The TimeVQVAE model is baseline for our experiments.\\
 An encoder, decoder, and codebook are to be optimized by compressing the input into discrete latent space, minimizing information loss by comparing input to the output, which ideally are equal. We follow \cite{TimeVQVAE} and augment time-series into time-frquency domain, but leave the high-low frequency split for future work.
 
 \subsubsection{Method}
-A schematic overview of the VQ-VAE model is presented in "Figure here"
+A schematic overview of the our VQ-VAE model is presented in "Figure here"\newline
 
 A time series is first augmented into time-frequency domain using the Short-time Fourier Transform (cite pytorch stft). Then it is encoded into the continuous latent space, and is discretized by the codebook via the argmin process. In the argmin process the continuous token is compared to every discrete token in the codebook, and replaced by the closes discrete token in terms of euclidean distance. Then, the decoder maps the discrete token back to time-frequency domain, before finally being mapped back to time domain using the ISTFT.
 
@@ -37,7 +39,7 @@ A time series is first augmented into time-frequency domain using the Short-time
 
 
 \subsection{Joint Embedding VQ-VAE}
-We have a common framework for the two SSL methods\\\\
+We have a common framework for the two SSL methods\newline
 We denote the latent variables by $z$ and quantized latent variables $z_q$. All augmented values are denoted by as asterix, i.e $z'$ is a latent variable in the augmented branch. \\\\
 
 

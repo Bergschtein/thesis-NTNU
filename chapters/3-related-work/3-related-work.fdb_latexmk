@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber chapters/3-related-work/3-related-work"] 0 "chapters/3-related-work/3-related-work.bcf" "chapters/3-related-work/3-related-work.bbl" "chapters/3-related-work/3-related-work" 1715712374
+["biber chapters/3-related-work/3-related-work"] 0 "chapters/3-related-work/3-related-work.bcf" "chapters/3-related-work/3-related-work.bbl" "chapters/3-related-work/3-related-work" 1715786234
   "chapters/3-related-work/3-related-work.bcf" 0 -1 0 "pdflatex"
   (generated)
-  "chapters/3-related-work/3-related-work.bbl"
   "chapters/3-related-work/3-related-work.blg"
-["pdflatex"] 1715712370 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.pdf" "3-related-work" 1715712374
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.aux" 1715712370 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.tex" 1715712370 12977 467b5e64eb36f662bf8f7b5f3be2e46f ""
+  "chapters/3-related-work/3-related-work.bbl"
+["pdflatex"] 1715786229 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.pdf" "3-related-work" 1715786234
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.aux" 1715786229 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.tex" 1715786229 14377 ec1401db1ec82d1f967d3115f98407ef ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/dejavu/dejavumono_t1-type1.enc" 1380151016 2620 1ef8c8026e6f0fc7a8bfd158c7dfbe38 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc" 1276641224 6938 5135be6a8802f13a7faf296d1959a1ab ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -300,19 +300,21 @@
   "chapters/3-related-work/3-related-work.aux" 0 -1 0 "pdflatex"
   "chapters/3-related-work/3-related-work.bbl" 1715245790 16008 c143b59db57adcdbe5963b912fcff242 "biber chapters/3-related-work/3-related-work"
   "chapters/3-related-work/3-related-work.out" 0 -1 0 "pdflatex"
-  "chapters/3-related-work/3-related-work.run.xml" 1715712374 2471 cfe8665ee72bc52d3d7d624712c71e14 "pdflatex"
-  "chapters/3-related-work/3-related-work.tex" 1715712370 12977 467b5e64eb36f662bf8f7b5f3be2e46f ""
-  "figures//BarlowTwins.png" 1712240094 235659 39fbb17f08e2affec919b4c4a0b9889e ""
+  "chapters/3-related-work/3-related-work.run.xml" 1715786233 2471 cfe8665ee72bc52d3d7d624712c71e14 "pdflatex"
+  "chapters/3-related-work/3-related-work.tex" 1715786229 14377 ec1401db1ec82d1f967d3115f98407ef ""
+  "figures//BarlowTwins.png" 1715786134 42185 312a5bca762fceb915053ba02d6d8b22 ""
   "figures//IterativeDecoding.png" 1715712251 61722 6bb42a6a6c5076752858f5965dad3c2b ""
   "figures//MaskGIT.png" 1715697123 57950 9d18629e90555eaac0ca2c276538b047 ""
+  "figures//TimeVQVAE1.png" 1715759488 449831 8d6c9daaf3f968cf494cec5777e2d695 ""
+  "figures//VICReg_VIbCReg.png" 1712234205 194757 e588e1bc94c72fe92d104583d3dee651 ""
   "ntnuthesis.cls" 1693220167 11751 64fa3abf1f4a97cc88859996175f2d9f ""
-  "preamble.tex" 1715692052 812 177388cfac0867fd9174d86e07450112 ""
+  "preamble.tex" 1715762841 841 911995259ba50fdd5d8f88e3302bea90 ""
   (generated)
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.log"
-  "chapters/3-related-work/3-related-work.pdf"
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.pdf"
   "chapters/3-related-work/3-related-work.run.xml"
-  "chapters/3-related-work/3-related-work.out"
+  "chapters/3-related-work/3-related-work.bcf"
   "chapters/3-related-work/3-related-work.log"
   "chapters/3-related-work/3-related-work.aux"
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.pdf"
-  "chapters/3-related-work/3-related-work.bcf"
+  "chapters/3-related-work/3-related-work.pdf"
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/3-related-work/3-related-work.log"
+  "chapters/3-related-work/3-related-work.out"

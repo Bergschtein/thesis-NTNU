@@ -111,6 +111,7 @@ If the dataset $X$ is large, the gradient calculations are expensive. In these c
     \EndWhile
 \end{algorithmic}
 \end{algorithm}
+\TODO{Mini batch SDG}
 
 For the actual gradient computations, the backpropagation algorithm is used. It provides an efficient way of computing gradients in neural networks by leveraging the compositional structure. In essence backpropagation is an efficient application of the Leibniz chain rule for differentiation.\newline
 
@@ -439,19 +440,24 @@ A siamese network architecture \cite{siamese} consists of two networks, called b
 
 In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.\newline
 
-Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \newline
+Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \cite{morningstar2024augmentations} \newline
 
 
-In the computer vision domain several representation learning algorithms utilizing a siamese architecture have been proposed. They mainly fall under two categories: \textit{contrasitive} and \textit{non-contrasitive} methods.\newline
+In the computer vision domain several representation learning algorithms utilizing a siamese architecture have been proposed. They mainly fall under two categories: \textit{contrastive} and \textit{non-contrastive} methods.\newline
 
 In contrastive SSL, uses positive and negative samples and learns representations by pulling positive pairs closer together and negative pairs further apart. Examples include MoCo \cite{he2020momentum} and SimCLR \cite{chen2020simple}. SimCLR constructs two correlated samples by applying augmentations to an input sample, and considers these as positive pairs. Requires large batch sizes in order to work well.
 
-Need large number of nagative pairs compared to positive in order to learn representaitons effectively \cite{lee2024computer}.
+Need large number of negative pairs compared to positive in order to learn representait
+ons effectively \cite{lee2024computer}.
 
-The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
+The loss function of contrastive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
 
 
-Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
+Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. \newline
+\TODO{Talk about projectors in ncSSL. How and why they enforce pairwise independence}
+
+BYOL, Barlow Twins, VCReg, VICReg, VIbCReg\newline
+\cite{mialon2024variance} VCReg for pairwise independence in SSL representations. 
 
 
 
@@ -462,9 +468,9 @@ Non-Contrastive: Collapse, where encodes produce uninformative or constant vecto
 
 % Examples such as MoCo and SimCLR. 
 
-% Need large number of nagative pairs compared to positive in order to learn representaitons effectively \cite{lee2024computer}.
+% Need large number of negative pairs compared to positive in order to learn representations effectively \cite{lee2024computer}.
 
-% The loss function of contrasitive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
+% The loss function of contrastive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
 % \subsubsection{Non contrastive}
 % Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \newline
 
