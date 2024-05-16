@@ -1,20 +1,27 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
+Our work, as well as out models can be divided into two stages. Firstly we investigate the effect of non-contrastive SSL on a proven tokenization model, VQVAE \cite{VQVAE}, with the goal of learning more expressive representations. The expressiveness is measured in terms of the models ability to reconstruct unseen data, as well at the performance of learned latent representations on a downstream classification task. The SSL models we consider are, as introduced in section 3 \todo{make hyperlink}, BarlowTwins and VIbCReg.\\\\
+
+Secondly we investigate the effects of NC-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models.\\\\
+
+Additionally we provide ablations investigating robustness to augmentations and the effect of augmentations reconstruction weight. \newline
 
 \section{Stage 1}
 
 As mentioned in the section on representation learning, one needs to determine a set of tasks one wish to evaluate on, in order to say anything about the quality of the representations. We evaluate the representations based on two tasks
 
-\subsection{Evaluation metrics}
 
-\begin{itemize}
-    \item \textbf{Reconstruction}: We evaluate the models ability to reconstruct the original data from latent representation. Success indicating perservation of information.
-    \item \textbf{Downstream classification}: We evaluate the latent representations on its ability linear classification. 
-    \item \textbf{Training time}
-    \item \textbf{Number of parameters}
-    \item 
-\end{itemize}
+
+% \subsection{Evaluation metrics}
+
+% \begin{itemize}
+%     \item \textbf{Reconstruction}: We evaluate the models ability to reconstruct the original data from latent representation. Success indicating perservation of information.
+%     \item \textbf{Downstream classification}: We evaluate the latent representations on its ability linear classification. 
+%     \item \textbf{Training time}
+%     \item \textbf{Number of parameters}
+%     \item 
+% \end{itemize}
 
 \subsection{Reconstruction}
 
@@ -25,9 +32,11 @@ As mentioned in the section on representation learning, one needs to determine a
 In the two tokenization models, how does the codebooks differ? Look at codebook utlization. Histograms across dimensions?  
 
 \subsection{Visual inspection}
+
 \section{Stage 2}
 
 \subsection{Evaluation metrics}
+
 \begin{itemize}
     \item \textbf{IS}:
     \item \textbf{FID}:
@@ -80,9 +89,15 @@ It seems, not very surprisingly, that the choice of augmentations are of (much) 
 \end{figure}
 \subsection{Augmentation robustness}
 
+S1 - S2 - Augs: Choose datasets such that half were thought to be well fitting for slice and shuffle and half for amplitude resize + window Warp. This was after seeing FordA/B performing well with S&S, and looking at the augmented views.\newline
+FordA/B, Electric devices, ShapesALL for S&S\newline
+TwoP, UWave, symbols, Mallar for ampRes + winwarp\newline
+
+Visual inspection: Plot training samples + spectrogram, compare to augmented view. Compare these against others from other classes. \newline
+Does the resulting improvement in stage 1 transfer to stage 2? 
+
 \TODO{Download the Wandb data.}
 Plot for each dataset and each augmentation: 
-Mean KNN / SVM / ReconsLoss against augReconsWeight. 
 Color code according to SSL-model.
 
 
