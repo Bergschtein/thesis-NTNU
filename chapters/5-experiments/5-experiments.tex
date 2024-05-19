@@ -1,108 +1,106 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-Our work, as well as out models can be divided into two stages. Firstly we investigate the effect of non-contrastive SSL on a proven tokenization model, VQVAE \cite{VQVAE}, with the goal of learning more expressive representations. The expressiveness is measured in terms of the models ability to reconstruct unseen data, as well at the performance of learned latent representations on a downstream classification task. The SSL models we consider are, as introduced in section 3 \todo{make hyperlink}, BarlowTwins and VIbCReg.\\\\
 
-Secondly we investigate the effects of NC-VQ-VAE on prior learning by training a MaskGIT model on top of the tokenization models.\\\\
+\section{Implementation details}
+We follow \cite{TimeVQVAE} closely in the encoder/decoder/codebook implementation, and 
 
-Additionally we provide ablations investigating robustness to augmentations and the effect of augmentations reconstruction weight. \newline
+\subsubsection{Time Frequency Modelling}
+$n_fft = 8$, other params are default parameters of pytorch implementation of STFT. 
+
+\subsubsection{Encoder and decoder}
+Appendix C.3 from \cite{TimeVQVAE}\newline
+
+Encoder block: Conv2d + Batchnorm + LeakyReLU \newline
+Convlayer has kernel size $(3,4)$, stride $(1,2)$ and padding $(1,1)$ (padding mode = "replicate"). \newline
+
+Residual block:LeakyReLU + Conv2d + LeakyReLU + Conv2d\newline
+First conv: kernel size=3, stride=1, padding=1\newline
+Second conv: kernel size=1, stride=1, padding=0\newline
+
+
+\subsubsection{VQ}
+Implementation from lucidrains/vector-quantize-pytorch.
+https://github.com/lucidrains/vector-quantize-pytorch \newline
+codebook: size = 32, dim = 64 
+
+\subsubsection{Projector}
+We follow the implementation from \cite{lee2024computer} for both Barlow Twins and VIbCReg.
+
+\section{Initial Experimentation and Model Development}
+
+The overarching objective in creating our model is to learn more expressive latent representations for better time series generation. We want to improve the reconstruction capabilities of the tokenization model. The rationality is that if the tokenization model reconstructs well the latent representations contains all relevant information of the input. We simultaneously want enforce better class separability in the latent representations, as we hypothesize that such additional structure eases/improved learning of the generative model.\newline
+
+During development we encountered several problems:\newline
+When we attempted a siamese architecture, with quantization in the augmented branch, and to derive the SSL loss from the discrete representations there were a correlation problem. The codewords were very highly correlated, which resulted from the passing both views through the VQ.  $SSL(z_q,z_q')$ \newline
+In an attempt to solve this we attempted to derive the SSL loss from the continuous latent representations, but the resulting discrete latent representations performed poorly on the downstream classification task. Separability problem: $SSL(z,z')$ \newline
+The solution was to remove the VQ in the augmented branch and rather derive the SSL loss from $z_q$ and $z'$. Solution: $SSL(z_q,z')$ \newline
+
+Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \newline
+
+\section{Main Experiments}
+
+We are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
+
+We evaluate our model NC-VQVAE against the naive VQVAE as described in \cite{TimeVQVAE}. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS and visual inspection.\newline
+
+Additionally we provide ablations investigating effect of different augmentations and the effect of augmentations reconstruction weight. \newline
 
 \section{Stage 1}
+Naive VQVAE as described in \cite{TimeVQVAE} is baseline.\newline
 
-As mentioned in the section on representation learning, one needs to determine a set of tasks one wish to evaluate on, in order to say anything about the quality of the representations. We evaluate the representations based on two tasks
+BarlowTwins and VIbCReg as SSL method\newline
+
+Trained using 1000 epochs in both stages. \newline
+
+Batch size: \newline
+
+Nr of runs and Seeds: \newline
+
+Augmentations used: \newline
 
 
 
-% \subsection{Evaluation metrics}
 
-% \begin{itemize}
-%     \item \textbf{Reconstruction}: We evaluate the models ability to reconstruct the original data from latent representation. Success indicating perservation of information.
-%     \item \textbf{Downstream classification}: We evaluate the latent representations on its ability linear classification. 
-%     \item \textbf{Training time}
-%     \item \textbf{Number of parameters}
-%     \item 
-% \end{itemize}
 
-\subsection{Reconstruction}
+\subsection{Augmentations}
+Through initial testing we settled on consequently using the augmentations amplitude resizing + window warp for the augmented branch, while leaving the original branch unaltered. Leaving the original branch unaltered improved reconstruction error. Our final choice in augmentations is biased by the results on datasets we experimented on initially, which were FordA, UWavesGestureLibraryAll, TwoPatterns and ShapesAll. Of those amplitude resizing + window warp was a top performer, except for FordA where slice and shuffle did well. When amplitude resizing + window warp produced quite good results, while simultaneously not altering the semantics of the data or introducing high frequency components, we settled on that for ease of experimentation. We provide a small ablation on the effect of augmentations in section \ref{section:Augmentation robustness}.
 
-\subsection{Classification}
+\begin{itemize}
+    \item Amplitude Resizing + Window Warp
+    \item Slice and Shuffle
+    \item Gaussian noise
+\end{itemize}
 
-\subsection{Codebook investigations}
+\subsection{Evaluation}
+Reconstruction, Classification and Visual inspection
 
-In the two tokenization models, how does the codebooks differ? Look at codebook utlization. Histograms across dimensions?  
 
-\subsection{Visual inspection}
 
 \section{Stage 2}
+
+In order to make use of the additional information in the latent representations from stage 1 our MaskGIT models the probabilities of codebook indices conditional on the codewords.  
 
 \subsection{Evaluation metrics}
 
 \begin{itemize}
     \item \textbf{IS}:
     \item \textbf{FID}:
+    \item \textbf{CAS}:
     \item \textbf{Visual inspection}:
     \item \textbf{Token usage}:
-    \item \textbf{Generating distribution}:
 \end{itemize}
 
 
-\section{Ablation studies}
+\section{UCR Time Series Classification Archive}
+The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics, sensor, device, image-derived, simulated, . Each dataset has a predefined training and test split. \newline
 
-\subsection{Augmentation Reconstruction Weight}
-Here are the results of the ablation on the effect of “Augmentation Reconstruction Weight” on Stage 1.
-“Augmentation Reconstruction Weight” is the weight given to the reconstruction loss on the augmented branch.
-Tested weights $0.05$, $0.1$, $0.15$ and $0.2$.
-Augmentations [Window Warp, Amplitude Resize] and [Slice and Shuffle].
-The weight has little effect on linear probe accuracy across the four datasets tested, and the two sets of augmentations.
-The effect on Validation reconstruction loss is small for all except FordA.
-It seems, not very surprisingly, that the choice of augmentations are of (much) greater importance.
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_SVM_ReconsWeight.png}
-    \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight.png}
-    \includegraphics[scale=0.55]{BT_KNN_ReconsWeight.png}
-    \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight.png}
-    \centering  
-    \caption{Augmentations: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
-
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_SVM_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{BT_KNN_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight_Slice.png}
-
-    % \centering  
-    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
-
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
-    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
-    % \centering  
-    \caption{Augmentation: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight_Slice.png}
-    % \centering  
-    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
-\subsection{Augmentation robustness}
-
-S1 - S2 - Augs: Choose datasets such that half were thought to be well fitting for slice and shuffle and half for amplitude resize + window Warp. This was after seeing FordA/B performing well with S&S, and looking at the augmented views.\newline
-FordA/B, Electric devices, ShapesALL for S&S\newline
-TwoP, UWave, symbols, Mallar for ampRes + winwarp\newline
-
-Visual inspection: Plot training samples + spectrogram, compare to augmented view. Compare these against others from other classes. \newline
-Does the resulting improvement in stage 1 transfer to stage 2? 
-
-\TODO{Download the Wandb data.}
-Plot for each dataset and each augmentation: 
-Color code according to SSL-model.
+Our subset of the UCR archive is
+\TODO{Table of datasets}
 
 
 
-
+% \section{Ablation studies}
 
 
 

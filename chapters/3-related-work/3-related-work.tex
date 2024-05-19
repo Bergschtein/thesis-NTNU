@@ -99,18 +99,27 @@ TimeVQVAE provides class-guided conditional sampling.
 
 
 \subsection{Prior learning}
-MaskGIT but models token indices. Reformulation to handle the two modalities.
+
+TimeVQVAE uses a modified version of MaskGIT in order to learn the prior. As the original MaskGIT has no means of jointly sample from the two modalities introduced by the high-low frequency split. \newline
+
+For some  $X$ in the dataset $\mathcal{D}$, let $Y = \{y_i\}_{i=1}^N$ denote the latent tokens obtained by passing $X$ through the VQ-Encoder and denote the corresponding binary mask by $M = \{m_i\}_{i=1}^N$.\newline
+
+A discrete latent representation $z_q \in \R^{d\times h\times w}$ can equivalently be represented as a sequence of codebook indices by 
+\begin{equation}
+    s_{ij} = k, \text{ whenever } (z_q)_{ij} = z_k
+\end{equation}
+
+
 
 \subsubsection{Class Conditional Sampling}
-
-\subsubsection{Implementation details}
-
 
 
 
 \section{SSL}
 
-Our model leverages SSL algorithms in order to learn more expressive latent representations. Here we present the relevant algorithms for our work. 
+Our model leverages SSL algorithms in order to learn more expressive latent representations. Here we present the relevant algorithms for our work. \newline
+
+One fundamental difference between Barlow Twins and VIbCReg is that the branches are regularized differently. In Barlow Twins the regularization is applied to the cross correlation matrix of the projected output of the two branches, which in general favours scenarios where the two branches produces similar summary statistics. In VIbCReg the covariance term is applied on each branch separately, which works better in scenarios where the branches are different \cite{bardes2022vicreg}.
 
 % \subsection{BYOL}
 % \cite{grill2020bootstrap}
@@ -173,8 +182,6 @@ where
 
 The \textit{invariance term} assists in making the embedding invariant to the distortions introduced by the augmentations, hence pushes the representations closer together. The \textit{redundancy reduction term} decorrelates the different vector components, which reduces the information redundancy. \newline
 
-\subsubsection{Implementation details}
-
 
 
 \subsection{VIbCReg}
@@ -186,7 +193,7 @@ As before a batch $D$ is augmented to create two views and passed through an enc
 \begin{figure}[h]
     \includegraphics[scale=0.15]{VICReg_VIbCReg.png}
     \centering    
-    \caption{Overview of VIbCReg, and comparrison with VICReg. Taken with permission from \cite{lee2024computer}}
+    \caption{Overview of VIbCReg, and comparison with VICReg. Taken with permission from \cite{lee2024computer}}
 \end{figure}
 
 The loss consists of a similarity loss between the branches, and feature decoration (FD) loss together with a feature component expressiveness (FcE) term at each branch. Input data is processed in batches. Let $Z \in \mathbb{R}^{B\times F}$ where $B$ and $F$ denotes the batch and feature sizes respectively. We denote a row in $Z$ by $Z_b$ and column by $Z_f$, and similarly for $Z'$. \newline
@@ -232,7 +239,7 @@ where $\lambda, \mu$ and $\nu$ are hyperparameters determining the importance of
 %     C(Z) = \frac{1}{B-1} \left(\frac{Z-\bar{Z}}{||Z-\bar{Z}||_2}\right)^T\left(\frac{Z-\bar{Z}}{||Z-\bar{Z}||_2}\right) \text{ where }  \bar{Z} = \frac{1}{B}\sum_{b=1}^B  Z_b
 % \end{equation}
 
-\subsubsection{Implementation details}
+
 
 
 \end{document}

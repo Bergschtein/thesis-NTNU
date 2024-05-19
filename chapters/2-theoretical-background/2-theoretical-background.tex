@@ -447,8 +447,7 @@ In the computer vision domain several representation learning algorithms utilizi
 
 In contrastive SSL, uses positive and negative samples and learns representations by pulling positive pairs closer together and negative pairs further apart. Examples include MoCo \cite{he2020momentum} and SimCLR \cite{chen2020simple}. SimCLR constructs two correlated samples by applying augmentations to an input sample, and considers these as positive pairs. Requires large batch sizes in order to work well.
 
-Need large number of negative pairs compared to positive in order to learn representait
-ons effectively \cite{lee2024computer}.
+Need large number of negative pairs compared to positive in order to learn representations effectively \cite{lee2024computer}.
 
 The loss function of contrastive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
 
@@ -499,8 +498,8 @@ For a thorough survey on masked modelling for SSL in the vision domain we refer 
 
 
 
-\section{Vector Quantized Variantional Autoencoder (VQVAE)}
-Our model is based on the Vector Quantized Variantional Autoencoder (VQVAE) introduced in \cite{VQVAE}, and includes an Auto-encoder (AE) branch. Therefore it is natural to dive into the models. We first start with introducing auto-encoders, then present the variational variation VAE before presenting VQVAE. 
+\section{Vector Quantized Variational Autoencoder (VQVAE)}
+Our model is based on the Vector Quantized Variational Autoencoder (VQVAE) introduced in \cite{VQVAE}, and includes an Auto-encoder (AE) branch. Therefore it is natural to dive into the models. We first start with introducing auto-encoders, then present the variational variation VAE before presenting VQVAE. 
 
 \subsection{Autoencoder (AE)}
 
