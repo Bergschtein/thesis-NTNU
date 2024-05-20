@@ -12,8 +12,16 @@
 \subsection{Classification}
 \section{Stage 2}
 
-\TODO{Thought: }
-Better inception score and CAS of our models indicate that the class separability learned in latent space makes the conditional distributions more distinct easier to classify. The FID is variable, but in many cases better, which indicated that the generative distributions are closer to the ground truth.
+
+\subsection{Thought:}
+
+Better inception score and CAS of our models indicate that the class separability learned in latent space makes the conditional distributions more distinct easier to classify. The FID is variable, but in many cases better, which indicated that the generative distributions are closer to the ground truth.\newline
+
+Gaussian noise aug seems to result in a lot easier the BT/VIbCReg loss to minimize. \newline
+Slice and shuffle is harder to minimize, but could seem to push representations for different classes further apart resulting in better linear probes.\newline
+
+
+
 
 \subsection{Ablation}
 
@@ -70,7 +78,7 @@ Plot for each dataset and each augmentation:
 Color code according to SSL-model.
 \section{Discussion}
 The added flexibility of NC-VQVAE, with possibility of choosing dataset specific augmentations, can in some applications be beneficial.\newline
-   
+
 
 \section{Further work}
 \cite{morningstar2024augmentations} suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention.\newline

@@ -6,26 +6,43 @@
 We follow \cite{TimeVQVAE} closely in the encoder/decoder/codebook implementation, and 
 
 \subsubsection{Time Frequency Modelling}
-$n_fft = 8$, other params are default parameters of pytorch implementation of STFT. 
+The short time fourier transform (STFT) and its inverse ISTFT are implemented with \texttt{torch.stft} and \texttt{torch.istft} respectively. We follow \cite{TimeVQVAE} and set the main parameter \texttt{nfft} to $8$, and use default parameters for the rest.\newline
+
 
 \subsubsection{Encoder and decoder}
 Appendix C.3 from \cite{TimeVQVAE}\newline
-
-Encoder block: Conv2d + Batchnorm + LeakyReLU \newline
-Convlayer has kernel size $(3,4)$, stride $(1,2)$ and padding $(1,1)$ (padding mode = "replicate"). \newline
-
-Residual block:LeakyReLU + Conv2d + LeakyReLU + Conv2d\newline
-First conv: kernel size=3, stride=1, padding=1\newline
-Second conv: kernel size=1, stride=1, padding=0\newline
-
+The same encoder and decoder architecture as in \cite{VQVAE} is used and further use the implementation from \cite{nadavbh12} with adaptations from \cite{TimeVQVAE}.\newline
+The encoder consists of $n$ downsampling convolutional blocks (Conv2d - BatchNorm2d - LeakuReLU), followed by $m$ residual blocks (LeakuReLU - Conv2d - BatchNorm2d - LeakuReLU - Conv2d). The downsampling convolutional layers are implemented with parameters {kernel size=(3,4),
+stride=(1,2), padding=(1,1)}, while the residual convolutional layers have parameters  {kernel size=(3,3),stride=(1,1), padding=(1,1)}.\newline
+The decoder is implemented similarity with $m$ resudial followed $n$ upsampling layers using transposed convolutional layers with same parameters as in the encoder. \newline
+The downsampling rate is determined by $2^n$ where $n$ is set such that $z$ has width of $32$.
 
 \subsubsection{VQ}
-Implementation from lucidrains/vector-quantize-pytorch.
-https://github.com/lucidrains/vector-quantize-pytorch \newline
-codebook: size = 32, dim = 64 
+Implementation from lucidrains/vector-quantize-pytorch. https://github.com/lucidrains/vector-quantize-pytorch \newline
+Codebook size = 32 and dimension = 64. \newline
+Use exponential moving average with decay $0.9$, and commitment loss with weight $\beta = 1$.
+
+\subsubsection{Augmentations}
+window warp:    window ratio: 0.4,min window warp: 0.9, max windowwarp: 2.0\newline
+amplitude resize: Amp Rrate: 0.2\newline
+gaussian noise: gaus mean: 0, gaus std: 0.05\newline
+slice and shuffle:\newline
 
 \subsubsection{Projector}
-We follow the implementation from \cite{lee2024computer} for both Barlow Twins and VIbCReg.
+We follow the implementation from \cite{lee2024computer} for both Barlow Twins and VIbCReg.\newline
+Barlow Twins: Projector's dimension size is set to $4096$. $\lambda$ is set to $5\cdot10^3$. \newline
+VIbCReg: The dimension of the the projector is set to $4096$. $\lambda$ and $\mu$ are both set to $25$, while $\nu$ is set to $100$.
+
+\subsubsection{Prior learning}
+The number of iterations in the iterative decoding algorithm $T$, is set to $10$, following \cite{chang2022maskgit}. We too use the cosine as mask scheduling function $\gamma$. The implementation is adopted from \cite{TimeVQVAE}. 
+
+
+\subsubsection{Optimizer}
+The AdamW optimizer with batch sizes for stage1: 128 and stage2: 256, initial learning rate $10^{-3}$, cosine learning rate scheduler and weight decay of $10^{-5}$. We run 1000 epochs for both stage 1 and 2. 
+
+\subsubsection{Evaluation}
+KNN and SVM are implemented using scikit-learn. $K=5$ in KNN and linear kernel in SVM.\newline
+FCN for IS, FID and CAS
 
 \section{Initial Experimentation and Model Development}
 
@@ -42,35 +59,27 @@ Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \new
 
 We are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
 
-We evaluate our model NC-VQVAE against the naive VQVAE as described in \cite{TimeVQVAE}. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS and visual inspection.\newline
+We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS and visual inspection.\newline
 
-Additionally we provide ablations investigating effect of different augmentations and the effect of augmentations reconstruction weight. \newline
+% Additionally we provide ablations investigating effect of different augmentations and the effect of augmentations reconstruction weight. \newline
 
 \section{Stage 1}
-Naive VQVAE as described in \cite{TimeVQVAE} is baseline.\newline
-
-BarlowTwins and VIbCReg as SSL method\newline
-
-Trained using 1000 epochs in both stages. \newline
-
-Batch size: \newline
-
-Nr of runs and Seeds: \newline
-
-Augmentations used: \newline
-
-
-
-
 
 \subsection{Augmentations}
-Through initial testing we settled on consequently using the augmentations amplitude resizing + window warp for the augmented branch, while leaving the original branch unaltered. Leaving the original branch unaltered improved reconstruction error. Our final choice in augmentations is biased by the results on datasets we experimented on initially, which were FordA, UWavesGestureLibraryAll, TwoPatterns and ShapesAll. Of those amplitude resizing + window warp was a top performer, except for FordA where slice and shuffle did well. When amplitude resizing + window warp produced quite good results, while simultaneously not altering the semantics of the data or introducing high frequency components, we settled on that for ease of experimentation. We provide a small ablation on the effect of augmentations in section \ref{section:Augmentation robustness}.
+% Through initial testing we settled on consequently using the augmentations amplitude resizing + window warp for the augmented branch, while leaving the original branch unaltered. Leaving the original branch unaltered improved reconstruction error. Our final choice in augmentations is biased by the results on datasets we experimented on initially, which were FordA, UWavesGestureLibraryAll, TwoPatterns and ShapesAll. Of those amplitude resizing + window warp was a top performer, except for FordA where slice and shuffle did well. When amplitude resizing + window warp produced quite good results, while simultaneously not altering the semantics of the data or introducing high frequency components, we settled on that for ease of experimentation. We provide a small ablation on the effect of augmentations in section \ref{section:Augmentation robustness}.
 
+In our experiments we consider three sets of augmentations with different characteristics. They are
 \begin{itemize}
     \item Amplitude Resizing + Window Warp
     \item Slice and Shuffle
     \item Gaussian noise
 \end{itemize}
+
+\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view. \newline
+
+\textbf{Slice and Shuffle} crops the time series into three sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
+
+\textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder.
 
 \subsection{Evaluation}
 Reconstruction, Classification and Visual inspection
@@ -79,28 +88,141 @@ Reconstruction, Classification and Visual inspection
 
 \section{Stage 2}
 
-In order to make use of the additional information in the latent representations from stage 1 our MaskGIT models the probabilities of codebook indices conditional on the codewords.  
+% In order to make use of the additional information in the latent representations from stage 1 our MaskGIT models the probabilities of codebook indices conditional on the codewords.  
 
-\subsection{Evaluation metrics}
+\subsection{Evaluation}
 
 \begin{itemize}
     \item \textbf{IS}:
     \item \textbf{FID}:
-    \item \textbf{CAS}:
+    \item \textbf{CAS}:We evaluate the CAS for TSTR by using the Supervised FCN on all our models considered and compare against the baseline model to investigate the relative performance. 
     \item \textbf{Visual inspection}:
     \item \textbf{Token usage}:
 \end{itemize}
 
 
 \section{UCR Time Series Classification Archive}
-The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics, sensor, device, image-derived, simulated, . Each dataset has a predefined training and test split. \newline
+The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
 Our subset of the UCR archive is
-\TODO{Table of datasets}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{llllll}
+    \toprule
+    Type      & Name                    & Train & Test & Class & Length \\
+    \midrule
+    Device    & ElectricDevices         & 8926  & 7711 & 7     & 96     \\
+    Sensor    & FordB                   & 3636  & 810  & 2     & 500    \\
+    Sensor    & FordA                   & 3601  & 1320 & 2     & 500    \\
+    Sensor    & Wafer                   & 1000  & 6164 & 2     & 152    \\
+    Simulated & TwoPatterns             & 1000  & 4000 & 4     & 128    \\
+    Sensor    & StarLightCurves         & 1000  & 8236 & 3     & 1024   \\
+    Motion    & UWaveGestureLibraryAll  & 896   & 3582 & 8     & 945    \\
+    ECG       & ECG5000                 & 500   & 4500 & 5     & 140    \\
+    Image     & ShapesAll               & 600   & 600  & 60    & 512    \\
+    Simulated & Mallat	                & 55	& 2345 & 8	   & 1024   \\
+    Image     & Symbols                 & 25    & 995  & 6     & 398    \\
+    Sensor    & SonyAIBORobotSurface2   & 27    & 953  & 2     & 65     \\
+    Sensor    & SonyAIBORobotSurface1   & 20    & 601  & 2     & 70     \\
+    \bottomrule
+    \end{tabular}
+    \caption{The subset of the UCR Archive considered for our experiments.}
+    \label{tab:UCRsubset}
+    \end{table}
+
+    \begin{figure}[h]
+        \centering
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{ElectricDevices}
+            \caption*{ElectricDevices}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{StarLightCurves}
+            \caption*{StarLightCurves}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Wafer}
+            \caption*{Wafer}
+        \end{minipage}
+        
+        \vspace{0.4cm}
+        
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{ECG5000}
+            \caption*{ECG5000}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{TwoPatterns}
+            \caption*{TwoPatterns}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{FordA}
+            \caption*{FordA}
+        \end{minipage}
+        
+        \vspace{0.4cm}
+        
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Symbols}
+            \caption*{Symbols}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{FordB}
+            \caption*{FordB}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{ShapesAll}
+            \caption*{ShapesAll}
+        \end{minipage}
+        
+        \vspace{0.4cm}
+        
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Sony1}
+            \caption*{SonyAIBORobotSurface1}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Sony2}
+            \caption*{SonyAIBORobotSurface2}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{UWave}
+            \caption*{UWaveGestureLibraryAll}
+        \end{minipage}
+        
+        \vspace{0.4cm}
+        
+        \begin{minipage}[b]{0.32\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Mallat}
+            \caption*{Mallat}
+        \end{minipage}
+        
+    \end{figure}
 
 
 
-% \section{Ablation studies}
 
 
 

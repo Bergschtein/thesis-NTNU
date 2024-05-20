@@ -58,7 +58,7 @@
 - short-time-fourier transform etc.
 
 \section{Neural Network}
-An \textit{artificial neural network} or simply \textit{neural network} is a fundamental model in machine learning, and more specifically in \textit{deep learning}. Neural networks are loosely inspired by the way neurons are assembled in the brain. The model can be traced back the year of 1943 when Warren McCulloch and Walter Pitts developed the first artificial neuron \cite{MCCULLOCH199099}, which is considered to be the first neural model invented. It was first set out in the real world by Frank Rosenblatt in 1957 \cite{rosenblatt1957perceptron}. But not until the development of the backpropagation algorithm in its modern form in the 1980's did the model really gain traction. Neural networks have since then been the backbone in the development of machine learning, with an impressive resume of applications. Some of which, if we stretch the definition a bit, include face recognition, beating humans in chess, go and Starcraft, self-driving cars and predicting the structure of proteins. The unreasonable effectiveness of neural networks on a broad range of tasks can in part be explained by the \textit{universal approximation theorem}, proven by Kurt Hornlik in 1989 \cite{HORNIK1989359}, which roughly states that a neural network can approximate any (Borel measurable) function to any desired degree of accuracy. 
+An \textit{artificial neural network} or simply \textit{neural network} is a fundamental model in machine learning, and more specifically in \textit{deep learning}. Neural networks are loosely inspired by the way neurons are assembled in the brain. The model can be traced back the year of 1943 when Warren McCulloch and Walter Pitts developed the first artificial neuron \cite{MCCULLOCH199099}, which is considered to be the first neural model invented. It was first set out in the real world by Frank Rosenblatt in 1957 \cite{rosenblatt1957perceptron}. But not until the development of the backpropagation algorithm in its modern form in the 1980's did the model really gain traction. Neural networks have since then been the highly influential in the development of the machine learning field, with an impressive resume of applications. Some of which, if we stretch the definition a bit, include face recognition, beating humans in chess, Go and Starcraft, self-driving cars and predicting the structure of proteins. The unreasonable effectiveness of neural networks on a broad range of tasks can in part be explained by the \textit{universal approximation theorem}, proven by Kurt Hornlik in 1989 \cite{HORNIK1989359}, which roughly states that a neural network can approximate any (Borel measurable) function to any desired degree of accuracy. 
 
 \begin{figure}
     \includegraphics[scale = 0.4]{NeuralNet.png}
@@ -67,14 +67,13 @@ An \textit{artificial neural network} or simply \textit{neural network} is a fun
     \label{fig:NeuralNet}
 \end{figure}
 
-A neural network takes in a vector $x \in \mathbb{R}^n$ and builds a nonlinear function $f(x)$ to predict the response $y\in \mathbb{R}^m$. More specifically a neural network maps an input vector $x$ to an output vector $y$ through a series of non-linear functions of linear combinations of the input. This particular structure, presented in figure [fig of nn here] is what distinguishes neural networks from other nonlinear prediction models. The variables $x = [x_1,...,x_n]$ constitutes the units of the \textit{input layer}. The intermediate layers are called the \textit{hidden layers}, and the final mapping to $y$ is called the \textit{output layer}. A neural network is parameterized by a set of \textit{weight} matrices $W_i$ and \textit{bias} vectors $b_i$, together with a specified non-linear \textit{activation function} $\sigma$. Written out a $K$ layered neural network is given by 
+A neural network takes in a vector $x \in \mathbb{R}^n$ and builds a nonlinear function $f(x)$ to predict the response $y\in \mathbb{R}^m$. More specifically a neural network maps an input vector $x$ to an output vector $y$ through a series of non-linear functions of linear combinations of the input. This particular structure, presented in figure \ref{fig:NeuralNet} is what distinguishes neural networks from other nonlinear prediction models. The variables $x = [x_1,...,x_n]$ constitutes the units of the \textit{input layer}. The intermediate layers are called the \textit{hidden layers}, and the final mapping to $y$ is called the \textit{output layer}. A neural network is parameterized by a set of \textit{weight} matrices $W_i$ and \textit{bias} vectors $b_i$, together with a specified non-linear \textit{activation function} $\sigma$. We denote the collection of parameters $\{W_1,...,W_{K-1}, b_1,...,b_{K-1}\}$ by $\theta$. Written out a $K$ layered neural network is given by 
 \[ 
-f(x) = f_K \circ f_{K-1} \circ \ldots \circ f_2 \circ f_1(x),
+f_\theta(x) = f_K \circ f_{K-1} \circ \ldots \circ f_2 \circ f_1(x),
 \]
 where 
 $$f_i(x) = \sigma(W_ix+b_i), \quad i \in \{1,...,K-1\},$$ 
-and $f_K$ is the output layer, with application dependent structure.\\\\ 
-
+and $f_K$ is the output layer, with application dependent structure.\newline
 The introduction of nonlinearity by the activation function is what enables the model to approximate nonlinear signals and differentiate itself from a linear regression model. Two of the most commonly used activation functions are $\text{Sigmoid}(x) = \tfrac{1}{1+\exp(-x)}$ and $\text{ReLU}(x) = \max(0,x)$, but countless options exists.\newline
 The architecture of neural networks, and most specializations thereof, is sequential in nature. They can effectively be described as compositions of some combination of a flavour of matrix multiplication, non-linear transformation and down or upsampling. 
 
@@ -82,7 +81,7 @@ The architecture of neural networks, and most specializations thereof, is sequen
 
 The training of a neural network is the process of finding values for the weight and bias parameters. The general idea governing neural network training is to optimize the parameters based on some distance metric between the predicted values and the target values. This distance metric is referred to as the \textit{loss function}, and a common choice of loss function is the mean squared error (MSE).\newline
 
-For a multi-variable function $F$ which is differentiable around a point $a$, the direction which it decreases fastest when starting in the point $a$ is given by the negative gradient at $a$, $-\nabla F(a)$. The gradient descent algorithm utilizes this property to find local minima of $F$ by initilizing the function with a value $x_0$ and iteratively update 
+For a multi-variable function $F$ which is differentiable around a point $a$, the direction which it decreases fastest when starting in the point $a$ is given by the negative gradient at $a$, $-\nabla F(a)$. The gradient descent algorithm utilizes this property to find local minima of $F$ by initializing the function with a value $x_0$ and iteratively update 
 \[
     x_{n+1} = x_{n} -\gamma \nabla F(x_{n}).
 \] 
@@ -97,10 +96,11 @@ and one would iteratively update the parameters by gradient descent
     \theta_{n+1} = \theta_{n} - \frac{\gamma}{N}\sum_{i=1}^N\nabla_\theta \mathcal{L}(f_\theta(x_i),y_i).
 \]
 
-If the dataset $X$ is large, the gradient calculations are expensive. In these cases, which in modern machine learning is the standard scenario, an effect estimator for the true gradient is used instead. Stochastic gradient descent (SDG) is a very popular approach. Instead of computing the gradient at each datapoint every iteration, SDG updates the parameters by iterating through the dataset and using the gradient at each single datapoint. The dataset is then permuted and iterated through again until an approximate minimum is reached. In pseudocode 
+If the dataset $X$ is large, the gradient calculations are expensive. In these cases, which in modern machine learning is the standard scenario, an effect estimator for the true gradient is used instead. Stochastic gradient descent (SDG) is a very popular approach. Instead of computing the gradient at each datapoint every iteration, SDG updates the parameters by iterating through the dataset and using the gradient at each single datapoint. The dataset is then permuted and iterated through again until an approximate minimum is reached. Pseudocode of SDG is presented in algorithm \ref{alg:SDG}.
 
 \begin{algorithm}
 \caption{Stochastic Gradient Descent (SDG)}
+\label{alg:SDG}
 \begin{algorithmic}
     \State Initialize parameters $\theta$ and learning rate $\gamma$
     \While{Not converged} 
@@ -119,15 +119,14 @@ For a through introduction to the subject of neural networks and the training th
 
 
 \section{Convolutional Neural Network}
-This section draws heavily on the presentation of convolutional networks in chapter 9 of \cite{deeplearningbook}.\\\\
+This section draw inspiration on the presentation of convolutional networks in chapter 9 of \cite{deeplearningbook}.\newline
 
 A convolutional neural network (CNN) is a particular type of neural network that is developed to learn local features in the data. This local feature learning is enabled by the mathematical operation of convolution. In essence a CNN is a neural network where matrix multiplication is switched for convolution at least one of the layers \cite{deeplearningbook}. \newline
-
 Fully connected neural networks have a fundamental drawback in that their computational complexity grows intractably large when the input dimensionality is high. This makes them unsuited for high dimensional data, such as images. Convolutional neural networks directly address this issue via various downsampling techniques. Convolutional neural networks has a rich history and a long track record of success stories. They are inspired by the architecture of visual cortex cells in mammals. Inspired by the discovery of Hubel and Wiesel \cite{https://doi.org/10.1113/jphysiol.1968.sp008455} the neocognitron was proposed in 1980\cite{6313076}. The neocognitron is widely considered the predecessor of convolutional neural networks. In 1989 Yann LeCun et al. introduced the modern framework for CNNs \cite{LeCun1989ConvNet} and demonstrated its effectiveness on the task of hand written digit recognition. Since then CNNs have been an indispensable part of machine learning research, especially in the computer vision domain. For an exposition on the advances on convolutional neural networks and its applications we refer to \cite{gu2017recent}.
 
 \subsection{The convolution operation}
 
-"Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
+% "Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
 
 The convolution operation is an integral transform with extensive applications. It generalizes the notion of a moving weighted average. In mathematics it is ubiquitous because of its relationship with the Fourier transform.\newline
 
@@ -138,23 +137,25 @@ Let $f$ and $g$ be real valued functions, then their convolution is defined as
 
 The mathematical nuances of the exact criteria for the above integral to exist is outside the scope of this thesis, and not particularly relevant. But if $f$ and $g$ are integrable (in the Riemann or Lebesgue sense) then the convolution exists. As a rule of thumb, the convolution of $f$ and $g$ is as "smooth" as the smoothest of $f$ and $g$. It is worth mentioning that convolution is commutative, i.e that $f*g = g*f$, which can be seen by a simple change of variables. \newline
 
-As is typical for integral transforms, the function $g$ is referred to as the \textit{kernel}. In the context of convolutional networks the kernel consists of learnable parameters and the function $f$ is the \textit{input}. The output is sometimes referred to as the \textit{feature map} \cite{deeplearningbook}. In machine learning we handle discrete signals, represented as multidimensional arrays. As a result we must employ a discrete variation of the convolution operation. Let $I$ be the input and $K$ be the kernel, both discrete, then their convolution is defined as
+As is typical for integral transforms, the function $g$ is referred to as the \textit{kernel}. In the context of convolutional networks the kernel consists of learnable parameters and the function $f$ is the \textit{input}. The output is referred to as the \textit{feature map} \cite{deeplearningbook}. In machine learning we handle discrete signals, represented as multidimensional arrays. As a result we must employ a discrete variation of the convolution operation. Let $I$ be the input and $K$ be the kernel, both discrete, then their convolution is defined as
 \begin{equation}
     (I*K)[n] = \sum_{m=-\infty}^{\infty} I[m]K[n-m].
 \end{equation}
-In practice $I$ and $K$ typically has finite support, i.e they are zero for large positive and negative arguments, which circumvents any convergence problem.\\\\
+In practice $I$ and $K$ typically has finite support, i.e they are zero for large positive and negative arguments, which circumvents any convergence problem.\newline
 Convolutions are naturally defined for higher dimensional functions by component wise extension. For a two dimensional image $I$ and a kernel $K$ we calculate their convolution as 
 \begin{equation}
     (I*K)[i,j] = \sum_{n=-\infty}^{\infty}\sum_{m=-\infty}^{\infty} I[n,m]K[i - n,j - m]. 
 \end{equation}
-
+The operation is illustrated in figure \ref{fig:Convolution}.
 \begin{figure}[h]
+    \label{fig:Convolution}
     \includegraphics[scale=0.5]{Convolution.png}
     \centering    
     \caption{Illustration of discrete two dimensional convolution}
 \end{figure}
 
-Convolution in machine learning does not always correspond exactly to the mathematical definition of the operation, but rather to cross-correlation. The difference is just a sign flip in the kernel arguments. Operation is no longer commutative, but in practice this does not affect anything as the learned kernel parameters will be equivalent \cite{deeplearningbook}. Machine learning applications are focused on what works, rather than writing proofs. \newline
+Convolution in machine learning does not always correspond exactly to the mathematical definition of the operation, but rather to cross-correlation. The difference is just a sign flip in the kernel arguments. Operation is no longer commutative, but in practice this does not affect anything as the learned kernel parameters will be equivalent \cite{deeplearningbook}.\newline
+%  Machine learning applications are focused on what works, rather than writing proofs. 
 
 In the field of digital signal processing discrete convolutions are used extensively. Traditionally predefined kernels are used to alter a signal in predictable ways. Two well known kernels are Gaussian and edge detection kernels. Gaussian kernels are two dimensional gaussian distributions and are used for blurring. Edge detection kernels are designed in such a way that areas of similar intensity are mapped to $0$ and areas of variable intensity are mapped to high values. In figure \ref{fig:kernelIllustration} we demonstrate the effect of two such kernels. Edge detection in particular provide a hint to how CNNs learn interesting features in the data. In a convolutional layer the kernels are learned such that the feature map is helpful for the training objective. 
 \begin{figure}[h]
@@ -165,20 +166,23 @@ In the field of digital signal processing discrete convolutions are used extensi
 \end{figure}
 
 \subsection{Pooling}
-As mentioned earlier CNNs are mainly used when the data has high dimensionality. In order to reduce the dimension to a manageable level \textit{pooling} is used. A pooling operation is applied as a down sample technique on feature maps, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the region of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. In addition to dimension reduction, pooling assist in making the representations approximately invariant to small distortions of input. 
+As mentioned earlier CNNs are mainly used when the data has high dimensionality. In order to reduce the dimension to a manageable level \textit{pooling} is used. A pooling operation is applied as a down sample technique on feature maps, replacing regions of the output with summary statistics. Two of the most common are max and average pooling, which replaces the region by its maximal or average value respectively. There are two hyperparameters for any pooling operation, the filter size, which determines the region of values to calculate the summary statistic, and stride length, which determines how the filter moves across the feature map. In addition to dimension reduction, pooling assist in making the representations approximately invariant to small distortions of input. Illustrations of max pooling with different stride is presented in figure \ref{fig:mp2} and \ref{fig:mp2}, while the effect of max and average pooling on image data is illustrated in \ref{fig:mean_max_pool}.
 
 \begin{figure}[h]
+    \label{fig:mp2}
     \includegraphics[scale=0.5]{MP_stride2}
     \centering    
     \caption{Max pooling of one dimensional array. Filter size: $2$, stride: $2$.}
 \end{figure}
 \begin{figure}[h]
+    \label{fig:mp1}
     \includegraphics[scale=0.5]{MP_stride1}
     \centering    
     \caption{Max pooling of one dimensional array. Filter size: $2$, stride: $1$.}
 \end{figure}
 
 \begin{figure}[h]
+    \label{fig:mean_max_pool}
     \centering
     \includegraphics[scale = 0.5]{pooling_illustration.png}
     \caption{Illustration of mean and average pooling applied to images. Filter size and stride is $20\times 20$. Original image size is $512\times 512$, pooled images are $26\times26$. Image part of Scikit-image data package.}
@@ -207,7 +211,7 @@ The fully connected layer is just your typical hidden layer in a neural network,
 
 
 \subsection{Transposed Convolutional Networks}
-Transposed convolution or deconvolution, also known as fractionally-strided convolution is a technique used to reverse the downsampling from convolutions. In essence it is an inpainting or upsampling technique known from digital signal processing. The flexibility of learning data dependent transposed convolutional kernels are. 
+Transposed convolution or deconvolution, also known as fractionally-strided convolution is a technique used to reverse the downsampling from convolutions. In essence it is an inpainting or upsampling technique known from digital signal processing. The flexibility of learning data dependent transposed convolutional kernels enables one to more effectively reverse the downsampling from convolutional layers. They are extensively used in combination with convolutional downsampling in \textit{encoder-decoder architectures} presented in section \ref{section:VQVAE}.  
 
 \begin{figure}[h]
     \centering
@@ -249,9 +253,8 @@ Transposed convolution or deconvolution, also known as fractionally-strided conv
 
 
 \section{Representation Learning}
-\TODO{Write a short introduction}
 
-\cite{Rep-rev-persp}
+The focus of this thesis is representation learning for improved time series generation.
 
 \subsection{Why do we care about representation learning?}
 Those who has worked with data science or machine learning and has come across feature engineering are familiar the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. In reality much of the actual time spent in the process of deploying machine learning methods revolves around constructing good data pipelines and applying transformations that produce representations beneficial for the algorithm at hand \cite{Rep-rev-persp}. Thus the ability to automate such tasks would be incredibly beneficial, and ease the use of ML algorithms significantly. It is here one of the intriguing and promising features of neural networks, with its many specializations and architectures, comes into play. They have shown the ability to learn useful abstract representations of the data and provide automatic feature engineering \cite{Rep-rev-persp}. 
@@ -259,18 +262,14 @@ Those who has worked with data science or machine learning and has come across f
 \subsection{What a representation?}
 
 Representation learning is a term not too easily defined, one reason being the abstraction level. It is helpful to first consider what is meant by \textit{representation} of information. Lets begin by walking through a familiar and illustrative example. Consider the base ten integer $(4)_{10} = 4$. The number can equivalently (in terms of information content) be expressed, that is represented, in any other base. The particular base we choose depends on our intention with the number. If we want to work with digital electronics, a binary representation ($(4)_{2} = 10$) is very useful, as transistors has two states. When humans do arithmetic, base ten representations of the integers are very natural, as we have ten fingers. A particular representation of information can make a task easier or harder. The information content is unchanged by a change of representation. What is changed is the easiness or difficulty of certain information processing tasks. Representation learning is then the process of learning a certain representation of information. \newline
-
-Representations are too highly dependent on who, or what, that will process it. An example is time. Humans have developed a standardized system for writing timestamps which works fairly well for us. But, if we want to model time dependent phenomena, say using tabular data, the DateTime representation is of very little help to a tree based model for instance. The reason being that the numerical representation of timestamps close in time is not necessarily close in numerical value. Think of 23:59 to 00:00. A possible solution is to change the representation such that the numerical values actually respect the periodic nature by mapping to the circle. The new representation is then useless for humans, but quite a lot more useful to a computer. \newline
-
-Representation learning in machine learning can thus be thought of as algorithms which are designed to learn representations which is useful for a ML objective.
-
+Representations are too highly dependent on who, or what, that will process it. An example is time. Humans have developed a standardized system for writing timestamps which works fairly well for us. But, if we want to model time dependent phenomena, say using tabular data, the DateTime representation is of very little help to a tree based model for instance. The reason being that the numerical representation of timestamps close in time is not necessarily close in numerical value. Think of 23:59 to 00:00. A possible solution is to change the representation such that the numerical values actually respect the periodic nature by mapping to the circle. The new representation is then useless for humans, but quite a lot more useful to a computer. Representation learning in machine learning can thus be thought of as algorithms which are designed to learn representations which is useful for a ML objective.
 
 \subsection{What is a good representation?}
 
-For any representations extracted of a non-invertible function, a downstream task can be designed (in principle) to based on the lost information, hence achieve arbitrarily bad performance. The concept of universally good representations is therefore ill-defined. There is no free lunch in representation learning either. One must specify a set of predefined \textit{downstream tasks}, and evaluate according to those. The goodness of a representation is then determined by how easy it makes the downstream tasks. Intuitively the quality of the representations are also considered higher if the the representations is able to perform well on several downstream tasks i.e when they are more general. 
+The goodness of a representation is then determined by how easy it makes a subsequent task. The concept of universally good representations is ill-defined, for any representation extracted of a non-invertible function, a \textit{downstream tasks} can be designed (in principle) to based on the lost information, hence achieve arbitrarily bad performance. There is no free lunch in representation learning either. One must specify a set of predefined downstream tasks, and evaluate according to those. Intuitively the quality of the representations are also considered higher if the the representations is able to perform well on several downstream tasks i.e when they are more general. 
 
 \subsection{How does one evaluate representations?}
-There are several different evaluation protocols in representation learning and they involve training a model on a \textit{pretext task}, which as defined in \cite{jing2019selfsupervised} is a task for a network to solve, where the goal is to learn representation. Then the learned representations are evaluated on a downstream task. In general the downstream task is solved in a supervised manner, using human annotated data.\newline
+There are several different evaluation protocols in representation learning. They involve training a model on a \textit{pretext task}, which as defined in \cite{jing2019selfsupervised} is a task for a network to solve, where the goal is to learn representation. Then the learned representations are evaluated on a downstream task. In general the downstream task is solved in a supervised manner, using human annotated data.\newline
 
 In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of the data $x$ in some layer $n$ is what is meant by the networks learned feature representations. When we are interested in the representations learned it thus is helpful to dissect a model $f$, notation wise, into a \textit{feature extractor} $h$ and an \textit{output function} $g$ such that it can be factored as $f = g \circ h$. Representation learning algorithms typically follow the pattern
 \begin{itemize}
@@ -292,7 +291,9 @@ In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of 
 
 The standard evaluation protocol is to train a linear head $g_D$ on top of the \textit{frozen} representations in a supervised manner and evaluate this models performance. This is to say that we train  $f_D = g_D\circ \widehat{h}$ by only updating the parameters of the linear model $g_D$, and evaluate $\widehat{f}_D$ on some test set. This protocol is sometimes referred to as \textit{linear probing}. A common downstream task is classification, where the idea is that good and informative representations should differentiate data in such a way that it is easy to separate them. \newline
 
-An common alternative protocol is similar to the one above, but rather than freezing the feature extractor one let all parameters of $f_D$ to be learnable on the downstream task. This protocol is referred to as a pretraining-finetuning. It is of interest how $f_D$ performs in terms of accuracy on the downstream task and training time, and too how these sensitive metics are to training data size. The baseline comparison would then be an identical but randomly initialized model. It is considered highly advantageous if one is able to pretrain a feature extractor using cheap and abundant data in a way which ensures faster convergence on a downstream task where data is expensive or scarce.\newline
+An common alternative protocol is similar to the one above, but rather than freezing the feature extractor one let all parameters of $f_D$ to be learnable on the downstream task. This protocol is referred to as a pretraining-finetuning. \newline
+
+It is of interest how $f_D$ performs in terms of accuracy on the downstream task and training time, and too how these sensitive metrics are to training data size. The baseline comparison would then be an identical but randomly initialized model. It is considered highly advantageous if one is able to pretrain a feature extractor using cheap and abundant data in a way which ensures faster convergence on a downstream task where data is expensive or scarce.\newline
 
 It is with mentioning that in cases where the sole goal is to create the best performing model, a more complex task specific head $g_D$ is often used. For a comprehensive survey on representation learning we refer the reader to \cite{nozawa2022empirical}.
 
@@ -305,29 +306,16 @@ It is with mentioning that in cases where the sole goal is to create the best pe
 
 
 
-% Typically in representation learning algorithms, the output dimension of $\widehat{h}$ is smaller than the input dimension. The idea of compression in representation learning has gotten theoretical and philosophical attention \todo{Information bottleneck, compression}. 
-
-
-
-\TODO{The role of Visual inspection}
-
 
 \section{Transformers}
 
 Since their introduction in the seminal paper titled "Attention is all you need"\cite{vaswani2023attention} transformers have taken the field of machine learning and artificial intelligence by storm. It is the enabling architecture behind large language models (LLMs) such as Googles BERT, Metas Llama and OpenAIs ChatGPT. Drawing inspiration from the initial success in natural language processing vision transformers \cite{dosovitskiy2021image} were developed for computer vision applications, and similar trends are shown for other modalities such as audio \cite{latif2023transformers} and time series \cite{wen2023transformers}. \newline
 
-Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output. As recurrent models are in computational aspects inherently sequential, and there are major challenges when training when one tries to capture longer dependencies.\newline
+Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the transformer architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output.\newline
 
+The transformer takes as input a sequence of symbols , referred to as the \textit{input embedding} in \ref{fig:transformer}. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of vectors. This is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization in NLP, where one creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. \newline
 
-The transformer takes as input a sequence of symbols , referred to as the \textit{input embedding} in \ref{fig:transformer}. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of vectors. In NLP this is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization which creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. \newline
-
-
-Transformers can be adopted for generative tasks, and has done so with great success. Autoregressive transformers such as the GPT series are trained to predict the next token in a sequence given the preceding tokens. By treating images as sequences of patches vision transformers can generate new images or inpaint missing patches conditional on the input.\newline
-
-With the introduction if vision transformers \cite{dosovitskiy2021image}, input images were split into patches and linearly projected before being processed by the transformer. Since then \textit{Vector-Quantized}-based tokenization introduced by \cite{VQVAE} has emerged as a popular approach.
-
-
-
+Transformers can be adopted for generative tasks, and has done so with great success. Autoregressive transformers such as the GPT series are trained to predict the next token in a sequence given the preceding tokens. By treating images as sequences of patches vision transformers can generate new images or inpaint missing patches conditional on the input. With the introduction if vision transformers \cite{dosovitskiy2021image}, input images were split into patches and linearly projected before being processed by the transformer. Since then \textit{Vector-Quantized}-based tokenization introduced by \cite{VQVAE} has emerged as a popular approach.
 
 \subsection{The attention mechanism}
 "Attention can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values and outputs are all vectors". 
@@ -355,8 +343,9 @@ Multi-headed attention
 \end{equation}
 where
 \begin{equation}
-    \text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,V_i^V)
+    \text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
 \end{equation}
+
 \subsection{Architecture}
 
 
@@ -364,7 +353,7 @@ where
     \includegraphics[scale=0.1]{Transformer_architecture}
     \centering 
     \label{fig:transfomrer}
-    \caption{The Transformer - model architecture. Taken with permission from \cite{vaswani2023attention}}
+    \caption{The Transformer - model architecture. Encoder (left), decoder (right). Taken with permission from \cite{vaswani2023attention}}
 \end{figure}
 
 
@@ -381,11 +370,7 @@ Transformer layer (encoder/decoder)
 
 \subsection{Bi-directional transformer (BERT)}
 
-Encoder only transformer
-
-
-
-Unidirectional / 
+Encoder only transformer. Unidirectional
 
 
 
@@ -499,6 +484,7 @@ For a thorough survey on masked modelling for SSL in the vision domain we refer 
 
 
 \section{Vector Quantized Variational Autoencoder (VQVAE)}
+\label{section:VQVAE}
 Our model is based on the Vector Quantized Variational Autoencoder (VQVAE) introduced in \cite{VQVAE}, and includes an Auto-encoder (AE) branch. Therefore it is natural to dive into the models. We first start with introducing auto-encoders, then present the variational variation VAE before presenting VQVAE. 
 
 \subsection{Autoencoder (AE)}
@@ -520,11 +506,9 @@ The autoencoder is trained in such a way that the composition of encoder and dec
 \TODO{Issues with latent representations and the need for regularization}
 
 \subsection{Variational Autoencoder (VAE)}
-Variational Autoencoders (VAE) were introduced in \cite{kingma2022autoencoding} and is a variational Bayes approach to approximate inference and learning with directed probabilistic models. The architecture of VAE is similar to AE, but the mathematical formulation is quite different. For context variational inference is a technique in statistics used to approximate complex distributions by looking for the closest approximation within a simple, but flexible, parameter family. \newline 
+Variational Autoencoders (VAE) were introduced in \cite{kingma2022autoencoding} and is a variational Bayes approach to approximate inference and learning with directed probabilistic models. The architecture of VAE is similar to AE, but the mathematical formulation is quite different. For context variational inference is a technique in statistics used to approximate complex distributions by looking for the closest approximation within a simple, but flexible, parametric family. \newline 
 
-\TODO{Intractabilities, why an how?}
-
-We assume that the dataset $X = \{x_i\}_{i=1}^{N}$ consists of iid samples from a random variable $\mathbf{x}$. In the VAE framework we further assume that the data is generated by some unobservable random process. This is to say that we assume there is a random variable $\mathbf{z}$ such that $x_i \sim p_{\theta^*}(x|z_i)$, where $z_i \sim p_{\theta^*}(z)$. The distribution $p_{\theta^*}(z)$ is referred to at the true prior and $p_{\theta^*}(x|z_i)$ as the true likelihood. As $\mathbf{z}$ is unobservable and the true distributions are unknown, one has to assume their form. In general the prior and likelihood are assumed to be from parametric families $p_{\theta}(z)$ and $p_{\theta}(x|z)$. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument.\newline
+In the VAE framework we assume that the dataset $X = \{x_i\}_{i=1}^{N}$ consists of iid samples from a random variable $\mathbf{x}$. We further assume that the data is generated by some unobservable random process. This is to say that we assume there is a random variable $\mathbf{z}$ such that $x_i \sim p_{\theta^*}(x|z_i)$, where $z_i \sim p_{\theta^*}(z)$. The distribution $p_{\theta^*}(z)$ is referred to at the true prior and $p_{\theta^*}(x|z_i)$ as the true likelihood. As $\mathbf{z}$ is unobservable and the true distributions are unknown, one has to assume their form. In general the prior and likelihood are assumed to be from parametric families $p_{\theta}(z)$ and $p_{\theta}(x|z)$. As with any model where one wishes to employ gradient based learning, the distributions are assumed to be differentiable almost everywhere, both with respect to their parameters and argument.\newline
 \begin{figure}[h]
     \includegraphics[scale=0.3]{VAE}
     \centering  
@@ -533,18 +517,17 @@ We assume that the dataset $X = \{x_i\}_{i=1}^{N}$ consists of iid samples from 
 
 VAEs have two components to their architecture. The first is a probabilistic encoder, often called the inference model, $q_\phi(z|x)$ which approximates the true posterior. Secondly a probabilistic decoder, often called the generative model $p_\theta(x|z)$, which approximates the likelihood. These models are typically parameterized by some type of neural network, and in that case $\phi$ and $\theta$ are the weights and biases of the two networks. Given a datapoint $x_i$ the probabilistic encoder provides a distribution over the possible values of the latent variable $\mathbf{z}$. Similarly, given a latent representation $z_i$ the probabilistic decoder produces a distribution over the possible corresponding values of $\mathbf{x}$. \newline
 
-The probabilistic part of the encoder and decoder is the sampling part. The output for a given $x$ or $z$ is a distribution, and for the same input the same output distribution is calculated (as long as the network parameters are frozen). Actually $x$ and $z$ are mapped to the parameters of a distribution, which uniquely determines the distribution in a particular family.\newline
+The probabilistic part of the encoder and decoder is the sampling. The output for a given $x$ or $z$ is a distribution, and for the same input the same output distribution is calculated (as long as the network parameters are frozen). Actually $x$ and $z$ are mapped to the parameters of a distribution, which uniquely determines the distribution in a particular family.\newline
 
 The most common situation is to assume 
 \begin{itemize}
     \item Prior $p_\theta(z)\sim N(0,I)$
-    \item Likelihood $p_\theta(x|z)\sim N(D(z), I)$ ??? Is this true? 
+    \item Likelihood $p_\theta(x|z)\sim N(D(z), I)$
     \item Variational posterior $q_\phi(z|x)\sim N(E(x)) = N(\mu_x, \Sigma_x)$
 \end{itemize}
+The encoder maps datapoints to parameters of the variational distribution, i.e the approximate posterior $q_\phi$, $x \mapsto E(x) = (\mu_x, \Sigma_x)$. A latent representation $z$ is then sampled from $q_\phi$, which constitutes the random part of the algorithm. The decoder maps $z$ to the expected value of the likelihood $p(x|z)$, $z_i \mapsto D(z_i)$. \newline
 
-In a VAE the encoder maps datapoints to parameters of the variational distribution, i.e the approximate posterior $q$. $x \mapsto E(x) = (\mu_x, \Sigma_x)$. A latent representation $z$ is then sampled from $q$, which constitutes the random part of the algorithm. The decoder maps $z$ to the expected value of the likelihood $p(x|z)$. $z_i \mapsto D(z_i)$. \newline
-
-There are several reasons for choosing this family, one being that the Gaussian distribution a scale-location family. This enables us to circumvent the problematic random component in the VAE when using gradient based learning. As described above we sample $z\sim N(\mu_x,\Sigma_x)$ where $E(x) = (\mu_x,\Sigma_x)$. We can equivalently sample from $N(\mu_x,\Sigma_x)$ by reparameterization using the location-scale property. This means to introduce an auxillary variable $\epsilon \sim N(0,I)$ and rewriting $z = \mu_x + L_x\epsilon $, where $L_x$ is the Cholesky decomposition of $\Sigma_x$. This factors the random part out of path of gradient flow.
+There are several reasons for choosing Gaussian distributions, one being that the Gaussian distribution a scale-location family. This enables us to circumvent the problematic random component in the VAE when using gradient based learning. As described above we sample $z\sim N(\mu_x,\Sigma_x)$ where $E(x) = (\mu_x,\Sigma_x)$. We can equivalently sample from $N(\mu_x,\Sigma_x)$ by reparameterization using the location-scale property. This means to introduce an auxillary variable $\epsilon \sim N(0,I)$ and rewriting $z = \mu_x + L_x\epsilon $, where $L_x$ is the Cholesky decomposition of $\Sigma_x$. This factors the random part out of path of gradient flow.
 \begin{figure}[h]
     \includegraphics[scale = 0.2]{VAE_Normal.png}
     \centering
@@ -555,7 +538,7 @@ There are several reasons for choosing this family, one being that the Gaussian 
 
 \subsubsection{Training objective}
 
-As with other variational methods, VAEs are optimized with respect to the \textit{evidence lower bound} or ELBO for short. Let $X$ and $Z$ be two jointly distributed variables, with distribution $p_\theta$. Then for any distribution $q_\phi$ the ELBO is defined as
+As with other variational methods VAEs are optimized with respect to the \textit{evidence lower bound} or ELBO for short. Let $\x$ and $\z$ be two jointly distributed variables, with distribution $p_\theta$. Then for any distribution $q_\phi$ the ELBO is defined as
 
 \begin{equation}
     \label{eq:ELBO}
@@ -572,7 +555,7 @@ The ELBO can be reformulated in terms of the marginal likelihood and KL divergen
     \end{aligned}
 \end{equation}
 Due to the non-negativity of the KL-divergence, we see that the ELBO bounds the marginal log likelihood of the data from below. By maximizing the ELBO with respect to the model parameters $\phi$ and $\theta$ one simultaneously maximizes the marginal likelihood, which improves the generative model, as well as reducing the KL-divergence of the approximate to the true posterior, which improves the inference model \cite{VAE}.\newline
-An alternative reformulation gives a more evident connection to Auto-encoders, with a the prior acting as a regularizer on the posterior 
+An alternative reformulation gives a more evident connection to Autoencoders, with a the prior acting as a regularizer on the posterior 
 \begin{equation}
     \begin{aligned}
         \label{eq:ELBO_AE}
@@ -591,9 +574,6 @@ which is equivalent, as an optimization objective of $D(z)$, to $||x-D(z)||_2^2$
 \subsubsection{Generative model}
 The role of the prior in a VAE is two fold. Firstly as a regularizing constraint for the posterior during training, and secondly as a way of obtaining new samples $x$ via ancestral sampling. Ancestral sampling refers to $\z$ being the parent node of $\x$ in the VAE, and that we can generate samples $x$ by drawing a sample $z\sim p(z)$ and decode $D(z)$. 
 
-
-% This is known as \textit{prior predictive sampling}. 
-% The other option is to use \textit{posterior predictive sampling} by using a datapoint $x_i$ to obtain a posterior distribution $q(z|x_i)$, sample a latent representation $z_i$ and then obtain $p(x|z_i)$. From this likelihood we can sample implicitly conditional on $x_i$. 
 
 
 
@@ -655,7 +635,7 @@ is constant. Consequently the ELBO reduces to the reconstruction term only. \new
 During the initial training the prior is as mentioned constant and uniform such that the posterior has more flexibility. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling. The prior is learned with a generative objective, which increases the quality of generated samples. The choice of prior model depends on the particular application and in VQVAE PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
 
 \subsubsection{Loss funciton}
-As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different distcrete latent codes.\newline
+As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different discrete latent codes.\newline
 
 The loss function consists of three parts, the reconstruction loss, VQ loss and commitment loss. We already mentioned that the ELBO objective reduced to the reconstruction term only. In order to learn the codebook one uses the VQ loss, which is the euclidean distance between the encoder output and the quantized output. The final part of the loss is the commitment loss, which is introduced to keep the distance between embedding vectors (or codes) from growing arbitrarily large. To summarize the total loss is given by
 
@@ -669,17 +649,8 @@ The loss function consists of three parts, the reconstruction loss, VQ loss and 
 
 where $\beta$ is a tuning parameter typically set to be $0.25$ and $sg()$ is the stopgradient operation, defined to be the identity with zero partial derivatives. \newline
 
-To illustrate the need for commitment loss and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the VQ loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the VQ loss diverge. This behavior is observed experimentaly. \newline 
+To illustrate the need for commitment loss and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the VQ loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the VQ loss diverge. This behavior is observed experimentally. \newline 
 
-\begin{figure}[h]
-    \includegraphics[scale=0.5]{quantization}
-    \centering    
-\end{figure}
-
-\subsubsection{Orthogonal regularization loss}
-
-There has been several attempts to improve vector quantization. In \cite{shin2023exploration} they advocate for learning orthogonal/decorated codewords. 
-% \TODO{Reference https://github.com/lucidrains/vector-quantize-pytorch some way.}
 
 
 
@@ -707,31 +678,15 @@ SVM, KNN. The difference in inductive bias for the two classifiers.
 \subsection{Generative model}
 Good evaluation protocols for generative models are hard to come by, and the hunt for such is an active area of research. There are data modalities for which such evaluation metrics have more established standards than others. Most notably in the computer vision domain there is a benchmark dataset (ImageNet) and classifier (Inception v3). \newline
 
-The typical sanity check for generative models is human visual inspection. In development of generative evaluation metrics how well a proposed metric correlates with quality determined by visual inspection. Most people know what cats and dogs look like and can recognize features even in crudely generated images \todo{lik til artikkel som har dårlig genererte bilder}. In contrast, many time series dataset measure quantities and signals for which the untrained eye has no idea of determining the quality. This is one of the obstacles in TSG, and the evaluation of the evaluation metrics for TSG. \newline 
+The typical sanity check for generative models is human visual inspection. In development of evaluation metrics for generative models, how well a proposed metric correlates with quality determined by visual inspection is standard. Most people know what cats and dogs look like and can recognize features even in crudely generated images. In contrast, many time series dataset measure quantities and signals for which the untrained eye has no idea of determining the quality. This is one of the obstacles in TSG. Despite this, according to \cite{TimeVQVAE} the most common evaluation protocols in the TSG literature is PCA and t-SNE analyses on time series to visually see similarities of two distributions. The major limitations of this is that the visual inspections cannot be reduced to a single score, which makes objective comparison difficult. \newline
 
-We mainly consider three evaluation metrics in this thesis, following \cite{TimeVQVAE}. Common for all is the dependency on a external classification model. \textit{Inception Score} (IS), \textit{Fréchet Inception Distance} (FID) and \textit{Classification Accuracy Score} (CAS).
-IS measures quality of synthetic samples using the entropy of the label distribution and the evenness in prediction across labels \todo{This sencence is a copy from TimeVQVAE, rewrite or cite. I think it is good.}. The \textit{Fréchet Inception Distance} measures a distance between the generative and ground truth distribution. Finally the \textit{Classification Accuracy Score} measures the quality of the class-conditionally generated samples by training a classifier on synthetic and testing on real data.
+Following \cite{TimeVQVAE} we mainly consider three evaluation metrics in this thesis. \textit{Inception Score} (IS), \textit{Fréchet Inception Distance} (FID) and \textit{Classification Accuracy Score} (CAS). IS measures quality of synthetic samples using the entropy of the label distribution and the evenness in prediction across labels. The \textit{Fréchet Inception Distance} measures a distance between the generative and ground truth distribution. Finally the \textit{Classification Accuracy Score} measures the quality of the class-conditionally generated samples by training a classifier on synthetic data and testing on real.
 
-Common for all the evaluation metrics is the reliance on a pre-trained classification model. In contrast to computer vision there is no widely adopted classification model for time series, but in \cite{wang2016time} a fully convolutional network (FCN) was presented as a proposed baseline classification model for time series. As their model is not available we use the open source FCN trained on the UCR Archive presented in \cite{TimeVQVAE} for our evaluations. \newline
-
-
-According to \cite{TimeVQVAE} the most common evaluation protocols in the TSG literature is PCA and t-SNE analyses on time series to visually see similarities of two distributions. The major limitations of this is that the visual inspections cannot be reduced to a single score, which makes objective comparison difficult. \newline
-
-
-FID score measures difference in the distribution of representations of time series. The representations capture high level semantics of the time series and analyses of these representations can provide greater insights to the realism of generated samples. \newline
-
-
-
-
-
-\subsubsection{Visual Inspection}
-
-Issues with visual inspection of time series data, compared to modalities as image and audio, is that humans are naturally quite good classifiers of image and audio.
-
+Common for all the above evaluation metrics is the reliance on a pre-trained classification model. In contrast to computer vision there is no widely adopted classification model for time series, but in \cite{wang2016time} a fully convolutional network (FCN) was presented as a proposed baseline classification model for time series. As their model is not available we use the open source FCN trained on the UCR Archive presented in \cite{TimeVQVAE} for our evaluations.\newline
 
 \subsubsection{Inception Score (IS)}
 Inception Score (IS) was first introduced in \cite{salimans2016improved} as an automatic evaluation method of synthetic samples.\newline
-The Inception Score works by applying a classifier to every generated sample to get the conditional label distribution $p(y|x)$. Samples containing meaningful "objects" should have low entropy, i.e be certain of the label. In addition we expect a good model to generate varied samples, so the marginal $\int p(y|x = G(z))dz$ should have high entropy. Here $G$ is our generative model and $z$ the latent variable. On this basis, the Inception Score is defined as 
+The Inception Score works by applying a classifier to every generated sample to get the conditional label distribution $p(y|x)$. Samples containing clear characteristics should have low entropy, i.e one should be certain of the label. In addition we expect a good model to generate varied samples, so the marginal $\int p(y|x = D(z))dz$ should have high entropy. On this basis, the Inception Score is defined as 
 
 \begin{equation}
     \label{IS}
@@ -777,14 +732,19 @@ In \cite{heusel2018gans} they argue that since the Gaussian distribution is the 
 
 FID is not without fault, and the Gaussian assumption has been shown not to hold \cite{jayasumana2024rethinking}. Further, as the FID relies on estimating large covariance matrices, a large number of samples is needed to obtain a reliable estimate.\newline
 
-Rethinking FID: \cite{jayasumana2024rethinking} 
+Rethinking FID: \cite{jayasumana2024rethinking} \newline
 
-\cite{chong2020effectively} FID and IS are biased.
+\cite{chong2020effectively} FID and IS are biased.\newline
+
+FID score measures difference in the distribution of representations of time series. The representations capture high level semantics of the time series and analyses of these representations can provide greater insights to the realism of generated samples. \newline
 
 
 \subsubsection{Classification Accuracy Score (CAS)}
-\cite{smith2020conditional} report the CAS.
-A method for evaluating the models ability to learn class conditional distributions is to train a separate classifier on the on synthetic data and test on real data (TSTR).  
+% \cite{smith2020conditional} report the CAS.
+A method for evaluating the models ability to learn class conditional distributions is to train a separate classifier on the on synthetic data and test on real data (TSTR). That is we generate $N$ synthetic samples $\{x_i,y_i\}_{i=1}^N$ using class conditional sampling. We then train a classifier on this synthetic dataset, and evaluate the CAS of this classifier on a real test dataset. High CAS values indicate that the generative model produces samples similar to the real data and captures relevant class specific features.\newline
+
+We evaluate the CAS for TSTR by using the Supervised FCN introduced in \cite{TimeVQVAE} on all our models considered and compare against the baseline model to investigate the relative performance. 
+
 
 
 \end{document}

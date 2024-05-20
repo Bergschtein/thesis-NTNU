@@ -109,6 +109,11 @@ A discrete latent representation $z_q \in \R^{d\times h\times w}$ can equivalent
     s_{ij} = k, \text{ whenever } (z_q)_{ij} = z_k
 \end{equation}
 
+\begin{figure}[h]
+    \includegraphics[scale=0.2]{quantization}
+    \centering    
+\end{figure}
+
 
 
 \subsubsection{Class Conditional Sampling}
@@ -117,43 +122,9 @@ A discrete latent representation $z_q \in \R^{d\times h\times w}$ can equivalent
 
 \section{SSL}
 
-Our model leverages SSL algorithms in order to learn more expressive latent representations. Here we present the relevant algorithms for our work. \newline
-
+Our model leverages SSL algorithms in order to learn more expressive latent representations. Here we present the relevant algorithms for our work, Barlow Twins and VIbCReg.
+\newline
 One fundamental difference between Barlow Twins and VIbCReg is that the branches are regularized differently. In Barlow Twins the regularization is applied to the cross correlation matrix of the projected output of the two branches, which in general favours scenarios where the two branches produces similar summary statistics. In VIbCReg the covariance term is applied on each branch separately, which works better in scenarios where the branches are different \cite{bardes2022vicreg}.
-
-% \subsection{BYOL}
-% \cite{grill2020bootstrap}
-% Bootstrap Your Own Latents (BYOL) is an early non-contrastive self supervised learning algorithm developed by Google Research in 2020. BYOL was developed for image representation learning and provided a new state of the art for downstream classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture. 
-
-% How it works:
-% BYOL uses a joint embedding architecture, one \textit{online} network and a \textit{target} network. Both networks consists of an encoder $f$ and decoder $g$, while the online network too has a predictor $q$. The architecture of the networks are the same, but the target parameters $\zeta$ are exponential moving averages of the online parameters $\theta$. In particular, for a specified target decay rate $\tau\in[0,1]$, the target parameters are updated according to 
-% \begin{equation}
-%     \zeta \leftarrow \tau \zeta + (1-\tau)\theta
-% \end{equation}
-% after each training step. \\\\
-
-% Let $\mathcal{D}$ be the data. As is typical for non contrastice SSL, data augmentations are applied in order to increase robustness of the representations. Let $\mathcal{T}$  and $\mathcal{T'}$ denote the set of augmentations for the online and target network respectively. BYOL samples a data point $x\sim \mathcal{D}$ and two augmentation $t\sim \mathcal{T}$ and $t'\sim \mathcal{T'}$, with whom it creates two views $v = t(x)$ and $v' = t'(x)$. The views maps through their respective branch as follows
-% \begin{equation}
-%     x \to t(x) = v \to f_\theta(v) = y_\theta \to g_\theta (y_\theta) = z_\theta \to p_\theta(z_\theta)
-% \end{equation}
-% \begin{equation}
-%     x \to t'(x) = v' \to f_\zeta(v') = y'_\zeta \to g_\zeta (y'_\zeta) = z'_\zeta,
-% \end{equation}
-% and both outputs are $l_2$-normalized before their mean squared error is calculated. In other words the outputs are updated as
-% \begin{equation}
-%     \bar{p}_\theta(z_\theta) = \frac{p_\theta(z_\theta)}{||p_\theta(z_\theta)||_2}, \quad \bar{z}_\zeta' = \frac{z_\zeta'}{||z_\zeta'||_2},
-% \end{equation}
-% before the loss is obtained by 
-% \begin{equation}
-%     \mathcal{L}_{\theta,\zeta} = ||\bar{p}_\theta(z_\theta) - \bar{z}_\zeta'||_2^2 = 2-2 \frac{\langle p_\theta(z_\theta), z_\zeta'\rangle}{||p_\theta(z_\theta)||_2\cdot||z_\zeta'||_2}
-% \end{equation}
-
-% The BYOL loss is obtain by symmetrizing $\mathcal{L}_{\theta,\zeta}$. This is done by separately feeding $v'$ into the online network and $v$ into the target network, and calculating $\mathcal{\tilde{L}}_{\theta,\zeta}$ to obtain $\mathcal{L}^{\text{BYOL}}_{\theta,\zeta} = \mathcal{L}_{\theta,\zeta} + \mathcal{\tilde{L}}_{\theta,\zeta}$
-
-
-% \TODO{Figure}
-
-
 
 \subsection{Barlow Twins}
 Barlow Twins is a non-contrastive SSL method based on applying the \textit{redundancy-reduction principle} (or efficient coding hypothesis) \cite{Barlow_origin} from the neuroscientist H. Barlow to a pair of identical networks.\newline  
@@ -203,19 +174,13 @@ The similarity loss is defined as the MSE of the two embeddings
 \begin{equation}
     s(Z,Z') = \frac{1}{B} \sum_{b=1}^B || Z_b-Z_b'||_2^2,
 \end{equation}
-which encourages them to be similar. 
-
-The FcE/Variance term acts on each branch separately and encourages the variation across a batch to stay large. It is defined as 
-
-
+which encourages them to be similar. The FcE term acts on each branch separately and encourages the variation across a batch to stay at a specified level $\gamma$. It is defined as 
 \begin{equation}
     v(Z) =  \frac{1}{F} \sum_{f=1}^F \max(0,\gamma - \sqrt{\text{Var}(Z_f)+\epsilon}),
 \end{equation}
-where $\text{Var}()$ is a variance estimator, $\gamma$ is a target value for the standard deviation, which both in VIbCReg and VICReg is set to $1$. $\epsilon$ is a small scalar preventing numerical instabilities.  \newline 
-
-Finally the FD/covariance term pushes the normalized covariance 
-
-First we mean shift and normalize along the batch dimension
+where $\text{Var}()$ is a variance estimator, $\gamma$ is a target value for the standard deviation, which both in VIbCReg and VICReg is set to $1$. $\epsilon$ is a small scalar preventing numerical instabilities. 
+\newline 
+For the FD loss we first mean shift and normalize along the batch dimension
 \begin{equation}
     \widehat{Z}_b = \frac{Z_b-\bar{Z}}{||Z_b-\bar{Z}||_2} \text{ where }  \bar{Z} = \frac{1}{B}\sum_{b=1}^B  Z_b,
 \end{equation}

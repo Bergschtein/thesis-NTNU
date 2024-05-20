@@ -4,7 +4,10 @@
         "autoencoders",
         "codebook",
         "datapoint",
+        "downsampling",
         "pretraining",
+        "resudial",
+        "upsampling",
         "VQVAE"
     ]
 }
