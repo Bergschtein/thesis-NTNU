@@ -75,9 +75,9 @@ In our experiments we consider three sets of augmentations with different charac
     \item Gaussian noise
 \end{itemize}
 
-\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view. \newline
+\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view. \newline
 
-\textbf{Slice and Shuffle} crops the time series into three sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
+\textbf{Slice and Shuffle} crops the time series into three sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
 
 \textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder.
 
@@ -132,6 +132,7 @@ Our subset of the UCR archive is
     \end{table}
 
     \begin{figure}[h]
+        \label{fig:datasets}
         \centering
         \begin{minipage}[b]{0.32\textwidth}
             \centering

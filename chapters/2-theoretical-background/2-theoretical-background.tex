@@ -313,16 +313,11 @@ Since their introduction in the seminal paper titled "Attention is all you need"
 
 Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the transformer architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output.\newline
 
-The transformer takes as input a sequence of symbols , referred to as the \textit{input embedding} in \ref{fig:transformer}. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of vectors. This is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization in NLP, where one creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. \newline
+The transformer takes as input a sequence of symbols. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of symbols. This is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization in NLP, where one creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. \newline
 
 Transformers can be adopted for generative tasks, and has done so with great success. Autoregressive transformers such as the GPT series are trained to predict the next token in a sequence given the preceding tokens. By treating images as sequences of patches vision transformers can generate new images or inpaint missing patches conditional on the input. With the introduction if vision transformers \cite{dosovitskiy2021image}, input images were split into patches and linearly projected before being processed by the transformer. Since then \textit{Vector-Quantized}-based tokenization introduced by \cite{VQVAE} has emerged as a popular approach.
 
 \subsection{The attention mechanism}
-"Attention can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values and outputs are all vectors". 
-
-\TODO{Wait for 3b1b video for context}
-
-Scaled dot-product attention, 
 
 \begin{figure}[h]
     \includegraphics[scale=0.25]{Attention.png}
@@ -331,20 +326,22 @@ Scaled dot-product attention,
     \caption{(left) Scaled dot-product attention. (right) Multi-headed attention. Taken with permission from \cite{vaswani2023attention}}
 \end{figure}
 
+"Attention can be described as mapping a query and a set of key-value pairs to an output, where the query, keys, values and outputs are all vectors". Scaled dot-product attention is computed by 
 
 \begin{equation}
     \text{Attention}(Q,K,V) = \softmax \left(\frac{QK^T}{\sqrt{d_k}}\right)V
 \end{equation}
 
-Multi-headed attention
+Multi-headed attention projects the inputs $Q,K,V$ down to $h$ subspaces, where the scaled dot product attention is applied to each subspace. The individual attention heads are concatenated before passing through a final linear layer. That is to say 
 
 \begin{equation}
-    \text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1,\dots, \text{head}_h)W^O
+    \text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1,\dots, \text{head}_h)W^O,
 \end{equation}
 where
 \begin{equation}
-    \text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V)
+    \text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V). 
 \end{equation}
+
 
 \subsection{Architecture}
 
@@ -352,27 +349,25 @@ where
 \begin{figure}[h]
     \includegraphics[scale=0.1]{Transformer_architecture}
     \centering 
-    \label{fig:transfomrer}
+    \label{fig:transformer}
     \caption{The Transformer - model architecture. Encoder (left), decoder (right). Taken with permission from \cite{vaswani2023attention}}
 \end{figure}
+An overview of the original transformer architecture is presented in figure \ref{fig:transformer}. The architecture has several distinct components.
+\newline
 
+\textbf{Embeddings}: The input embedding maps each token in an input sequence to a vector. The input embedding is essentially a lookup table. 
+\newline
 
+\textbf{Positional encoding}: The transformer does not rely on convolution of recurrence to make use of the order of the input sequence. Instead it relies on a positional encoding, which is done by adding information about the relative position of an element in the embedded sequence. In the original paper \cite{vaswani2023attention} sinusoids are used to encode the position with unique values. 
+\newline
 
+\textbf{Encoder}: The embeddings with positional encodings are passed through the transformer encoder, which consist of $N$ identical layers. The layers consist of the multi-head attention and a fully connected neural network, with residual connections and normalization at each sublayer. 
+\newline
 
-Encoder - decoder architecture. 
+\textbf{Decoder}: The decoder similarly consists of $N$ identical layers. They consist of a masked attention layer, which prevents the decoder to utilize future values in the sequence during training, a multi-head attention applied to the output of the encoder and a fully connected neural network. All sublayers employ residual connections and normalization. The output is converted to probabilities in the standard way by a linear layer followed by softmax. 
+\newline
 
-Tokenizer
-
-Positional encoding
-
-
-Transformer layer (encoder/decoder)
-
-\subsection{Bi-directional transformer (BERT)}
-
-Encoder only transformer. Unidirectional
-
-
+Bidirectional transformer models such as BERT \cite{devlin2019bert} use an encoder only architecture, which enables the attention to attend both directions. The issue of "seeing in the future" is resolved by a training technique referred to as \textit{Masked modelling} \ref{section:Masked modelling}.
 
 \section{Self-Supervised learning}
 
@@ -465,6 +460,7 @@ BYOL, Barlow Twins, VCReg, VICReg, VIbCReg\newline
 % \subsubsection{The role of projectors}
 
 \subsection{Masked modelling}
+\label{section:Masked modelling}
 Masked modelling is a conceptually simple self-supervised learning technique for generative models. The idea is to mask or cover a portion of the data and predict the masked portions. By comparing the prediction against unmasked data the model can learn useful representations without supervision. Since the introduction of masked modelling in natural language processing by \cite{devlin2019bert} it has been the de-facto standard for self-supervised pretraining of language models. BERT introduced masked modeling for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
 \TODO{When did GPT \cite{Radford2018ImprovingLU} use Masked modelling?}
 
@@ -473,6 +469,7 @@ Masked image modelling \cite{he2021masked}: Mask image patched directly \newline
 When vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers.\newline
 Masked visual token modelling \cite{chang2022maskgit}: Tokenize the image and mask tokens. \newline
 
+In masked modelling, typically an additional mask token is introduced in the transformer embedding. 
 
 
 \TODO{Masking in original domain or tokens. Masking strategies.}
@@ -635,11 +632,13 @@ is constant. Consequently the ELBO reduces to the reconstruction term only. \new
 During the initial training the prior is as mentioned constant and uniform such that the posterior has more flexibility. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling. The prior is learned with a generative objective, which increases the quality of generated samples. The choice of prior model depends on the particular application and in VQVAE PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
 
 \subsubsection{Loss funciton}
+\label{section:VQVAELoss}
 As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different discrete latent codes.\newline
 
 The loss function consists of three parts, the reconstruction loss, VQ loss and commitment loss. We already mentioned that the ELBO objective reduced to the reconstruction term only. In order to learn the codebook one uses the VQ loss, which is the euclidean distance between the encoder output and the quantized output. The final part of the loss is the commitment loss, which is introduced to keep the distance between embedding vectors (or codes) from growing arbitrarily large. To summarize the total loss is given by
 
-    \begin{equation}        
+    \begin{equation}     
+        \label{eq:VQVAELoss}
         \begin{aligned}
             \loss_{\text{Recon}} &= ||x - \widehat{x}||_2^2\\
             \loss_{\text{VQ}} &= ||sg(z) - z_q||_2^2 +\beta||z - sg(z_q)||_2^2\\
