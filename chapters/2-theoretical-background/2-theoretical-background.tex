@@ -190,17 +190,17 @@ As mentioned earlier CNNs are mainly used when the data has high dimensionality.
 
 
 \subsection{Architecture}
-There are a large variety of specific architectures which fall in the category of a CNN, but their basic components are largely the same. They consist of convolutional layers, pooling layers and fully connected layers. In figure \ref{fig:LeNet5} an illustation of the original LeNet-5 \cite{LeCun1989ConvNet} is presented as an illustration of a general CNN.\newline
+There is a large variety of specific architectures which fall in the category of a CNN, but their basic components are largely the same. They consist of convolutional layers, pooling layers and fully connected layers. In figure \ref{fig:LeNet5} an illustation of the original LeNet-5 \cite{LeCun1989ConvNet} is presented as an illustration of a general CNN.\newline
 
-A convolutional layer consists of several kernels used to compute different \textit{feature maps}. Each kernel convolved with entire input, and the different feature maps are produced by changing kernel. A nonlinear activation function is then applied pointwise to the feature maps.
+\textbf{A convolutional layer} consists of several kernels used to compute different \textit{feature maps}. Each kernel convolved with entire input, and the different feature maps are produced by changing kernel. A nonlinear activation function is then applied pointwise to the feature maps.
 \begin{figure}[h]
     \centering
     \includegraphics[scale = 0.5]{convlayer.png}
     \caption{Convolutional layer.}
 \end{figure}
-A pooling layer is typically placed between convolutional layers and work as a stronger downsampler which aims to enforce approximate translation invariance. A pooling operation is applied across each feature map.\newline
+\textbf{A pooling layer} is typically placed between convolutional layers and work as a stronger downsampler which aims to enforce approximate translation invariance. A pooling operation is applied across each feature map.\newline
 
-The fully connected layer is just your typical hidden layer in a neural network, i.e connect every input to every node in the output. Because of computational issues mentioned earlier fully connected layers are first introduced when the input data has been sufficiently downsampled.
+\textbf{The fully connected layer} is just your typical hidden layer in a neural network, i.e connect every input to every node in the output. Because of computational issues mentioned earlier fully connected layers are first introduced when the input data has been sufficiently downsampled.
 
 \begin{figure}[h]
     \centering
@@ -256,13 +256,14 @@ Transposed convolution or deconvolution, also known as fractionally-strided conv
 
 The focus of this thesis is representation learning for improved time series generation.
 
-\subsection{Why do we care about representation learning?}
-Those who has worked with data science or machine learning and has come across feature engineering are familiar the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. In reality much of the actual time spent in the process of deploying machine learning methods revolves around constructing good data pipelines and applying transformations that produce representations beneficial for the algorithm at hand \cite{Rep-rev-persp}. Thus the ability to automate such tasks would be incredibly beneficial, and ease the use of ML algorithms significantly. It is here one of the intriguing and promising features of neural networks, with its many specializations and architectures, comes into play. They have shown the ability to learn useful abstract representations of the data and provide automatic feature engineering \cite{Rep-rev-persp}. 
-
 \subsection{What a representation?}
 
 Representation learning is a term not too easily defined, one reason being the abstraction level. It is helpful to first consider what is meant by \textit{representation} of information. Lets begin by walking through a familiar and illustrative example. Consider the base ten integer $(4)_{10} = 4$. The number can equivalently (in terms of information content) be expressed, that is represented, in any other base. The particular base we choose depends on our intention with the number. If we want to work with digital electronics, a binary representation ($(4)_{2} = 10$) is very useful, as transistors has two states. When humans do arithmetic, base ten representations of the integers are very natural, as we have ten fingers. A particular representation of information can make a task easier or harder. The information content is unchanged by a change of representation. What is changed is the easiness or difficulty of certain information processing tasks. Representation learning is then the process of learning a certain representation of information. \newline
 Representations are too highly dependent on who, or what, that will process it. An example is time. Humans have developed a standardized system for writing timestamps which works fairly well for us. But, if we want to model time dependent phenomena, say using tabular data, the DateTime representation is of very little help to a tree based model for instance. The reason being that the numerical representation of timestamps close in time is not necessarily close in numerical value. Think of 23:59 to 00:00. A possible solution is to change the representation such that the numerical values actually respect the periodic nature by mapping to the circle. The new representation is then useless for humans, but quite a lot more useful to a computer. Representation learning in machine learning can thus be thought of as algorithms which are designed to learn representations which is useful for a ML objective.
+
+\subsection{Why do we care about representation learning?}
+Those who has worked with data science or machine learning and has come across feature engineering are familiar the effect good feature engineering has on a models performance. The same people too knows the level of domain expertise, creativity and time is needed to feature engineer well. In reality much of the actual time spent in the process of deploying machine learning methods revolves around constructing good data pipelines and applying transformations that produce representations beneficial for the algorithm at hand \cite{Rep-rev-persp}. Thus the ability to automate such tasks would be incredibly beneficial, and ease the use of ML algorithms significantly. It is here one of the intriguing and promising features of neural networks, with its many specializations and architectures, comes into play. They have shown the ability to learn useful abstract representations of the data and provide automatic feature engineering \cite{Rep-rev-persp}. 
+
 
 \subsection{What is a good representation?}
 
@@ -278,14 +279,6 @@ In a $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of 
     \item Use the learned feature extractor $\widehat{h}$ as part of a new model.
     \item Evaluate the new model on the downstream task. 
 \end{itemize}
-
-
-
-
-% When training a neural network of any variation in a supervised fashion, one always get a feature extractor, at no additional cost.  
-% Unsupervised representation learning loss: reconstruction in AE type, similarity losses in joint embedding networks
-% \TODO{When mentioning autoencoders, it is a natural spot to talk about compression. "If you can still reconstruct the signal, then you know everything about it in a sense"}
-
 
 
 
@@ -305,16 +298,13 @@ It is with mentioning that in cases where the sole goal is to create the best pe
 \end{figure}
 
 
-
-
 \section{Transformers}
 
 Since their introduction in the seminal paper titled "Attention is all you need"\cite{vaswani2023attention} transformers have taken the field of machine learning and artificial intelligence by storm. It is the enabling architecture behind large language models (LLMs) such as Googles BERT, Metas Llama and OpenAIs ChatGPT. Drawing inspiration from the initial success in natural language processing vision transformers \cite{dosovitskiy2021image} were developed for computer vision applications, and similar trends are shown for other modalities such as audio \cite{latif2023transformers} and time series \cite{wen2023transformers}. \newline
-
-Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the transformer architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output.\newline
-
-The transformer takes as input a sequence of symbols. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of symbols. This is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization in NLP, where one creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. \newline
-
+Transformers were developed for sequential modelling and has capabilities of learning far ranging dependencies in data through the \textit{multi-headed attention mechanism}. In the realm of sequential modelling recurrent neural networks \todo{cite} and long short-term memory neural networks\todo{cite} were the previous state of the art, but modeling long term dependencies has proven difficult \cite{279181} as one encounters the \textit{vanishing or exploding gradient problem}. One of the main novelties of the transformer architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output.
+\newline
+The transformer takes as input a sequence of symbols. This means in particular that for a specified modality, e.g text, speech, image and time series, they must first be translated into a sequence of symbols. This is accomplished by a process called \textit{tokenization}. The conceptually easiest word-level tokenization in NLP, where one creates a dictionary of all words in the dataset, and assigns to them an integer value. A piece of text can then with relative ease be mapped to a sequence of integers. Other modalities as speech, image and time series are usually represented as matrices and can therefore naively be modeled as a sequence numbers. Because of the high dimensionality, this would require a significant amount of computational resources. In addition the transformer would need to model incredibly far ranging dependencies and handle redundant information. Hence various tokenization methods are used to represent the data as coarser sequences. 
+\newline
 Transformers can be adopted for generative tasks, and has done so with great success. Autoregressive transformers such as the GPT series are trained to predict the next token in a sequence given the preceding tokens. By treating images as sequences of patches vision transformers can generate new images or inpaint missing patches conditional on the input. With the introduction if vision transformers \cite{dosovitskiy2021image}, input images were split into patches and linearly projected before being processed by the transformer. Since then \textit{Vector-Quantized}-based tokenization introduced by \cite{VQVAE} has emerged as a popular approach.
 
 \subsection{The attention mechanism}
@@ -342,6 +332,7 @@ where
     \text{head}_i = \text{Attention}(QW_i^Q,KW_i^K,VW_i^V). 
 \end{equation}
 
+The multi-headed attention enables the transformer to focus on different aspects of the input sequence simultaneously. 
 
 \subsection{Architecture}
 
@@ -358,7 +349,7 @@ An overview of the original transformer architecture is presented in figure \ref
 \textbf{Embeddings}: The input embedding maps each token in an input sequence to a vector. The input embedding is essentially a lookup table. 
 \newline
 
-\textbf{Positional encoding}: The transformer does not rely on convolution of recurrence to make use of the order of the input sequence. Instead it relies on a positional encoding, which is done by adding information about the relative position of an element in the embedded sequence. In the original paper \cite{vaswani2023attention} sinusoids are used to encode the position with unique values. 
+\textbf{Positional encoding}: The transformer does not rely on convolution or recurrence to make use of the order of the input sequence. Instead it relies on a positional encoding, which is done by adding information about the relative position of an element in the embedded sequence. In the original paper \cite{vaswani2023attention} sinusoids are used to encode the position with unique values. 
 \newline
 
 \textbf{Encoder}: The embeddings with positional encodings are passed through the transformer encoder, which consist of $N$ identical layers. The layers consist of the multi-head attention and a fully connected neural network, with residual connections and normalization at each sublayer. 
@@ -371,114 +362,49 @@ Bidirectional transformer models such as BERT \cite{devlin2019bert} use an encod
 
 \section{Self-Supervised learning}
 
-Self-supervised learning (SSL) has had great success in natural language processing and computer vision in recent years. 
-
-Machine learning can be coarsely divided into two classes, supervised and unsupervised learning. 
-
-\subsection{Supervised}
+Self-supervised learning (SSL) has had great success in natural language processing and computer vision in recent years, and is quickly being applied for other modalities. In our work we leverage SSL for representation learning in the time series domain. Before we introduce SSL, it is with mentioning that machine learning models can be coarsely divided into two categories of learning, supervised and unsupervised. 
+\newline
 Supervised learning refers to models who learn using labeled data. That is to say for a given input $x$ we already know what the desired output $y$ is during training, and can therefore supervise (update) our models parameters by directly comparing model output and the true value. A bit more formally, for a dataset $X = \{x_i\}_{i=1}^N$ with corresponding human annotated labels $Y = \{y_i\}_{i=1}^N$, the objective of a supervised learning algorithm is to fit $f_\theta$ in such a way that the loss across the data is minimized
 \begin{equation}
     \widehat{f}_\theta = \min_\theta \frac{1}{N} \sum_{i=1}^N L(f_\theta(x_i),y_i).
 \end{equation}
 Common approaches to supervised learning for neural networks is to calculate some distance metric between the predicted value $\widehat{y}$ and the true value $y$ and update parameters by backpropagation.\\\\
 The models falling under the supervised learning category are widely deployed and has seen tremendous success. Classical statistical models, as well as support vector machines and decision tree based models are all examples of models in this learning paradigm. The main issue with supervised learning is the need for labeled data, and labeled data is in many ways scarce.
+\newline
 
-\subsection{Unsupervised}
-Unsupervised learning on the other hand refers to models or algorithms who learn exclusively from unlabeled data. That is to say that the models learn intrinsic patterns in the data. Examples of unsupervised learning models are clustering methods as K-means, K Nearest Neighbor and Gaussian mixture models, dimension reduction techniques as PCA/SVD and neural network architectures such as Autoencoders. 
+Unsupervised learning on the other hand refers to models or algorithms who learn exclusively from unlabeled data. That is to say that the models learn intrinsic patterns in the data. Examples of unsupervised learning models are clustering methods as K-means, K Nearest Neighbor and Gaussian mixture models, dimension reduction techniques as PCA and SVD and neural network architectures such as Autoencoders. Unsupervised algorithms are used extensively in exploratory data analysis, data visualization and clustering. In a world with abundant unlabeled data, good unsupervised techniques are quite valuable. Until recently such techniques have been hard to come by and typically fallen short compared to supervised approaches. 
+\newline
 
-
-\TODO{Where is it used an why?}
-Exploratory data analysis, data visualization, clustering
-
-\TODO{Pros and cons of unsupervised learning}
-Unlabeled data is cheap, 
-
-\subsection{Self-supervised}
-Self-supervised learning is subcategory of unsupervised learning and refers to model who use the data itself to generate a supervisory signal, rather than external labels as in supervised learning. Even as SSL is considered unsupervised learning, the learning formulation is quite similar to that of supervised learning.\newline
+Self-supervised learning is subcategory of unsupervised learning which has shown great success within NLP and computer vision, closing in on the state of the art supervised representation learning \cite{bardes2022vicreg} \cite{zbontar2021barlow}. SSL refers to model who use the data itself to generate a supervisory signal, rather than external labels as in supervised learning. Even as SSL is considered unsupervised learning, the learning formulation is quite similar to that of supervised learning.\newline
 
 For a dataset $X = \{x_i\}_{i=1}^N$ with \textit{pseudo labels} $P = \{p_i\}_{i=1}^N$ the objective of a self-supervised learning algorithm is to fit $f_\theta$ in such a way that the loss across the data is minimized. In other words find 
 \begin{equation}
     \widehat{f}_\theta = \min_\theta \frac{1}{N} \sum_{i=1}^N L(f_\theta(x_i),p_i).
 \end{equation}
 
-A pseudo label is an automatically generated label from the data attributes in the pretext task. In joint embedding architectures the pseudo labels are typically some \textit{augmentation} of the original data.\newline
+A pseudo label is an automatically generated label from the data. In \textit{siamese} architectures the pseudo labels are typically some \textit{augmentation} of the original data.\newline
 
-SSL has in recent times (since 2018??) been a fruitful approach to unsupervised representation learning and has played an integral part in the boom of large language models together with the invention of the transformer architecture. With models growing ever larger and more data hungry SSL is essential in pretraining. Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pretraining. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pretraining networks enables foundation models, which can be trained for many different tasks in a supervised fashion requiring a lot less resources.\newline
+SSL has in recent times been a fruitful approach to unsupervised representation learning and has played an integral part in the boom of large language models together with the invention of the transformer architecture. With models growing ever larger and more data hungry, SSL is essential in pretraining. Randomly initialized networks are difficult to train and requires a lot of time and computational resources. SSL has shown remarkable results when used for pretraining. That is as models for learning network parameters who capture semantics of data, without the need for labels. Pretraining networks enables foundation models, which can be trained for many different tasks in a supervised fashion requiring a lot less resources.\newline
 
-In recent years, especially in computer vision and natural language applications, SSL methods have shown incredible promise in representation learning. SSL methods have proven close to, and sometimes surpassing, supervised methods on downstream tasks. This has inspired researchers to apply SSL methods across other modalities. \TODO{Find sources backing this up.}
+Many successful SSL models in the computer vision domain share a similar architecture.
 
+\subsection{Siamese Architecture-based SSL }
+A siamese network architecture \cite{siamese} consists of two networks, called branches, with a shared encoder on each branch. Such networks are trained to produce similar representations for different views of the same data. In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.\newline
 
-\TODO{What are the different flavours of SSL? }
-Generative: Masked modelling 
-Discriminative: Contrastive/non-contrastive
-Autoassociative: Autoencoder type - Essentially try to make composition the identity despite a compression. Usually not considered SSL, but it technically is. 
-\TODO{What are some of the issues?}
+In the computer vision domain several representation learning algorithms utilizing a siamese architecture have been proposed. They mainly fall under two categories: \textit{contrastive} and \textit{non-contrastive} SSL.\newline
 
-\subsubsection{Siamese Architecture-based SSL }
-\cite{lee2024computer}
-A siamese network architecture \cite{siamese} consists of two networks, called branches, with a shared encoder on each branch. Such networks are trained to produce similar representations for different views of the same data. \newline
+Contrastive SSL uses positive and negative samples and learns representations by pulling positive pairs closer together and negative pairs further apart. Examples include MoCo \cite{he2020momentum} and SimCLR \cite{chen2020simple}. SimCLR constructs two correlated samples by applying augmentations to an input sample, and considers these as positive pairs. Contrastive methods requires large batch sizes as well as a large number of negative pairs compared to positive in order to learn representations effectively \cite{lee2024computer}. These obstacles lead researchers to look elsewhere.\newline
 
-In models with such architecture, the existence of trivial solutions, such as both networks ignoring input and produce identical constant embeddings, is a major issue. This issue is referred to as \textit{collapse} of the model.\newline
+Non-Contrastive SSL methods such as BYOL \cite{grill2020bootstrap}, BarlowTwins \cite{zbontar2021barlow} and VIbCReg \cite{computer} circumvent the need for positive and negative pairs while simultaneously avoiding model collapse by different methods. Common for all is the use of augmentations, a transformation of the input that works as a pseudolabel. The models learn to map representations of the input and augmentation closer together. In order to avoid collapse BYOL introduces asymmetry in the architecture as well as the stopgradient operation, Barlow Twins minimizes the information redundancy between the two branches and VIbCReg by maintaining the variability in each branch while decorrelating features. Common for all is the ability to learn useful representations.
 
-Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \cite{morningstar2024augmentations} \newline
-
-
-In the computer vision domain several representation learning algorithms utilizing a siamese architecture have been proposed. They mainly fall under two categories: \textit{contrastive} and \textit{non-contrastive} methods.\newline
-
-In contrastive SSL, uses positive and negative samples and learns representations by pulling positive pairs closer together and negative pairs further apart. Examples include MoCo \cite{he2020momentum} and SimCLR \cite{chen2020simple}. SimCLR constructs two correlated samples by applying augmentations to an input sample, and considers these as positive pairs. Requires large batch sizes in order to work well.
-
-Need large number of negative pairs compared to positive in order to learn representations effectively \cite{lee2024computer}.
-
-The loss function of contrastive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
-
-
-Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. \newline
-\TODO{Talk about projectors in ncSSL. How and why they enforce pairwise independence}
-
-BYOL, Barlow Twins, VCReg, VICReg, VIbCReg\newline
-\cite{mialon2024variance} VCReg for pairwise independence in SSL representations. 
-
-
-
-
-% \subsubsection{Contrastive}
-
-% Contrastive SSL uses positive and negative samples and learns representations by pulling positive pairs closer together and negaive pairs further apart.
-
-% Examples such as MoCo and SimCLR. 
-
-% Need large number of negative pairs compared to positive in order to learn representations effectively \cite{lee2024computer}.
-
-% The loss function of contrastive SSL attempts to minimize the distance of positive sample pairs (+,+) and (-,-), and maximize the distance between negative sample pairs (+,-) and (-,+).\newline
-% \subsubsection{Non contrastive}
-% Augmentations for creating different views. The role of augmentations, types etc. Augmentations across modalities. \newline
-
-% Non-Contrastive: Collapse, where encodes produce uninformative or constant vectors. The different ways of handling collapse. How Variance-Covariance regularization (VCReg) \cite{mialon2024variance} has emerged as a minimal(??) solution. 
-
-
-
-% \subsubsection{The role of projectors}
+% \cite{mialon2024variance} VCReg for pairwise independence in SSL representations. 
 
 \subsection{Masked modelling}
 \label{section:Masked modelling}
 Masked modelling is a conceptually simple self-supervised learning technique for generative models. The idea is to mask or cover a portion of the data and predict the masked portions. By comparing the prediction against unmasked data the model can learn useful representations without supervision. Since the introduction of masked modelling in natural language processing by \cite{devlin2019bert} it has been the de-facto standard for self-supervised pretraining of language models. BERT introduced masked modeling for language representation learning as means to use bi-directional transformers without enabling each word to "see itself". \newline
-\TODO{When did GPT \cite{Radford2018ImprovingLU} use Masked modelling?}
+% \TODO{When did GPT \cite{Radford2018ImprovingLU} use Masked modelling?}
 
-
-Masked image modelling \cite{he2021masked}: Mask image patched directly \newline
-When vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers.\newline
-Masked visual token modelling \cite{chang2022maskgit}: Tokenize the image and mask tokens. \newline
-
-In masked modelling, typically an additional mask token is introduced in the transformer embedding. 
-
-
-\TODO{Masking in original domain or tokens. Masking strategies.}
-
-For a thorough survey on masked modelling for SSL in the vision domain we refer to \cite{li2024masked}. 
-
-
-
-
+In the computer vision domain masked modelling has too gotten much attention. Early works in masked image modelling \cite{he2021masked} attempted to mask image patched directly with some success. But when vision transformers \cite{dosovitskiy2021image} surpassed CNN in 2021\cite{he2015deep}, CV research began to draw inspiration more heavily from \cite{devlin2019bert} and began tokenizing images and pretraining transformers. In 2022 MaskGIT\cite{chang2022maskgit} proposed masked visual token modelling , utilizing vector-quantized-based tokenization together with a bidirectional transformer. For a thorough survey on masked modelling for SSL in the vision domain we refer to \cite{li2024masked}. 
 
 \section{Vector Quantized Variational Autoencoder (VQVAE)}
 \label{section:VQVAE}
@@ -629,28 +555,28 @@ is constant. Consequently the ELBO reduces to the reconstruction term only. \new
 \TODO{Can think of the codes as the modes of a mixture of Gaussians, and instead of sampling from the mixtrure you just choose the closest mode.}
 
 \subsubsection{Prior Learning}
-During the initial training the prior is as mentioned constant and uniform such that the posterior has more flexibility. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling. The prior is learned with a generative objective, which increases the quality of generated samples. The choice of prior model depends on the particular application and in VQVAE PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
+During the initial training the prior is as mentioned constant and uniform such that the posterior has more flexibility. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling. The prior is learned with a generative objective, which increases the quality of generated samples. The choice of prior model depends on the particular application. In the original article PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
 
 \subsubsection{Loss funciton}
 \label{section:VQVAELoss}
 As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different discrete latent codes.\newline
 
-The loss function consists of three parts, the reconstruction loss, VQ loss and commitment loss. We already mentioned that the ELBO objective reduced to the reconstruction term only. In order to learn the codebook one uses the VQ loss, which is the euclidean distance between the encoder output and the quantized output. The final part of the loss is the commitment loss, which is introduced to keep the distance between embedding vectors (or codes) from growing arbitrarily large. To summarize the total loss is given by
+The loss function consists of two parts, the reconstruction loss, codebook loss. We already mentioned that the ELBO objective reduced to the reconstruction term only. In order to learn the codebook one uses the codebook loss, which is the euclidean distance between the encoder output and the quantized output, together with commitment term, which is introduced to keep the distance between codewords from growing arbitrarily large. To summarize the total loss is given by
 
     \begin{equation}     
         \label{eq:VQVAELoss}
         \begin{aligned}
-            \loss_{\text{Recon}} &= ||x - \widehat{x}||_2^2\\
-            \loss_{\text{VQ}} &= ||sg(z) - z_q||_2^2 +\beta||z - sg(z_q)||_2^2\\
-            \loss_{\text{VQ-VAE}} &= \loss_{\text{VQ}} + \loss_{\text{Recon}}
+            \loss_{\text{recons}} &= ||x - \widehat{x}||_2^2\\
+            \loss_{\text{codebook}} &= ||sg(z) - z_q||_2^2 +\beta||z - sg(z_q)||_2^2\\
+            \loss_{\text{VQ}} &= \loss_{\text{codebook}} + \loss_{\text{recons}}
         \end{aligned}
     \end{equation}
 
 where $\beta$ is a tuning parameter typically set to be $0.25$ and $sg()$ is the stopgradient operation, defined to be the identity with zero partial derivatives. \newline
 
-To illustrate the need for commitment loss and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the VQ loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the VQ loss diverge. This behavior is observed experimentally. \newline 
+The VQ loss only affects the codebook, and can hence alternatively be updated as a function of moving averages of the encoder outputs $z$. This is expanded on in appendix A.1 in \cite{VQVAE}.\newline 
 
-
+To illustrate the need for commitment term and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the codebook loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the codebook loss diverge. This behavior is observed experimentally. \newline 
 
 
 \section{Evaluation metrics}

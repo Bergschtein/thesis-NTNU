@@ -7,6 +7,7 @@
         "downsampling",
         "pretraining",
         "resudial",
+        "stopgradient",
         "upsampling",
         "VQVAE"
     ]

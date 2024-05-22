@@ -59,15 +59,12 @@ Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \new
 
 We are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
 
-We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS and visual inspection.\newline
+We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS and visual inspection.\newline
 
-% Additionally we provide ablations investigating effect of different augmentations and the effect of augmentations reconstruction weight. \newline
 
 \section{Stage 1}
 
 \subsection{Augmentations}
-% Through initial testing we settled on consequently using the augmentations amplitude resizing + window warp for the augmented branch, while leaving the original branch unaltered. Leaving the original branch unaltered improved reconstruction error. Our final choice in augmentations is biased by the results on datasets we experimented on initially, which were FordA, UWavesGestureLibraryAll, TwoPatterns and ShapesAll. Of those amplitude resizing + window warp was a top performer, except for FordA where slice and shuffle did well. When amplitude resizing + window warp produced quite good results, while simultaneously not altering the semantics of the data or introducing high frequency components, we settled on that for ease of experimentation. We provide a small ablation on the effect of augmentations in section \ref{section:Augmentation robustness}.
-
 In our experiments we consider three sets of augmentations with different characteristics. They are
 \begin{itemize}
     \item Amplitude Resizing + Window Warp
@@ -77,7 +74,7 @@ In our experiments we consider three sets of augmentations with different charac
 
 \textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view. \newline
 
-\textbf{Slice and Shuffle} crops the time series into three sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
+\textbf{Slice and Shuffle} crops the time series into four sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
 
 \textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder.
 
