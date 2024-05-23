@@ -8,19 +8,28 @@
 \subsection{Reconstruction}
 
 
-
 \subsection{Classification}
+
+
 \section{Stage 2}
 
 
-\subsection{Thought:}
+\subsection{Thoughts}
 
 Better inception score and CAS of our models indicate that the class separability learned in latent space makes the conditional distributions more distinct easier to classify. The FID is variable, but in many cases better, which indicated that the generative distributions are closer to the ground truth.\newline
 
 Gaussian noise aug seems to result in a lot easier the BT/VIbCReg loss to minimize. \newline
 Slice and shuffle is harder to minimize, but could seem to push representations for different classes further apart resulting in better linear probes.\newline
 
+Talk about the difficulty/ease in minimizing the SSL loss for the different augmentations. Does this affect linear probes / reconstruction / FID / IS / Prior loss
+\newline
 
+Mention that during experiments with our stage 2 modification, embed / finetune, we observed that the val prior loss with our modification was higher, but with similar shape as without. If we had time and computational resources to rerun the experiments, then we would omit the stage 2 modification. The FID/IS in our main experiments are in many cases better than baseline VQVAE, despite higher val prior loss.
+\newline
+
+For datasets of smaller size with classes of different characteristics (a clear distributional difference in visual inspection [Sony2 and Symbols]) NC-VQVAE seems to perform better both in terms of FID and IS. \newline
+
+The biases introduced by augmentations in stage 1 seems to be included in the generated samples to some degree. In particular datasets with high frequency components, when applying Gaussian noise (easier to spot), has substantially better FID score. 
 
 
 \subsection{Ablation}
@@ -82,9 +91,12 @@ The added flexibility of NC-VQVAE, with possibility of choosing dataset specific
 
 \section{Further work}
 \cite{morningstar2024augmentations} suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention.\newline
-HF-LF split - augmentations tailored for HF and LF, as they often have quite different semantics.\newline
+HF-LF split - augmentations tailored for HF and LF, as they often have quite different characteristics.\newline
+Wavelet transform to improve HF-LF split.\newline
 
-Further optimize the relationship between aug recon loss and choice of augmentations.
+Further optimize the relationship between aug recon loss and choice of augmentations.\newline
+
+
 
 
 

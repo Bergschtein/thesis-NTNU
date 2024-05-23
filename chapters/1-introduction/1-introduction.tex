@@ -4,7 +4,8 @@
 
 In this thesis we investigate possible improvements on the TimeVQVAE model presented by... We investigate how a "self supervised learning extension" of the tokenization affects the learned representations, and the effect on the prior learning. In particular we investigate if the learned representations are more informative, in the sense that they simultaneously enables high quality reconstruction, and improved the downstream classification accuracy. For the generative model we investigate if the learned representations enables faster convergence during training, and how the quality of the synthetic samples are affected. \\
 
-
+\section{Acknowledgements}
+Supervisors, Erlend, IDUN, UCR Archive creators
 
 \section{Motivation}
 	- The role and importance of time series.
@@ -25,9 +26,21 @@ Distributions of time series in their original temporal representation are compl
 	\item Structure of the thesis
 \end{itemize}
 \section{Research questions}
-	- Does VQVAE learn good representations for classification?
-	- Will self a supervised learning approach (BT, VIbCReg) enhance the representations learned from VQVAE for classification, and how does is affect the reconstruction? 
-	- Will more expressive representations improve prior model learning?
+Stage1
+\begin{itemize}
+	\item[\textbf{RQ1:}] Does VQVAE learn good representations for classification?
+	\item[\textbf{RQ2:}] Will self a supervised learning approach enhance downstream classification while simultaneously reconstruct well?
+	\item[\textbf{RQ3:}] How does augmentations influence reconstruction and downstream classification? 
+\end{itemize}
+Stage 2
+\begin{itemize}
+	\item[\textbf{RQ4:}] Will more expressive representations improve prior model learning?
+	\item[\textbf{RQ5:}] Does higher downstream classification accuracy correlate with improved class conditional generation?
+	\item[\textbf{RQ6:}] How does augmentations influence prior learning and synthetic sample quality?
+\end{itemize}
+
+		-  
+	- 
 	- How does SSL VQVAE compare when we train a powerful prior model on top of it (MaskGIT)? 
 
 

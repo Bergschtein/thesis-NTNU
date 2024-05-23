@@ -6,16 +6,26 @@
 We follow \cite{TimeVQVAE} closely in the encoder/decoder/codebook implementation, and 
 
 \subsubsection{Time Frequency Modelling}
-The short time fourier transform (STFT) and its inverse ISTFT are implemented with \texttt{torch.stft} and \texttt{torch.istft} respectively. We follow \cite{TimeVQVAE} and set the main parameter \texttt{nfft} to $8$, and use default parameters for the rest.\newline
+The short time fourier transform (STFT) and its inverse ISTFT are implemented with \texttt{torch.stft} and \texttt{torch.istft} respectively. We follow \cite{TimeVQVAE} and set the main parameter \texttt{nfft} to $8$, and use default parameters for the rest. This results in a fequency axis with range $[1,2,3,4,5]$ and half as long time axis. \newline
 
 
 \subsubsection{Encoder and decoder}
-Appendix C.3 from \cite{TimeVQVAE}\newline
+
 The same encoder and decoder architecture as in \cite{VQVAE} is used and further use the implementation from \cite{nadavbh12} with adaptations from \cite{TimeVQVAE}.\newline
-The encoder consists of $n$ downsampling convolutional blocks (Conv2d - BatchNorm2d - LeakuReLU), followed by $m$ residual blocks (LeakuReLU - Conv2d - BatchNorm2d - LeakuReLU - Conv2d). The downsampling convolutional layers are implemented with parameters {kernel size=(3,4),
-stride=(1,2), padding=(1,1)}, while the residual convolutional layers have parameters  {kernel size=(3,3),stride=(1,1), padding=(1,1)}.\newline
-The decoder is implemented similarity with $m$ resudial followed $n$ upsampling layers using transposed convolutional layers with same parameters as in the encoder. \newline
-The downsampling rate is determined by $2^n$ where $n$ is set such that $z$ has width of $32$.
+
+The encoder presented in figure \ref{fig:VQVAE Encoder} consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). The downsampling convolutional layers are implemented with parameters: \texttt{kernel size=(3,4),
+stride=(1,2), padding=(1,1)}. This results in downsampling of only the temporal axis, which is downsampled by a factor of $2$ for each downsampling block. The residual convolutional layers have parameters: \texttt{kernel size=(3,3),stride=(1,1), padding=(1,1)}.\newline
+
+The decoder is implemented similarity with $m$ residual followed $n$ upsampling layers using transposed convolutional blocks with same parameters as in the encoder.\newline
+
+The downsampling rate is determined by $2^n$ where $n$ is set such that $z$ has width of $32$. For more in depth consideration of the detail regarding TimeVQVAE implementation we refer to Appendix C.3 of \cite{TimeVQVAE}.
+
+\begin{figure}[h]
+    \label{fig:VQVAE Encoder}
+    \includegraphics[scale = 0.3]{VQVAE Encoder.png}
+    \centering
+    \caption{Overview of the encoder architecture. The decoder architecture is simply obtained by reversing the arrows and switching out the convolutional block for transposed convolutional blocks.}
+\end{figure}
 
 \subsubsection{VQ}
 Implementation from lucidrains/vector-quantize-pytorch. https://github.com/lucidrains/vector-quantize-pytorch \newline
@@ -72,11 +82,32 @@ In our experiments we consider three sets of augmentations with different charac
     \item Gaussian noise
 \end{itemize}
 
-\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view. \newline
+\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view \ref{fig:ShapesAll_winwarp}. \newline
 
-\textbf{Slice and Shuffle} crops the time series into four sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
+\begin{figure}[h]
+    \label{fig:ShapesAll_winwarp}
+    \includegraphics[scale = 0.3]{ShapesAll_winwarp.png}
+    \centering
+    \caption{ShapesAll: Original (left), augmented (right). 15 instances of Amplitude Resizing + Window Warp applied to the original sample.}
+\end{figure}
 
-\textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder.
+\textbf{Slice and Shuffle} crops the time series into four sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which is illustrated in figure \ref{fig:ElectricDevices_SliceAndShuffel}. This could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
+\begin{figure}[h]
+    \label{fig:ElectricDevices_SliceAndShuffel}
+    \includegraphics[scale = 0.3]{ElectricDevices_SliceAndShuffel.png}
+    \centering
+    \caption{ElectricDevices: Original (left), augmented (right). 5 instances of Slice and Shuffle applied to the original sample.}
+\end{figure}
+
+
+\textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component as seen in figure \ref{fig:StarLight_Gaussian}. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder. Of the three augmentations, gaussian noise provides the most predictable augmented views from a numerical standpoint, which might result in a SSL loss which is easier to minimize.
+
+\begin{figure}[h]
+    \label{fig:StarLight_Gaussian}
+    \includegraphics[scale = 0.3]{StarLight_Gaussian.png}
+    \centering
+    \caption{StarLightCurves: Original (left), augmented (right). One instance of Gaussian noise applied to the original sample.}
+\end{figure}
 
 \subsection{Evaluation}
 Reconstruction, Classification and Visual inspection
@@ -84,8 +115,6 @@ Reconstruction, Classification and Visual inspection
 
 
 \section{Stage 2}
-
-% In order to make use of the additional information in the latent representations from stage 1 our MaskGIT models the probabilities of codebook indices conditional on the codewords.  
 
 \subsection{Evaluation}
 
@@ -127,6 +156,8 @@ Our subset of the UCR archive is
     \caption{The subset of the UCR Archive considered for our experiments.}
     \label{tab:UCRsubset}
     \end{table}
+
+We choose to test on a subset, rather than on the entire UCR Archive, due to computational limitations as well as to more thoroughly investigate the effect of our models and the role of augmentations. The subset is chosen such that they span a wide range of train set sizes, lengths, classes and type, while the class distributions have visually different characteristics which can be seen from table \ref{tab:UCRsubset} and figure \ref{fig:datasets}. 
 
     \begin{figure}[h]
         \label{fig:datasets}

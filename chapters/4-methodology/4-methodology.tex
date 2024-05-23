@@ -30,8 +30,8 @@ To refresh the readers memory the VQ loss consists of a reconstruction loss, cod
 \begin{equation}
     \label{eq:NCVQVAE_codebook}
     \begin{aligned}
-        \loss_\text{codebook} &= ||\sg[z] - z_q ||_2^2 \\
-                              &+ \beta||z - \sg[z_q]||_2^2,
+        \loss_\text{codebook} &= ||\sg[z_q] - z_q ||_2^2 \\
+                              &+ \beta||z_q - \sg[z_q]||_2^2,
     \end{aligned}
 \end{equation}
 
