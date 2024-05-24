@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
+        "AIBO",
         "Autoencoder",
         "autoencoders",
         "codebook",
         "datapoint",
         "downsampling",
+        "Mallat",
         "pretraining",
         "resudial",
         "stopgradient",

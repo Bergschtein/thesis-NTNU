@@ -6,12 +6,111 @@
 \section{Stage 1}
 
 \subsection{Reconstruction}
-
+\TODO{Table for val recons}
 
 \subsection{Classification}
 
+\begin{table}[h!]
+    \centering
+    \title{Mean linear probe accuracy}
+    \begin{adjustbox}{width=\textwidth}
+    \begin{tabular}{lcc|cc|cc|cc|cc|cc|cc} % 15 cols, 1 for dataset, 14 for svm/knn across models (7 models)
+        \toprule
+        \multirow{4}{*}{\textbf{Dataset}} & \multicolumn{2}{c}{\textbf{Baseline}} & \multicolumn{12}{c}{\textbf{SSL Method}} \\
+                                            \cmidrule(lr){2-3} \cmidrule(lr){4-15}
+                                          & \multicolumn{2}{c}{Regular}           & \multicolumn{6}{c}{Barlow Twins}                                                 &  \multicolumn{6}{c}{VIbCReg} \\
+                                          \cmidrule(lr){2-3} \cmidrule(lr){4-9} \cmidrule(lr){10-15}
+                                          &   \multicolumn{2}{c}{None}            & \multicolumn{2}{c}{Warp}  & \multicolumn{2}{c}{Slice} & \multicolumn{2}{c}{Gauss} & \multicolumn{2}{c}{Warp} & \multicolumn{2}{c}{Slice} & \multicolumn{2}{c}{Gauss} \\
+                                          \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}\cmidrule(lr){14-15}
+                                          & KNN & SVM                               & KNN & SVM                  & KNN & SVM                & KNN & SVM                 & KNN & SVM                 & KNN & SVM                 & KNN & SVM   \\
+        \midrule
+        FordA                   & 0.70 & 0.74 & 0.83 & 0.84 & \textbf{0.91} & \textbf{0.89} & 0.80 & 0.83 & 0.80 & 0.74 & 0.87 & 0.86 & 0.76 & 0.78 \\
+        ElectricDevices         & 0.35 & 0.41 & 0.35 & \textbf{0.44} & 0.38 & 0.41 & \textbf{0.40} & 0.42 & 0.33 & 0.38 & 0.36 & 0.39 & 0.39 & 0.43 \\
+        StarLightCurves         & 0.87 & 0.89 & 0.93 & 0.93 & \textbf{0.94} & \textbf{0.94} & 0.88 & 0.88 & 0.92 & \textbf{0.94} & 0.91 & 0.93 & 0.89 & 0.89 \\
+        Wafer                   & 0.93 & 0.89 & 0.96 & \textbf{0.94} & 0.96 & \textbf{0.94} & 0.96 & 0.93 & \textbf{0.97} & 0.94 & 0.96 & 0.92 & \textbf{0.97} & 0.92 \\
+        ECG5000                 & 0.80 & 0.83 & 0.85 & 0.81 & \textbf{0.88} & 0.84 & 0.86 & \textbf{0.84} & 0.86 & 0.82 & \textbf{0.88} & \textbf{0.84} & 0.84 & 0.82 \\
+        TwoPatterns             & 0.34 & 0.53 & \textbf{0.69} &\textbf{ 0.91} & 0.66 & 0.82 & 0.47 & 0.71 & 0.64 & 0.90 & 0.68 & 0.80 & 0.55 & 0.72 \\
+        UWaveGestureLibraryAll  & 0.31 & 0.40 & \textbf{0.62} & 0.70 & 0.56 & 0.63 & 0.40 & 0.54 & \textbf{0.62} & \textbf{0.73} & 0.55 & 0.66 & 0.44 & 0.55 \\
+        FordB                   & 0.58 & 0.60 & 0.64 & 0.67 & 0.74 & 0.76 & 0.64 & 0.68 & 0.63 & 0.64 & 0.70 & 0.70 & 0.61 & 0.64\\
+        ShapesAll               & 0.29 & 0.30 & 0.49 & 0.55 & 0.53 & \textbf{0.60} & 0.40 & 0.48 & 0.48 & 0.56 &\textbf{ 0.54} & \textbf{0.60} & 0.40 & 0.46 \\
+        SonyAIBORobotSurface1   & 0.56 & 0.68 & 0.54 & 0.70 & \textbf{0.61} & \textbf{0.74} & 0.53 & 0.70 & 0.48 & \textbf{0.74} & 0.58 & 0.71 & 0.54 & 0.69 \\
+        SonyAIBORobotSurface2   & \textbf{0.81} & \textbf{0.86} & 0.77 & 0.79 & 0.80 & 0.80 & 0.80 & 0.81 & 0.77 & 0.85 & 0.80 & 0.85 & 0.80 & 0.85  \\
+        Symbols                 & 0.50 & 0.60 & \textbf{0.59} & 0.60 & 0.50 & \textbf{0.66} & \textbf{0.59} & \textbf{0.66} & 0.45 & 0.61 & 0.42 & 0.62 & 0.43 & 0.63 \\
+        Mallat                  & 0.63 & 0.77 & 0.72 & 0.81 & 0.76 & 0.83 & 0.68 & 0.78 & \textbf{0.79} & \textbf{0.87} & 0.77 & 0.85 & 0.69 & \textbf{0.86} \\
+        \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+    
+    \caption{Summary of mean linear probe accuracy by SSL Method and Augmentation. Average across 4 seeds. Best result for KNN and SVM are highlighted in bold.}
+    % \label{tab:summary}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \title{Max linear probe accuracy}
+    \begin{adjustbox}{width=\textwidth}
+    \begin{tabular}{lcc|cc|cc|cc|cc|cc|cc} % 15 cols, 1 for dataset, 14 for svm/knn across models (7 models)
+        \toprule
+        \multirow{4}{*}{\textbf{Dataset}} & \multicolumn{2}{c}{\textbf{Baseline}} & \multicolumn{12}{c}{\textbf{SSL Method}} \\
+                                            \cmidrule(lr){2-3} \cmidrule(lr){4-15}
+                                          & \multicolumn{2}{c}{Regular}           & \multicolumn{6}{c}{Barlow Twins}                                                 &  \multicolumn{6}{c}{VIbCReg} \\
+                                          \cmidrule(lr){2-3} \cmidrule(lr){4-9} \cmidrule(lr){10-15}
+                                          &   \multicolumn{2}{c}{None}            & \multicolumn{2}{c}{Warp}  & \multicolumn{2}{c}{Slice} & \multicolumn{2}{c}{Gauss} & \multicolumn{2}{c}{Warp} & \multicolumn{2}{c}{Slice} & \multicolumn{2}{c}{Gauss} \\
+                                          \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13}\cmidrule(lr){14-15}
+                                          & KNN & SVM                               & KNN & SVM                  & KNN & SVM                & KNN & SVM                 & KNN & SVM                 & KNN & SVM                 & KNN & SVM   \\
+        \midrule
+        FordA                   & 0.75 & 0.78 & 0.84 & 0.88 & \textbf{0.93} & \textbf{0.92} & 0.85 & 0.87 & 0.81 & 0.77 & 0.88 & 0.90 & 0.86 & 0.85 \\
+        ElectricDevices         & 0.35 & 0.43 & 0.36 & 0.45 & 0.39 & 0.43 & \textbf{0.45} & \textbf{0.46} & 0.34 & 0.42 & 0.39 & 0.42 & 0.42 & 0.45 \\
+        StarLightCurves         & 0.89 & 0.91 & 0.94 & 0.95 & \textbf{0.96} & \textbf{0.96} & 0.90 & 0.91 & 0.95 & 0.95 & 0.93 & 0.95 & 0.90 & 0.90 \\
+        Wafer                   & 0.94 & 0.89 &\textbf{ 0.97} & \textbf{0.95} & \textbf{0.97} & \textbf{0.95} & \textbf{0.97} & 0.93 & \textbf{0.97} & \textbf{0.95} & \textbf{0.97} & \textbf{0.95} & \textbf{0.97} & 0.94 \\
+        ECG5000                 & 0.83 & 0.84 & 0.88 & 0.86 & \textbf{0.90} & \textbf{0.88} & \textbf{0.90} & \textbf{0.88} & 0.88 & 0.85 & 0.89 & 0.86 & 0.86 & 0.85 \\
+        TwoPatterns             & 0.37 & 0.62 & \textbf{0.75} & \textbf{0.96} & 0.68 & 0.85 & 0.55 & 0.75 & 0.70 & 0.92 & 0.71 & 0.81 & 0.63 & 0.76 \\
+        UWaveGestureLibraryAll  & 0.34 & 0.43 & \textbf{0.67} & 0.74 & 0.60 & 0.67 & 0.43 & 0.54 & \textbf{0.67} & \textbf{0.76} & 0.58 & 0.67 & 0.48 & 0.58 \\
+        FordB                   & 0.60 & 0.63 & 0.67 & 0.71 & \textbf{0.76} & \textbf{0.80} & 0.69 & 0.74 & 0.67 & 0.65 & 0.74 & 0.77 & 0.63 & 0.68 \\
+        ShapesAll               & 0.33 & 0.34 & 0.53 & 0.59 & \textbf{0.59} & \textbf{0.65} & 0.44 & 0.50 & 0.50 & 0.56 & 0.57 & 0.63 & 0.44 & 0.48 \\
+        SonyAIBORobotSurface1   & 0.67 & \textbf{0.80} & 0.61 & 0.77 & 0.76 & \textbf{0.80} & 0.60 & 0.74 & 0.51 & 0.79 & 0.63 & 0.75 & 0.63 & 0.75 \\
+        SonyAIBORobotSurface2   & \textbf{0.84} & \textbf{0.89} & 0.80 & 0.86 & 0.82 & 0.84 & 0.83 & 0.82 & 0.81 & 0.88 & 0.81 & 0.88 & 0.83 & 0.87 \\
+        Symbols                 & 0.56 & 0.66 & 0.65 & 0.69 & 0.55 & 0.73 & \textbf{0.64} & \textbf{0.71} & 0.51 & 0.65 & 0.45 & 0.67 & 0.46 & 0.69 \\
+        Mallat                  & 0.54 & 0.88 & 0.57 & 0.87 & 0.74 & 0.89 & 0.66 & 0.80 & 0.74 & \textbf{0.92} & 0.72 & 0.88 & 0.62 & \textbf{0.90} \\
+
+
+        \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+    
+    \caption{Summary of max linear probe accuracy by SSL Method and Augmentation. Maximum value across 4 seeds. Best result for KNN and SVM are highlighted in bold.}
+    % \label{tab:summary}
+\end{table}
+
+
+\TODO{Plots that illustrate. }
+
+\subsubsection{Visual inspection}
+
+\TODO{PCA-TSNE-UMAP plots}
+
+\TODO{Latent space plots}
+
+
 
 \section{Stage 2}
+
+\subsection{Generative quality}
+
+\TODO{FID-IS table - mean and max}
+
+\TODO{Plots that illustrate. }
+
+\subsubsection{Class conditional sampling}
+
+\TODO{CAS table}
+
+\TODO{Plots that illustrate. }
+
+\subsubsection{Visual inspection}
+
+Generated vs real.
+
 
 
 \subsection{Thoughts}
@@ -29,67 +128,72 @@ Mention that during experiments with our stage 2 modification, embed / finetune,
 
 For datasets of smaller size with classes of different characteristics (a clear distributional difference in visual inspection [Sony2 and Symbols]) NC-VQVAE seems to perform better both in terms of FID and IS. \newline
 
-The biases introduced by augmentations in stage 1 seems to be included in the generated samples to some degree. In particular datasets with high frequency components, when applying Gaussian noise (easier to spot), has substantially better FID score. 
+The biases introduced by augmentations in stage 1 seems to be included in the generated samples to some degree. In particular datasets with high frequency components, when applying Gaussian noise (easier to spot), has substantially better FID score.  \newline
+
+Is there correlation between CAS and linear probe accuracy?? \newline
 
 
-\subsection{Ablation}
+% \subsection{Ablation}
 
-\subsection{Augmentation Reconstruction Weight}
-Here are the results of the ablation on the effect of “Augmentation Reconstruction Weight” on Stage 1.
-“Augmentation Reconstruction Weight” is the weight given to the reconstruction loss on the augmented branch.
-Tested weights $0.05$, $0.1$, $0.15$ and $0.2$.
-Augmentations [Window Warp, Amplitude Resize] and [Slice and Shuffle].
-The weight has little effect on linear probe accuracy across the four datasets tested, and the two sets of augmentations.
-The effect on Validation reconstruction loss is small for all except FordA.
-It seems, not very surprisingly, that the choice of augmentations are of (much) greater importance.
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_SVM_ReconsWeight.png}
-    \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight.png}
-    \includegraphics[scale=0.55]{BT_KNN_ReconsWeight.png}
-    \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight.png}
-    \centering  
-    \caption{Augmentations: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
+% \subsection{Augmentation Reconstruction Weight}
+% Here are the results of the ablation on the effect of “Augmentation Reconstruction Weight” on Stage 1.
+% “Augmentation Reconstruction Weight” is the weight given to the reconstruction loss on the augmented branch.
+% Tested weights $0.05$, $0.1$, $0.15$ and $0.2$.
+% Augmentations [Window Warp, Amplitude Resize] and [Slice and Shuffle].
+% The weight has little effect on linear probe accuracy across the four datasets tested, and the two sets of augmentations.
+% The effect on Validation reconstruction loss is small for all except FordA.
+% It seems, not very surprisingly, that the choice of augmentations are of (much) greater importance.
+% \begin{figure}[h]
+%     \includegraphics[scale=0.55]{BT_SVM_ReconsWeight.png}
+%     \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight.png}
+%     \includegraphics[scale=0.55]{BT_KNN_ReconsWeight.png}
+%     \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight.png}
+%     \centering  
+%     \caption{Augmentations: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
+% \end{figure}
 
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_SVM_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{BT_KNN_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight_Slice.png}
+% \begin{figure}[h]
+%     \includegraphics[scale=0.55]{BT_SVM_ReconsWeight_Slice.png}
+%     \includegraphics[scale=0.55]{ViB_SVM_ReconsWeight_Slice.png}
+%     \includegraphics[scale=0.55]{BT_KNN_ReconsWeight_Slice.png}
+%     \includegraphics[scale=0.55]{ViB_KNN_ReconsWeight_Slice.png}
 
-    % \centering  
-    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
+%     % \centering  
+%     \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+% \end{figure}
 
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
-    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
-    % \centering  
-    \caption{Augmentation: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
-\begin{figure}[h]
-    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight_Slice.png}
-    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight_Slice.png}
-    % \centering  
-    \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
-\end{figure}
-\subsection{Augmentation robustness}
-\label{section:Augmentation robustness}
-S1 - S2 - Augs: Choose datasets such that half were thought to be well fitting for slice and shuffle and half for amplitude resize + window Warp. This was after seeing FordA performing well with S and S, and looking at the augmented views.\newline
-FordA/B, Electric devices, ShapesALL for S and S\newline
-TwoP, UWave, symbols, Mallat for ampRes + winwarp\newline
+% \begin{figure}[h]
+%     \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
+%     \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
+%     % \centering  
+%     \caption{Augmentation: Window Warp and amplitude resize. Averaged across 2 runs. Trained for 250 epochs}  
+% \end{figure}
+% \begin{figure}[h]
+%     \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight_Slice.png}
+%     \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight_Slice.png}
+%     % \centering  
+%     \caption{Augmentation: Slice and shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+% \end{figure}
+% \subsection{Augmentation robustness}
+% \label{section:Augmentation robustness}
+% S1 - S2 - Augs: Choose datasets such that half were thought to be well fitting for slice and shuffle and half for amplitude resize + window Warp. This was after seeing FordA performing well with S and S, and looking at the augmented views.\newline
+% FordA/B, Electric devices, ShapesALL for S and S\newline
+% TwoP, UWave, symbols, Mallat for ampRes + winwarp\newline
 
-Visual inspection: Plot training samples + spectrogram, compare to augmented view. Compare these against others from other classes. \newline
-Does the resulting improvement in stage 1 transfer to stage 2? 
+% Visual inspection: Plot training samples + spectrogram, compare to augmented view. Compare these against others from other classes. \newline
+% Does the resulting improvement in stage 1 transfer to stage 2? 
 
-\TODO{Download the Wandb data.}
-Plot for each dataset and each augmentation: 
-Color code according to SSL-model.
+% \TODO{Download the Wandb data.}
+% Plot for each dataset and each augmentation: 
+% Color code according to SSL-model.
+
+
 \section{Discussion}
 The added flexibility of NC-VQVAE, with possibility of choosing dataset specific augmentations, can in some applications be beneficial.\newline
 
 
 \section{Further work}
+
 \cite{morningstar2024augmentations} suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention.\newline
 HF-LF split - augmentations tailored for HF and LF, as they often have quite different characteristics.\newline
 Wavelet transform to improve HF-LF split.\newline
