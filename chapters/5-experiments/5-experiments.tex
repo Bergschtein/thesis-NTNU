@@ -72,7 +72,7 @@ Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \new
 
 We are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
 
-We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS and visual inspection.\newline
+We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations and each configuration is trained on four different seeds. This makes for a total of 364 models trained at each stage. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS. We additionally do visual inspections in both stages.\newline
 
 
 \section{Stage 1}

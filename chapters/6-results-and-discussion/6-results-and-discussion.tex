@@ -2,12 +2,20 @@
 
 \begin{document}
 
-NC-VQVAE is able to capture the conditional distribution of the data significantly better than naive VQVAE for a wide variety of 
+NC-VQVAE is able to capture the conditional distribution of the data significantly better than naive VQVAE for a wide variety of. For datasets with few training samples, it can be prone to overfitting. We see our model as a step in the right direction, but further development is needed to ensure better intraclass diversity, possibly through a more refined sampling procedure. \newline
+
+NC-VQVAE is better able to mimic the training data. When data is abundant, then our model better captures the entire distribution, while covering \newline
+
+
+
+
 
 \section{Stage 1}
+In this section we present the results of the tokenization model, in particular the reconstruction loss and the downstream classification accuracy. We address research question 1 and 2, if the proposed NC-VQVAE is able to reconstruct on par with the naive VQVAE and if the learned latent representations are more expressive, in the sense that they simultaneously improve the downstream classification accuracy. We see that some configuration of NC-VQVAE is the top performer on the majority of datasets for both metrics, and provides significant increase in probe accuracy. 
 
 \subsection{Reconstruction}
 
+We present top 1 and mean reconstruction loss across the four runs in table \ref{tab:best_recons} and table \ref{tab:mean_recons} respectively.
 
 \begin{table}[H]
     \centering
@@ -38,6 +46,7 @@ NC-VQVAE is able to capture the conditional distribution of the data significant
         \bottomrule
     \end{tabular}
     \end{adjustbox}
+    \label{tab:mean_recons}
 \end{table}
 
 \begin{table}[H]
@@ -71,10 +80,11 @@ NC-VQVAE is able to capture the conditional distribution of the data significant
         \bottomrule
     \end{tabular}
     \end{adjustbox}
-
+    \label{tab:best_recons}
 \end{table}
 
-From the tables we see that NC-VQVAE reconstructs on par with  the baseline model, and that some configuration outperforms the naive VQVAE on 9 out of 13 datasets. 
+From the tables we see that NC-VQVAE reconstructs on par with the baseline model, and that some configuration outperforms the naive VQVAE on mean reconstruction loss for 9 out of 13 datasets. In figure \ref{fig:Mean_val_recons} observe that the difference in reconstruction loss is small for most datasets, both across SSL methods and augmentations. The use of gaussian augmentation introduces less of a regularizing effect compared to the two others, with the exception of Slice and shuffle on ECG5000. These results show that the introduction of a non contrastive loss does not hurt the reconstruction capabilities of our model compared to naive VQVAE.
+
 
 \begin{figure}[H]
     \label{fig:Mean_val_recons}
@@ -83,16 +93,21 @@ From the tables we see that NC-VQVAE reconstructs on par with  the baseline mode
     \caption{Mean validation reconstruction loss for the two models, compared to naive VQVAE}
 \end{figure}
 
-How does augmentations influence reconstruction?
+The right configuration for NC-VQVAE acts as a regularizer, in figure \ref{fig:FordA_val_recons} we see how the validation reconstruction loss developes on FordA during training. 
+
 \begin{figure}[H]
-    \label{fig:comparrison_recons_augs}
-    \includegraphics[scale=0.28]{comparrison_recons_augs.png}
+    \label{fig:FordA_val_recons}
+    \includegraphics[scale=0.15]{FordA_val_recons.png}
     \centering  
-    \caption{Comparison of mean validation reconstruction loss across augmentations}
+    \caption{Development of the validation reconstruction loss for FordA during training. Averaged across all four runs. }
 \end{figure}
 
 
+
 \subsection{Classification}
+
+We present the mean and max downstream classification accuracy in table \ref{tab:mean_probe} and \ref{tab:best_probe} respectively. 
+
 
 \begin{table}[H]
     \centering
@@ -126,7 +141,7 @@ How does augmentations influence reconstruction?
     \end{adjustbox}
     
     \caption{Summary of mean linear probe accuracy by SSL Method and Augmentation. Average across 4 seeds. Best result for KNN and SVM are highlighted in bold.}
-    % \label{tab:summary}
+    \label{tab:mean_probe}
 \end{table}
 
 \begin{table}[H]
@@ -163,54 +178,78 @@ How does augmentations influence reconstruction?
     \end{adjustbox}
     
     \caption{Summary of max linear probe accuracy by SSL Method and Augmentation. Maximum value across 4 seeds. Best result for KNN and SVM are highlighted in bold.}
-    % \label{tab:summary}
+    \label{tab:best_probe}
 \end{table}
 
-From the tables we see a significant improvement in probe accuracy with NC-VQVAE compared to naive VQVAE. Some configuration is best on 12 out of 13 datasets. The one where our model falls short, the difference is one percent for both svm and knn. The largest differences are seen on FordA, FordB, Mallat, ShapesAll, TwoPatterns and UWaveGestureLibraryAll. On ShapesAll and TwoPatterns the difference is around $0.30$ to $0.40$. 
+From the tables we see a significant improvement in probe accuracy with NC-VQVAE compared to naive VQVAE. Some configuration is best on 12 out of 13 datasets, while the one where our model falls short, the difference is one percent for both svm and knn. The largest differences are seen on FordA, FordB, Mallat, ShapesAll, TwoPatterns and UWaveGestureLibraryAll. 
+
+% As ShapesAll has 60 different classes, the 
 
 \begin{figure}[H]
-    \label{fig:Mean_probe_BT}
-    \includegraphics[scale=0.4]{Mean_probe_BT.png}
+    \label{fig:Mean_probe}
+    \includegraphics[scale=0.35]{probe_accuracies.pdf}
     \centering  
-    \caption{Mean probe accuracies for Barlow Twins VQVAE}
+    \caption{Mean probe accuracies.}
 \end{figure}
 
 
 \begin{figure}[H]
-    \label{fig:Mean_probe_VIB}
-    \includegraphics[scale=0.4]{Mean_probe_VIB.png}
-    \centering  
-    \caption{Mean probe accuracies for VIbCReg VQVAE}
+    \label{fig:TSNE_TwoPatterns}
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{TSNE_vib_slice_TwoPatterns.png}
+        % \caption{TSNE plot of discrete latent representations from VIbCReg with slice and shuffle. Dataset is TwoPatterns }
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{TSNE_naive_TwoPatterns.png}
+    \end{minipage}
+    \caption{TSNE plot of discrete latent representations from VIbCReg with slice and shuffle (left) and naive VQVAE (right). Dataset is TwoPatterns.}
 \end{figure}
 
-How does augmentations influence probes? 
-\begin{figure}[H]
-    \label{fig:comparrison_probes_augs}
-    \includegraphics[scale=0.28]{comparrison_probes_augs.png}
-    \centering  
-    \caption{Comparison of mean downstream classification accuracy across augmentations}
-\end{figure}
+
+
+% How does augmentations influence probes? 
+% \begin{figure}[H]
+%     \label{fig:comparrison_probes_augs}
+%     \includegraphics[scale=0.28]{comparrison_probes_augs.png}
+%     \centering  
+%     \caption{Comparison of mean downstream classification accuracy across augmentations}
+% \end{figure}
 
 
 
-SSL loss during training. Gauss is much easier to minimize. Probes seem to be better for warp and slice.\newline 
+
 
 The NC-VQVAE model is able to reconstruct on par with naive VQVAE, and in some cases improve the reconstruction loss, while significantly improving the probe accuracy for the discrete latent representations for most datasets. The NC-VQVAE produces representations that separates classes more effectively, and could in turn encode more class specific information.
 
+\subsubsection{Losses}
 
+\TODO{How does the minimization of diffrerent losses influence linear probes/FID/IS?}
+SSL loss during training. Gauss is much easier to minimize. Probes seem to be better for warp and slice.\newline 
 
-\subsubsection{Visual inspection}
+VQ-loss: VIbCReg minimizes a lot better than Barlow Twins. Gaussian augmentations results in the hardest minimization. Then windowwarp and then slice. \newline
+
+Augment recons: Is minimized very quickly. VIbCReg slightly more than Barlow. Slice produces the highest loss, which makes intuitive sense.\newline
+
+SSL loss: Gaussian is consistently more minimized than slice and warp. Which of slice and warp that is most minimized is dataset dependent, and are in many cases similar.
+
+\subsection{Visual inspection}
 
 \TODO{PCA-TSNE-UMAP plots}
 
 \TODO{Latent space plots}
 
-
+Illustrate the clustering in latent space
 
 
 \section{Stage 2}
 
 \subsection{Generative quality}
+
+The generative quality of or models are evaluated according to FID, IS and CAS. We present the top 1 results in table \ref{tab:FID_IS_best}, and the mean score across the four runs in table \ref{tab:FID_IS_mean}. From the tables we see that our model produces better IS score for 12 out of 13 datates, and better FID for 10 out of 13.\newline
 
 
 \begin{table}[H]
@@ -244,7 +283,7 @@ The NC-VQVAE model is able to reconstruct on par with naive VQVAE, and in some c
     \end{tabular}
     \end{adjustbox}
     \caption{Summary of FID and IS scores by SSL Method and Augmentation. Best achieved results are highlighted in bold}
-    % \label{tab:summary}
+    \label{tab:FID_IS_best}
 \end{table}
 
 
@@ -279,26 +318,25 @@ The NC-VQVAE model is able to reconstruct on par with naive VQVAE, and in some c
     \end{tabular}
     \end{adjustbox}
     \caption{Summary of FID and IS scores by SSL Method and Augmentation. Best mean achieved FID and IS are highlighted in bold}
-    % \label{tab:summary}
+    \label{tab:FID_IS_mean}
 \end{table}
 
-From the table we see that our model produces better IS score for 12 out of 13 datates, and better FID for 10 out of 13.\newline
-
-In the visual inspection section we illustrate that lower FID not always correspond more realistic synthetic samples, and that out model often capture the conditional distributions better than naive VQVAE. 
-
-\begin{figure}[H]
-    \label{fig:Mean_FID_IS_BT}
-    \includegraphics[scale=0.4]{Mean_FID_IS_BT.png}
-    \centering  
-    \caption{Mean FID and IS scores for Barlow Twins VQVAE}
-\end{figure}
+In figure \ref{fig:mean_gen_scores} we get a better overview of the results, and observe that both Barlow Twins and VIbCReg produces better samples than the naive VQVAE in terms of FID and IS.
+Additionally we see that the use of gaussian augmentation results in the largest improvements for most datasets. The high IS scores indicate that NC-VQVAE captures the conditional distributions better than naive VQVAE in many datasets. This will be explored further in section \ref{section:Visual inspection}. The improved FID scores indicates that the synthetic samples more closely resemble the test data. The moderate decrease in FID, compared to the increase in IS, could indicate that the generated samples does not generalize too well to the test data. The discrete latent representations from NC-VQVAE provides more information regarding the classes, as we saw from the improved downstream classification accuracy in stage 1. This additional class specific information seems to assist the prior learning in capturing class conditional distributions.
 
 \begin{figure}[H]
-    \label{fig:Mean_FID_IS_VIB}
-    \includegraphics[scale=0.4]{Mean_FID_IS_VIB.png}
+    \label{fig:mean_gen_scores}
+    \includegraphics[scale=0.35]{gen_scores.pdf}
     \centering  
-    \caption{Mean FID and IS scores for VIbCReg VQVAE}
+    \caption{Mean FID and IS scores for Barlow Twins and VIbCReg VQVAE. FID is plotted on a log scale because of the large difference in values across datasets.}
 \end{figure}
+
+% \begin{figure}[H]
+%     \label{fig:Mean_FID_IS_VIB}
+%     \includegraphics[scale=0.4]{Mean_FID_IS_VIB.png}
+%     \centering  
+%     \caption{Mean FID and IS scores for VIbCReg VQVAE}
+% \end{figure}
 
 \subsection{Class conditional sampling}
 
@@ -370,9 +408,20 @@ In the visual inspection section we illustrate that lower FID not always corresp
 Mention that during experiments with our stage 2 modification, embed / finetune, we observed that the val prior loss with our modification was higher, but with similar shape as without. If we had time and computational resources to rerun the experiments, then we would omit the stage 2 modification. The FID/IS in our main experiments are in many cases better than baseline VQVAE, despite higher val prior loss.
 \newline
 
+\subsection{Token usage}
 
+Include something on the differences in sampling/token usage between naive VQVAE and NC-VQVAE. NC-VQVAE has a tendency to be more certain of tokens selected. For small datasets such as Mallat, the certainty is close to $1$ for most sampled tokens. 
+
+\TODO{Investigate this further. Compare/relate the selected probability histograms with token usage histograms / perplexity}
+
+Would be interesting to investigate different values for T in maskgit iterative sampling.
+
+
+Higher masking ratios during training etc.
 
 \subsection{Visual inspection}
+\label{section:Visual inspection}
+Simple patterns, such as sinusoids, are very easily captured. Sharp changes in modularity and frequency are 
 
 \subsubsection{Symbols}
 
@@ -445,8 +494,7 @@ Our model follows the training data quite closely. It might be susceptible to ge
 \subsubsection{The bias introduced by augmentation}
 
 
-\subsubsection{MaskGIT more certain of tokens}
-look at selected token histograms. Seems like our models select tokens with higher probability. Would be interesting to investigate different values for T in maskgit iterative sampling.
+
 
 
 
@@ -561,6 +609,8 @@ HF-LF split - augmentations tailored for HF and LF, as they often have quite dif
 Wavelet transform to improve HF-LF split.\newline
 
 Further optimize the relationship between aug recon loss and choice of augmentations.\newline
+
+Improving on the stage 2 learning to better handle the expressive representations, and be able to create more diverse samples. Higher masking ratio during training, lower value for $T$ etc.
 
 
 

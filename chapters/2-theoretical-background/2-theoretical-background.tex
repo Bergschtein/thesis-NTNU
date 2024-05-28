@@ -610,6 +610,7 @@ Following \cite{TimeVQVAE} we mainly consider three evaluation metrics in this t
 Common for all the above evaluation metrics is the reliance on a pre-trained classification model. In contrast to computer vision there is no widely adopted classification model for time series, but in \cite{wang2016time} a fully convolutional network (FCN) was presented as a proposed baseline classification model for time series. As their model is not available we use the open source FCN trained on the UCR Archive presented in \cite{TimeVQVAE} for our evaluations.\newline
 
 \subsubsection{Inception Score (IS)}
+
 Inception Score (IS) was first introduced in \cite{salimans2016improved} as an automatic evaluation method of synthetic samples.\newline
 The Inception Score works by applying a classifier to every generated sample to get the conditional label distribution $p(y|x)$. Samples containing clear characteristics should have low entropy, i.e one should be certain of the label. In addition we expect a good model to generate varied samples, so the marginal $\int p(y|x = D(z))dz$ should have high entropy. On this basis, the Inception Score is defined as 
 
@@ -632,6 +633,8 @@ The marginal label distribution is obtained by averaging across all the syntheti
 
 Issues with IS \cite{barratt2018note} (Use different network, for image classification).  Important to report different metrics that indicate that the model has not overfitted. 
 Also issues with IS \cite{borji2021pros}.\newline
+
+
 
 \subsubsection{Fréchet Inception Distance (FID)}
 As an attempt to improve on IS \cite{heusel2018gans} introduced the Fréchet Inception Distance (FID). Since then FID has been the standard for assessing generative models \cite{borji2021pros}.\newline
