@@ -59,7 +59,7 @@ FCN for IS, FID and CAS
 
 \section{Initial Experimentation and Model Development}
 
-The overarching objective in creating our model is to learn more expressive latent representations for better time series generation. We want to improve the reconstruction capabilities of the tokenization model. The rationality is that if the tokenization model reconstructs well the latent representations contains all relevant information of the input. We simultaneously want enforce better class separability in the latent representations, as we hypothesize that such additional structure eases/improved learning of the generative model.\newline
+The overarching objective in creating our model is to learn more expressive latent representations for better time series generation. We want to keep the reconstruction capabilities of the tokenization model at a high level, where the rationality is that if the tokenization model reconstructs well the latent representations contains all relevant information of the input. We simultaneously want enforce better class separability in the latent representations, as we hypothesize that such additional structure eases/improved learning of the generative model.\newline
 
 During development we encountered several problems:\newline
 When we attempted a siamese architecture, with quantization in the augmented branch, and to derive the SSL loss from the discrete representations there were a correlation problem. The codewords were very highly correlated, which resulted from the passing both views through the VQ.  $SSL(z_q,z_q')$ \newline
@@ -70,12 +70,20 @@ Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \new
 
 \section{Main Experiments}
 
-We are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
+% In this thesis we are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
 
-We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations and each configuration is trained on four different seeds. This makes for a total of 364 models trained at each stage. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS. We additionally do visual inspections in both stages.\newline
+% We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations and each configuration is trained on four different seeds. This makes for a total of 364 models trained at each stage. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS. We additionally do visual inspections in both stages.\newline
+
+
+In this thesis, we focus on two main objectives. Firstly, in Stage 1, we aim to determine whether NC-VQVAE can learn more expressive representations compared to VQVAE. Specifically, we investigate whether NC-VQVAE can achieve reconstruction performance on par with VQVAE while simultaneously enhancing downstream classification. In Stage 2, our interest lies in examining the impact of NC-VQVAE on prior learning and time series generation.\newline
+
+To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning (SSL) methods. For each SSL method, we train three distinct models employing different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage.\newline
+
+Our evaluation process begins with assessing the tokenization models, focusing on their reconstruction capability and performance in downstream classification tasks. Subsequently, we proceed to train a prior model on top of the various tokenization models. We then evaluate the performance of the generative models using metrics such as IS (Inception Score), FID (Fréchet Inception Distance), and CAS (Classification Accuracy Score). Additionally, visual inspections are conducted at both stages to provide further insights into the models' performance.\newline
 
 
 \section{Stage 1}
+
 
 \subsection{Augmentations}
 In our experiments we consider three sets of augmentations with different characteristics. They are

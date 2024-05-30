@@ -16,7 +16,7 @@ Real world time series data is often incomplete (missing datapoints), irregular 
 	- Why do people care about time series generation (TSG)?
 		- Applications
 	- Why is (unsupervised) representation learning for time series interesting?
-Distributions of time series in their original temporal representation are complex and difficult to model. One would like to translate time series to a space where modelling is easier. This is one of the reasons to investigate representation learning for time series. Time series are recorded at record speed from sensors of various kinds (IoT, wearable devices). Unfortunately many of these do not have easily recognizable patterns for human observers, which makes labeling of such data quite difficult. In order to take advantage of this vast amount of unlabled data we need techniques that can extract useful patterns without supervision. This is one of the reasons for investigating possible unsupervised models. A subcategory of unsupervised learning called self-supervised learning has in recent times shown great potential for learning informative and useful representations without the need of labeled data in the fields of computer vision and natural language processing. Most notably the GPT models from OpenAI which utilizes masked language modelling for pre-training. 
+Distributions of time series in their original temporal representation are complex and difficult to model. One would like to translate time series to a space where modelling is easier. This is one of the reasons to investigate representation learning for time series. Time series are recorded at record speed from sensors of various kinds (IoT, wearable devices). Unfortunately many of these do not have easily recognizable patterns for human observers, which makes labeling of such data quite difficult. In order to take advantage of this vast amount of unlabeled data we need techniques that can extract useful patterns without supervision. This is one of the reasons for investigating possible unsupervised models. A subcategory of unsupervised learning called self-supervised learning has in recent times shown great potential for learning informative and useful representations without the need of labeled data in the fields of computer vision and natural language processing. Most notably the GPT models from OpenAI which utilizes masked language modelling for pre-training. 
 
 \section{Overview/structure}
 \begin{itemize}
@@ -28,26 +28,36 @@ Distributions of time series in their original temporal representation are compl
 \section{Research questions}
 Stage1
 \begin{itemize}
-	\item[\textbf{RQ1:}] Does VQVAE learn good representations for classification?
-	\item[\textbf{RQ2:}] Will self a supervised learning approach enhance downstream classification while simultaneously reconstruct well?
-	\item[\textbf{RQ3:}] How does augmentations influence reconstruction and downstream classification? 
+	\item[\textbf{RQ1:}] Will self a supervised learning approach enhance downstream classification while simultaneously reconstruct well?
+	\item[\textbf{RQ2:}] How does augmentations influence reconstruction and downstream classification? 
 \end{itemize}
 Stage 2
 \begin{itemize}
-	\item[\textbf{RQ4:}] Will more expressive representations improve prior model learning?
-	\item[\textbf{RQ5:}] Does higher downstream classification accuracy correlate with improved class conditional generation?
-	\item[\textbf{RQ6:}] How does augmentations influence prior learning and synthetic sample quality?
+	\item[\textbf{RQ3:}] Will more expressive representations improve prior model learning?
+	\item[\textbf{RQ4:}] How does augmentations influence prior learning and synthetic sample quality?
 \end{itemize}
 
 		-  
 	- 
 	- How does SSL VQVAE compare when we train a powerful prior model on top of it (MaskGIT)? 
 
+\section{Sustainability impact}
+Ethical and environmental impact consideration with basis in UN sustainability goals.
+
+The field of AI and machine learning is in rapid development and the fear of being left in the dust in the gold rush makes many actors scrape all data they can find to train ever larger models. 
+
+One downside, not considering the massive copyright disputes, questionable privacy and the spread of misinformation by hallucinations and use of deepfakes, is their colossal environmental impact. 
+
+
+AI and machine learning are not universal tools though the modern LLMs make it seem so.
+
 
 
 \section{AI Declaration}
 
-- Ethical and environmental impact consideration with basis in UN sustainability goals
+
+
+
 
 
 
