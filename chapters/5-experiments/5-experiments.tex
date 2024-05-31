@@ -3,8 +3,6 @@
 \begin{document}
 
 
-
-
 \section{Implementation details}
 We follow \cite{TimeVQVAE} closely in the encoder/decoder/codebook implementation, and 
 
@@ -16,22 +14,23 @@ The short time fourier transform (STFT) and its inverse ISTFT are implemented wi
 
 The same encoder and decoder architecture as in \cite{VQVAE} is used and further use the implementation from \cite{nadavbh12} with adaptations from \cite{TimeVQVAE}.\newline
 
-The encoder presented in figure \ref{fig:VQVAE Encoder} consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). The downsampling convolutional layers are implemented with parameters: \texttt{kernel size=(3,4),
-stride=(1,2), padding=(1,1)}. This results in downsampling of only the temporal axis, which is downsampled by a factor of $2$ for each downsampling block. The residual convolutional layers have parameters: \texttt{kernel size=(3,3),stride=(1,1), padding=(1,1)}.\newline
+The encoder presented in figure \ref{fig:VQVAE Encoder} consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). The downsampling convolutional layers are implemented with parameters: \texttt{kernel size=(3,4), stride=(1,2), padding=(1,1)}. This results in downsampling of only the temporal axis, which is downsampled by a factor of $2$ for each downsampling block. The residual convolutional layers have parameters: \texttt{kernel size=(3,3),stride=(1,1), padding=(1,1)}.\newline
 
 The decoder is implemented similarity with $m$ residual followed $n$ upsampling layers using transposed convolutional blocks with same parameters as in the encoder.\newline
 
 The downsampling rate is determined by $2^n$ where $n$ is set such that $z$ has width of $32$. For more in depth consideration of the detail regarding TimeVQVAE implementation we refer to Appendix C.3 of \cite{TimeVQVAE}.
 
 \begin{figure}[h]
-    \label{fig:VQVAE Encoder}
-    \includegraphics[scale = 0.3]{VQVAE Encoder.png}
+    
+    \includegraphics[scale = 0.30]{VQVAE Encoder.png}
     \centering
     \caption{Overview of the encoder architecture. The decoder architecture is simply obtained by reversing the arrows and switching out the convolutional block for transposed convolutional blocks.}
+    \label{fig:VQVAE Encoder}
 \end{figure}
 
 \subsubsection{VQ}
-Implementation from lucidrains/vector-quantize-pytorch. https://github.com/lucidrains/vector-quantize-pytorch \newline
+% Implementation from lucidrains/vector-quantize-pytorch.
+%  https://github.com/lucidrains/vector-quantize-pytorch \newline
 Codebook size = 32 and dimension = 64. \newline
 Use exponential moving average with decay $0.9$, and commitment loss with weight $\beta = 1$.
 
@@ -70,16 +69,16 @@ Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \new
 
 \section{Main Experiments}
 
-% In this thesis we are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
+% % In this thesis we are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
 
-% We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations and each configuration is trained on four different seeds. This makes for a total of 364 models trained at each stage. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS. We additionally do visual inspections in both stages.\newline
+% % We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations and each configuration is trained on four different seeds. This makes for a total of 364 models trained at each stage. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS. We additionally do visual inspections in both stages.\newline
 
 
-In this thesis, we focus on two main objectives. Firstly, in Stage 1, we aim to determine whether NC-VQVAE can learn more expressive representations compared to VQVAE. Specifically, we investigate whether NC-VQVAE can achieve reconstruction performance on par with VQVAE while simultaneously enhancing downstream classification. In Stage 2, our interest lies in examining the impact of NC-VQVAE on prior learning and time series generation.\newline
+% In this thesis, we focus on two main objectives. Firstly, in Stage 1, we aim to determine whether NC-VQVAE can learn more expressive representations compared to VQVAE. Specifically, we investigate whether NC-VQVAE can achieve reconstruction performance on par with VQVAE while simultaneously enhancing downstream classification. In Stage 2, our interest lies in examining the impact of NC-VQVAE on prior learning and time series generation.\newline
 
-To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning (SSL) methods. For each SSL method, we train three distinct models employing different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage.\newline
+% To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning (SSL) methods. For each SSL method, we train three distinct models employing different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage.\newline
 
-Our evaluation process begins with assessing the tokenization models, focusing on their reconstruction capability and performance in downstream classification tasks. Subsequently, we proceed to train a prior model on top of the various tokenization models. We then evaluate the performance of the generative models using metrics such as IS (Inception Score), FID (Fréchet Inception Distance), and CAS (Classification Accuracy Score). Additionally, visual inspections are conducted at both stages to provide further insights into the models' performance.\newline
+% Our evaluation process begins with assessing the tokenization models, focusing on their reconstruction capability and performance in downstream classification tasks. Subsequently, we proceed to train a prior model on top of the various tokenization models. We then evaluate the performance of the generative models using metrics such as IS (Inception Score), FID (Fréchet Inception Distance), and CAS (Classification Accuracy Score). Additionally, visual inspections are conducted at both stages to provide further insights into the models' performance.\newline
 
 
 \section{Stage 1}
@@ -96,32 +95,33 @@ In our experiments we consider three sets of augmentations with different charac
 \textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view \ref{fig:ShapesAll_winwarp}. \newline
 
 \begin{figure}[h]
-    \label{fig:ShapesAll_winwarp}
-    \includegraphics[scale = 0.3]{ShapesAll_winwarp.png}
     \centering
+    \includegraphics[scale = 0.3]{ShapesAll_winwarp.png}
     \caption{ShapesAll: Original (left), augmented (right). 15 instances of Amplitude Resizing + Window Warp applied to the original sample.}
+    \label{fig:ShapesAll_winwarp}
 \end{figure}
 
 \textbf{Slice and Shuffle} crops the time series into four sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which is illustrated in figure \ref{fig:ElectricDevices_SliceAndShuffel}. This could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
 \begin{figure}[h]
-    \label{fig:ElectricDevices_SliceAndShuffel}
     \includegraphics[scale = 0.3]{ElectricDevices_SliceAndShuffel.png}
     \centering
     \caption{ElectricDevices: Original (left), augmented (right). 5 instances of Slice and Shuffle applied to the original sample.}
+    \label{fig:ElectricDevices_SliceAndShuffel}
 \end{figure}
 
 
 \textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component as seen in figure \ref{fig:StarLight_Gaussian}. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder. Of the three augmentations, gaussian noise provides the most predictable augmented views from a numerical standpoint, which might result in a SSL loss which is easier to minimize.
 
 \begin{figure}[h]
-    \label{fig:StarLight_Gaussian}
     \includegraphics[scale = 0.3]{StarLight_Gaussian.png}
     \centering
     \caption{StarLightCurves: Original (left), augmented (right). One instance of Gaussian noise applied to the original sample.}
+    \label{fig:StarLight_Gaussian}
 \end{figure}
 
 \subsection{Evaluation}
-Reconstruction, Classification and Visual inspection
+
+The tokenization model, as we are interested in representation learning, is evaluated on two metrics. Firstly, and most importantly its ability to reconstruct the input data once compressed into latent space. In essence the latent representation encodes "everything" (important information is preserved) about the original data if the model is able to reconstruct well. Secondly we evaluate linear classifiers on the latent representations, which provides good results if the model learns discriminative features of the different classes and produces an approximately linear separable space. Finally, as the tokenization model is a part of the generative model, the ultimate evaluation metric is the corresponding evaluation of the generative model. 
 
 
 
@@ -170,99 +170,96 @@ Our subset of the UCR archive is
 
 We choose to test on a subset, rather than on the entire UCR Archive, due to computational limitations as well as to more thoroughly investigate the effect of our models and the role of augmentations. The subset is chosen such that they span a wide range of train set sizes, lengths, classes and type, while the class distributions have visually different characteristics which can be seen from table \ref{tab:UCRsubset} and figure \ref{fig:datasets}. 
 
-    \begin{figure}[h]
-        \label{fig:datasets}
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.32\textwidth}
         \centering
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{ElectricDevices}
-            \caption*{ElectricDevices}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{StarLightCurves}
-            \caption*{StarLightCurves}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Wafer}
-            \caption*{Wafer}
-        \end{minipage}
-        
-        \vspace{0.4cm}
-        
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{ECG5000}
-            \caption*{ECG5000}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{TwoPatterns}
-            \caption*{TwoPatterns}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{FordA}
-            \caption*{FordA}
-        \end{minipage}
-        
-        \vspace{0.4cm}
-        
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Symbols}
-            \caption*{Symbols}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{FordB}
-            \caption*{FordB}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{ShapesAll}
-            \caption*{ShapesAll}
-        \end{minipage}
-        
-        \vspace{0.4cm}
-        
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Sony1}
-            \caption*{SonyAIBORobotSurface1}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Sony2}
-            \caption*{SonyAIBORobotSurface2}
-        \end{minipage}
-        \hfill
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{UWave}
-            \caption*{UWaveGestureLibraryAll}
-        \end{minipage}
-        
-        \vspace{0.4cm}
-        
-        \begin{minipage}[b]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Mallat}
-            \caption*{Mallat}
-        \end{minipage}
-        
-    \end{figure}
-
-
-
+        \includegraphics[width=\textwidth]{ElectricDevices}
+        \caption*{ElectricDevices}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{StarLightCurves}
+        \caption*{StarLightCurves}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Wafer}
+        \caption*{Wafer}
+    \end{minipage}
+    
+    \vspace{0.4cm}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{ECG5000}
+        \caption*{ECG5000}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{TwoPatterns}
+        \caption*{TwoPatterns}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{FordA}
+        \caption*{FordA}
+    \end{minipage}
+    
+    \vspace{0.4cm}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Symbols}
+        \caption*{Symbols}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{FordB}
+        \caption*{FordB}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{ShapesAll}
+        \caption*{ShapesAll}
+    \end{minipage}
+    
+    \vspace{0.4cm}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Sony1}
+        \caption*{SonyAIBORobotSurface1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Sony2}
+        \caption*{SonyAIBORobotSurface2}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{UWave}
+        \caption*{UWaveGestureLibraryAll}
+    \end{minipage}
+    
+    \vspace{0.4cm}
+    
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Mallat}
+        \caption*{Mallat}
+    \end{minipage}
+    \caption{Our selected subset of the UCR Archive. All time series in the training set are plotted and color coded according to label.}
+    \label{fig:datasets}
+\end{figure}
 
 
 

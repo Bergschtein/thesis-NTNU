@@ -105,8 +105,6 @@ and one would iteratively update the parameters by gradient descent
 If the dataset $X$ is large, gradient calculations can be expensive. In such cases, which are common in modern machine learning, an effective estimator for the true gradient is used instead. Stochastic gradient descent (SGD) is a very popular approach. Instead of computing the gradient at each data point in every iteration, SGD updates the parameters by iterating through the dataset and using the gradient at each single data point. The dataset is then permuted and iterated through again until an approximate minimum is reached. Pseudocode for SGD is presented in Algorithm \ref{alg:SDG}.
 
 \begin{algorithm}
-\caption{Stochastic Gradient Descent (SDG)}
-\label{alg:SDG}
 \begin{algorithmic}
     \State Initialize parameters $\theta$ and learning rate $\gamma$
     \While{Not converged} 
@@ -116,6 +114,8 @@ If the dataset $X$ is large, gradient calculations can be expensive. In such cas
     \EndFor
     \EndWhile
 \end{algorithmic}
+\caption{Stochastic Gradient Descent (SDG)}
+\label{alg:SDG}
 \end{algorithm}
 \TODO{Mini batch SDG}
 
@@ -162,10 +162,10 @@ Convolutions can be naturally extended to higher-dimensional functions. For a tw
 \end{equation}
 This operation is illustrated in Figure \ref{fig:Convolution}.
 \begin{figure}[h]
-    \label{fig:Convolution}
     \includegraphics[scale=0.5]{Convolution.png}
     \centering    
     \caption{Illustration of discrete two dimensional convolution}
+    \label{fig:Convolution}
 \end{figure}
 
 In practice, the convolution operation used in machine learning often corresponds to cross-correlation rather than strict mathematical convolution, differing by a sign flip in the kernel arguments. While this makes the operation non-commutative, it does not affect the learning process, as the learned kernel parameters will be equivalent \cite{deeplearningbook}.\newline
@@ -187,35 +187,36 @@ Two of the most common pooling methods are max pooling and average pooling. Max 
 There are two key hyperparameters for any pooling operation: the filter size, which determines the region of values to calculate the summary statistic, and the stride length, which determines how the filter moves across the feature map. In addition to reducing dimensionality, pooling helps make representations approximately invariant to small distortions in the input.Illustrations of max pooling with different stride is presented in figure \ref{fig:mp2} and \ref{fig:mp2}, while the effect of max and average pooling on image data is illustrated in \ref{fig:mean_max_pool}.\newline
 
 \begin{figure}[h]
-    \label{fig:mp2}
     \includegraphics[scale=0.5]{MP_stride2}
     \centering    
     \caption{Max pooling of one dimensional array. Filter size: $2$, stride: $2$.}
+    \label{fig:mp2}
 \end{figure}
 \begin{figure}[h]
-    \label{fig:mp1}
     \includegraphics[scale=0.5]{MP_stride1}
     \centering    
     \caption{Max pooling of one dimensional array. Filter size: $2$, stride: $1$.}
+    \label{fig:mp1}
 \end{figure}
 
 \begin{figure}[h]
-    \label{fig:mean_max_pool}
     \centering
     \includegraphics[scale = 0.5]{pooling_illustration.png}
     \caption{Illustration of mean and average pooling applied to images. Filter size and stride is $20\times 20$. Original image size is $512\times 512$, pooled images are $26\times26$. Image part of Scikit-image data package.}
+    \label{fig:mean_max_pool}
 \end{figure}
 
 Global pooling is a technique that involves calculating a summary statistic, such as the maximum or average, for an entire feature map. This effectively summarizes the presence of a feature across the entire input. This method is particularly useful in the final layers of a convolutional neural network (CNN), where it reduces the spatial dimensions of the feature maps to a single value per map. This process condenses information and enhances computational efficiency. Additionally, global pooling helps CNNs handle variably sized inputs more effectively and serves as a method for downsampling representations for visualization purposes.
 
 \subsection{Architecture}
-There are many specific architectures within the category of convolutional neural networks (CNNs), but their basic components are largely the same. CNNs typically consist of convolutional layers, pooling layers, and fully connected layers. Figure \ref{fig:LeNet5} illustrates the original LeNet-5 \cite{LeCun1989ConvNet} is presented as an example of a general CNN.\newline
+There are many specific architectures within the category of convolutional neural networks (CNNs), but their basic components are largely the same. CNNs typically consist of convolutional layers, pooling layers, and fully connected layers. Figure \ref{fig:LeNet5} illustrates the original LeNet-5 \cite{LeCun1989ConvNet} as an example of a general CNN.\newline
 
 \textbf{A convolutional layer} consists of several kernels used to compute different feature maps. Each kernel is convolved with the entire input, producing different feature maps by using different kernels. After convolution, a nonlinear activation function is applied pointwise to the feature maps, introducing nonlinearity to the model. The purpose of the convolutional layer is to extract local features such as edges, textures, and shapes from the input data.
 \begin{figure}[h]
     \centering
     \includegraphics[scale = 0.5]{convlayer.png}
     \caption{Convolutional layer.}
+    \label{fig:convlayer}
 \end{figure}
 
 \textbf{A pooling layer} is typically placed between convolutional layers and  act as strong downsamplers that aim to enforce approximate translation invariance. A pooling operation, such as max pooling or average pooling, is applied across each feature map, reducing its spatial dimensions while retaining important information. The pooling layer helps to reduce the computational load and control overfitting by progressively reducing the spatial size of the representation.\newline
@@ -241,10 +242,10 @@ Transposed convolution, also known as deconvolution or fractionally-strided conv
 Transposed convolutions are extensively used in combination with convolutional downsampling in encoder-decoder architectures presented in section \ref{section:VQVAE}. These architectures are fundamental in many generative models. The encoder part of the network typically reduces the spatial dimensions through a series of convolutional and pooling layers, capturing the essential features of the input data. The decoder part then uses transposed convolutions to upsample the encoded feature maps back to the original spatial dimensions, reconstructing the input or generating new data.\newline
 
 \begin{figure}[h]
-    \label{fig:deconv}
     \centering
     \includegraphics[scale = 0.5]{deconv_illustration.png}
     \caption{Illustration of deconvolution applied to images. Here using Gaussian blur and restoring using the Richardson Lucy algorithm with a Gaussian deconvolution kernel. Image part of Scikit-image data package.}
+    \label{fig:deconv}
 \end{figure}
 
 
@@ -341,7 +342,7 @@ Since their introduction in the seminal paper "Attention is all you need"\cite{v
 Transformers were developed for sequential modeling and have the capability of learning long-range dependencies in data through the \textit{multi-headed attention mechanism}.  Previously, recurrent neural networks (RNNs) and long short-term memory (LSTM) networks were the state-of-the-art for sequential tasks. However, they struggled with modeling long-term dependencies due to the vanishing or exploding gradient problem \cite{279181}. One of the main novelties of the transformer architecture is not relying on recurrence, and instead solely using the attention mechanism to capture dependencies between input and output.
 \newline
 
-The transformer takes as input a sequence of symbols. For different modalities like text, speech, images, and time series, this requires a process called\textit{tokenization}. For example, in natural language processing (NLP), a simple word-level tokenization involves creating a dictionary of all words in the dataset and assigning each word an integer. Text can then be mapped to a sequence of integers. Other modalities, such as speech, images, and time series, are usually represented as matrices which can be flattend and used as inpus. However, directly modeling high-dimensional data as such sequences would require significant computational resources and make it challenging to model long-range dependencies. Therefore, various tokenization methods are used to represent the data as coarser sequences. 
+The transformer takes as input a sequence of symbols. For different modalities like text, speech, images, and time series, this requires a process called \textit{tokenization}. For example, in natural language processing (NLP), a simple word-level tokenization involves creating a dictionary of all words in the dataset and assigning each word an integer. Text can then be mapped to a sequence of integers. Other modalities, such as speech, images, and time series, are usually represented as matrices which can be flattend and used as inpus. However, directly modeling high-dimensional data as such sequences would require significant computational resources and make it challenging to model long-range dependencies. Therefore, various tokenization methods are used to represent the data as coarser sequences. 
 \newline
 
 Transformers have also been successfully adopted for generative tasks. Autoregressive transformers, such as the GPT series, are trained to predict the next token in a sequence given the preceding tokens. By treating images as sequences of patches, Vision Transformers can generate new images or inpaint missing patches based on the input. With the introduction of Vision Transformers \cite{dosovitskiy2021image}, input images are split into patches and linearly projected before being processed by the transformer. Since then, \textit{Vector-Quantized}-based tokenization introduced by \cite{VQVAE} has emerged as a popular approach.
@@ -353,8 +354,8 @@ The attention mechanism is a key innovation in transformer architectures, enabli
 \begin{figure}[h]
     \includegraphics[scale=0.25]{Attention.png}
     \centering 
-    \label{fig:attention}
     \caption{(left) Scaled dot-product attention. (right) Multi-headed attention. Taken with permission from \cite{vaswani2023attention}}
+    \label{fig:attention}
 \end{figure}
 
 Scaled dot-product attention is computed by 
@@ -386,8 +387,8 @@ The original transformer architecture, as presented in Figure \ref{fig:transform
 \begin{figure}[h]
     \includegraphics[scale=0.1]{Transformer_architecture}
     \centering 
-    \label{fig:transformer}
     \caption{The Transformer - model architecture. Encoder (left), decoder (right). Taken with permission from \cite{vaswani2023attention}}
+    \label{fig:transformer}
 \end{figure}
 
 
@@ -443,7 +444,7 @@ In computer vision, several representation learning algorithms utilizing siamese
 
 Contrastive SSL uses positive and negative samples to learn representations by pulling positive pairs closer together and pushing negative pairs further apart. Examples include MoCo \cite{he2020momentum} and SimCLR \cite{chen2020simple}. Contrastive methods often require large batch sizes as well as a substatial number of negative pairs compared to positive in order to learn representations effectively \cite{lee2024computer}.\newline
 
-Non-Contrastive SSL methods, such as BYOL \cite{grill2020bootstrap}, BarlowTwins \cite{zbontar2021barlow} and VIbCReg \cite{computer} avoid the need for positive and negative pairs. These methods use augmentations of the input data as pseudo labels and introduce different mechanisms to prevent collapse. For instance, BYOL introduces architectural asymmetry and the stop-gradient operation, Barlow Twins minimizes information redundancy between branches, and VICReg maintains variability while decorrelating features in each branch.
+Non-Contrastive SSL methods, such as BYOL \cite{grill2020bootstrap}, BarlowTwins \cite{zbontar2021barlow} and VIbCReg \cite{lee2024computer} avoid the need for positive and negative pairs. These methods use augmentations of the input data as pseudo labels and introduce different mechanisms to prevent collapse. For instance, BYOL introduces architectural asymmetry and the stop-gradient operation, Barlow Twins minimizes information redundancy between branches, and VICReg maintains variability while decorrelating features in each branch.
 
 
 \subsection{Masked modelling}
@@ -559,12 +560,16 @@ These limitations have motivated the development of more advanced models, such a
 Dictionary learning model \cite{Gray1984VQ}
 
 \subsection{VQVAE}
-The Vector Quantized Variational AutoEncoder (VQVAE) was first introduced in \cite{VQVAE} and presented a new way of training VAEs with discrete latent variables. It is the first discrete VAE model which has similar performance to the continuous variant. VQVAE was developed to learn useful discrete representations for generation. This is enforced by more flexible distributional assumptions, as they say "Our model, the Vector Quantised-
-Variational AutoEncoder (VQ-VAE), differs from VAEs in two key ways: the
-encoder network outputs discrete, rather than continuous, codes; and the prior
-is learnt rather than static."-\cite{VQVAE}. 
-\newline
-The overall architecture of VQVAE consists of an encoder and decoder as before, together with a \textit{codebook} which is used in the quantization process. The codebook, also referred to as the latent embedding space, $\mathcal{Z} = \{z_k\}_{i=1}^K$ is consists of $K$ latent vectors with dimensionality $D$. It can be considered a lookup table of vectors that are used for vector quantization (VQ). The output of the encoder $E(x)$ is quantized by the means of nearest neighbor lookup
+The Vector Quantized Variational AutoEncoder (VQVAE) was first introduced in \cite{VQVAE} and presented a novel approach to training VAEs with discrete latent variables. It was the first model to achieve similar performance to continuous VAEs while utilizing discrete latent representations. VQVAE was developed to enhance representation learning by allowing the encoder network to output discrete codes and by learning the prior distribution rather than assuming it to be static. This approach provides more flexibility in capturing the underlying data distribution while simultaneously avoiding posterior collapse and variance issues observed in VAEs.
+
+% \TODO{What do we gain by having a flexible posterior and a non-informative prior during training? The advantages for generative modelling to have a learnable prior? VAEs are traditionally quite bad when it comes to generative quality (sharpness). The flexibility of VQVAE seems to set the stage for better sample generation.}
+
+
+\subsubsection{Architecture}
+
+The overall architecture of VQVAE comprises three main components: an encoder, a decoder, and a \textit{codebook}. The encoder and decoder function similarly to those in traditional autoencoders, while the codebook, also referred to as the latent embedding space, acts as a lookup table for vector quantization.\newline
+
+The codebook, denoted by $\mathcal{Z} = \{z_k\}_{i=1}^K$, consists of $K$ latent vectors with dimensionality $D$. During the encoding process, the output of the encoder $E(x)$ is quantized by finding the nearest neighbor in the codebook
 \begin{equation}
     z_q = \argmin_{z_k\in\mathcal{Z}} ||E(x)-z_k||.
 \end{equation}
@@ -575,11 +580,10 @@ The overall architecture of VQVAE consists of an encoder and decoder as before, 
     \caption{Schematics of the VQVAE architecture.}
     \label{fig:VQVAE}
 \end{figure}
-From \ref{fig:VQVAE} we can see that the VQVAE can be seen as an autoencoder with a nonlinearity introduced by the vector quantization. \newline
+From \ref{fig:VQVAE} we can see that the VQVAE can be seen as an autoencoder with a nonlinearity introduced by the vector quantization.
 
-In the original article \cite{VQVAE} they propose to separately learn the prior distribution, after the encoder, decoder and codebook is learned. During the initial training the prior is assumed to be uniform, which poses no constraint on the posterior learning. \newline
-
-In contrast to VAEs the posterior is assumed to be categorical, as opposed to normal and the probabilities are defined as
+\subsubsection{ELBO}
+Unlike traditional VAEs, where the posterior distribution is assumed to be Gaussian, the posterior in VQVAE is categorical. The probabilities are defined as
 \begin{equation}
     p(z=k | x) = 
     \begin{cases} 
@@ -589,141 +593,114 @@ In contrast to VAEs the posterior is assumed to be categorical, as opposed to no
 \end{equation}
 Sampling from the posterior amounts to quantizing the output of the encoder, as it is deterministic. \newline
 
-VQVAE can be viewed as a VAE, hence we can bound the marginal likelihood with the ELBO \ref{eq:ELBO_AE}. As the variational posterior is deterministic and the prior (during training) is uniform over $\{1,...,K\}$ we get that the regularizing term
+In the original article \cite{VQVAE}, the authors propose to learn the prior distribution separately after training the encoder, decoder, and codebook. Initially, the prior is assumed to be uniform, allowing the posterior to learn without constraints. The VQVAE can too be viewed as a VAE, allowing the use of the ELBO \ref{eq:ELBO_AE} to bound the marginal likelihood. Since the variational posterior is deterministic and the prior (during training) is uniform over $\{1,...,K\}$ we get that the regularizing term simplifies to a constant
 
 \begin{equation}
     \begin{aligned}
         \KL(q(z|x)||p(z)) &= \sum_{z}  q(z|x) \log \left(\frac{q(z|x)}{p(z)}\right) \\
                            &= q(z=k|x) \log \left(\frac{q(z=k|x)}{p(z=k)}\right) \text{, $q$ is deterministic}\\
                            &= \log \left(\frac{1}{1/K}\right) \text{, uniform prior}\\
-                           &= \log(K), 
+                           &= \log(K).
     \end{aligned}
 \end{equation}
-is constant. Consequently the ELBO reduces to the reconstruction term only. \newline
-
-% \TODO{What do we gain by having a flexible posterior and a non-informative prior during training? The advantages for generative modelling to have a learnable prior? VAEs are traditionally quite bad when it comes to generative quality (sharpness). The flexibility of VQVAE seems to set the stage for better sample generation.}
-
-\TODO{Can think of the codes as the modes of a mixture of Gaussians, and instead of sampling from the mixtrure you just choose the closest mode.}
-
-\subsubsection{Prior Learning}
-During the initial training the prior is as mentioned constant and uniform such that the posterior has more flexibility. After training an autoregressive prior is fit on $z$ so we can sample $x$ via ancestral sampling. The prior is learned with a generative objective, which increases the quality of generated samples. The choice of prior model depends on the particular application. In the original article PixelCNN \cite{oord2016pixel} was used for image, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
+Thus, the ELBO reduces to the reconstruction term only.
 
 \subsubsection{Loss funciton}
 \label{section:VQVAELoss}
-As we want to do gradient based learning, and the quantization process is quite far off from being continuous, measures has to be taken. The output of the encoder and the input of the decoder has the same dimension, which opens the possibility of simply copying the gradients from the decoder input to the decoder output. This is referred to as the \textit{straight through estimator}. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different discrete latent codes.\newline
+The VQVAE employs a loss function designed to facilitate gradient-based learning despite the non-continuous nature of the quantization process. As the input of the decoder has the same dimension, we circumvent the discontinuities by simply copying the gradients from the decoder to the encoder. The gradients from the decoder contains relevant information to how the encoder should change its output, and in the subsequent forward pass the encoder output can be quantized to different discrete latent codes.\newline
 
-The loss function consists of two parts, the reconstruction loss, codebook loss. We already mentioned that the ELBO objective reduced to the reconstruction term only. In order to learn the codebook one uses the codebook loss, which is the euclidean distance between the encoder output and the quantized output, together with commitment term, which is introduced to keep the distance between codewords from growing arbitrarily large. To summarize the total loss is given by
 
+The overall loss function in VQVAE consists of two main components, the reconstruction loss and the codebook loss. The reconstruction loss ensures that the output of the decoder closely matches the input, while the codebook loss manages the relationship between the encoder output and the quantized output.\newline
+
+The reconstruction loss is the typical mean square error of the input $x$ and the reconstructed output $\widehat{x}$
+\begin{equation}
+    \loss_{\text{recons}} = ||x - \widehat{x}||_2^2.
+\end{equation}
+
+The codebook loss has two parts. The first part measures the euclidean distance between the encoder output and the quantized output, while the second part, known as the commitment term, which is introduced to keep the distance between codewords from growing arbitrarily large. It is given by 
+
+\begin{equation}
+    \loss_{\text{codebook}} = ||sg(z) - z_q||_2^2 +\beta||z - sg(z_q)||_2^2,
+\end{equation}
+where $\beta$ is a tuning parameter, typically set to be $0.25$, and $sg()$ is the stop-gradient operation, behaves as the identity with zero partial derivatives. \newline
+
+The total loss function is given by the sum of the two components
     \begin{equation}     
         \label{eq:VQVAELoss}
-        \begin{aligned}
-            \loss_{\text{recons}} &= ||x - \widehat{x}||_2^2\\
-            \loss_{\text{codebook}} &= ||sg(z) - z_q||_2^2 +\beta||z - sg(z_q)||_2^2\\
-            \loss_{\text{VQ}} &= \loss_{\text{codebook}} + \loss_{\text{recons}}
-        \end{aligned}
+            \loss_{\text{VQ}} = \loss_{\text{codebook}} + \loss_{\text{recons}}.
     \end{equation}
 
-where $\beta$ is a tuning parameter typically set to be $0.25$ and $sg()$ is the stopgradient operation, defined to be the identity with zero partial derivatives. \newline
+The codebook loss only affects the codebook, and can hence alternatively be updated as a function of moving averages of the encoder outputs $z$. Further details on this method can be found in Appendix A.1 in \cite{VQVAE}.\newline 
 
-The VQ loss only affects the codebook, and can hence alternatively be updated as a function of moving averages of the encoder outputs $z$. This is expanded on in appendix A.1 in \cite{VQVAE}.\newline 
+To understand the necessity of the commitment term, consider a simple example where the data is either $0$ or $1$, and the codebook is initialized with $\mathcal{Z} = \{-1,1\}$. The encoder output $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Suppose that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. Since the reconstruction loss only affects the encoder and decoder, and the codebook loss only affect the codebook, if the encoder and decoder parameter trains faster than the codebook the distance between the encodings and the codewords will increase and the codebook loss diverge. This behavior is observed experimentally.
 
-To illustrate the need for commitment term and what it does consider a model where the data is either $0$ or $1$ and we initialize the codebook with $\mathcal{Z} = \{-1,1\}$.  The range of the encoder is $\R$ and $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Assume that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. As the reconstruction loss only affects the encoder and decoder, and the codebook loss only affect the codebook, we get that when the encoder and decoder parameter trains faster than the codebook, then the distance between the encodings and the codewords will steadily increase and the codebook loss diverge. This behavior is observed experimentally. \newline 
-
+\subsubsection{Prior Learning}
+In VQVAE, the prior learning process is designed to enhance the flexibility and quality of the generative model. During the initial training, the prior is uniform. This approach allows the encoder to focus on learning the optimal mapping from the data space to the discrete latent space without being influenced by a predefined prior distribution. After the initial training, the prior distribution is refined by fitting a model on the latent variables, referred to as prior learning. By training the prior with a generative objective, on learns a more accurate prior which can improve the quality of generated samples. The choice of prior model depends on the particular application. In the original VQVAE paper PixelCNN \cite{oord2016pixel} was used for image data, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
 
 \section{Evaluation metrics}
 
-\subsection{Tokenization model}
-
-The tokenization model, as we are interested in representation learning, is evaluated on two metrics. Firstly, and most importantly its ability to reconstruct the input data once compressed into latent space. In essence the latent representation encodes "everything" (important information is preserved) about the original data if the model is able to reconstruct well. Secondly we evaluate linear classifiers on the latent representations, which provides good results if the model learns discriminative features of the different classes and produces an approximately linear separable space. Finally, as the tokenization model is a part of the generative model, the ultimate evaluation metric is the corresponding evaluation of the generative model. 
-
-\subsubsection{Reconstruction}
-
-
 \subsubsection{Downstream Classification}
 
-SVM, KNN. The difference in inductive bias for the two classifiers. 
-
+When evaluating the performance of representation learning, downstream classification tasks provide an insightful measure of how well the learned representations can be utilized for practical applications. Two commonly used classifiers are Support Vector Machines (SVM) with linear kernel and K-Nearest Neighbors (KNN), each with distinct inductive biases. The SVM method helps to determine to what degree the representations are linearly separable, while KNN better capturing local structures in the data. The difference in inductive biases between SVM and KNN can be leveraged to evaluate the robustness and generalizability of the learned representations. An illustration of the difference in decision boundary between the two classifiers is shown in Figure \ref{fig:ClassifierComparrison}
 
 \begin{figure}[h]
-    \label{fig:ClassifierComparrison}
     \includegraphics[scale = 0.4]{ClassifierComparrison.png}
     \centering
     \caption{Modified example taken from \url{https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html}.}
+    \label{fig:ClassifierComparrison}
 \end{figure}
 
 \subsection{Generative model}
-Good evaluation protocols for generative models are hard to come by, and the hunt for such is an active area of research. There are data modalities for which such evaluation metrics have more established standards than others. Most notably in the computer vision domain there is a benchmark dataset (ImageNet) and classifier (Inception v3). \newline
 
-The typical sanity check for generative models is human visual inspection. In development of evaluation metrics for generative models, how well a proposed metric correlates with quality determined by visual inspection is standard. Most people know what cats and dogs look like and can recognize features even in crudely generated images. In contrast, many time series dataset measure quantities and signals for which the untrained eye has no idea of determining the quality. This is one of the obstacles in TSG. Despite this, according to \cite{TimeVQVAE} the most common evaluation protocols in the TSG literature is PCA and t-SNE analyses on time series to visually see similarities of two distributions. The major limitations of this is that the visual inspections cannot be reduced to a single score, which makes objective comparison difficult. \newline
+Evaluating generative models remains a challenging task, as it requires assessing how well the generated samples match the real data distribution. While some data modalities have established evaluation standards, such as ImageNet and Inception v3 in the computer vision domain, others like time series lack widely accepted benchmarks.\newline
 
-Following \cite{TimeVQVAE} we mainly consider three evaluation metrics in this thesis. \textit{Inception Score} (IS), \textit{Fréchet Inception Distance} (FID) and \textit{Classification Accuracy Score} (CAS). IS measures quality of synthetic samples using the entropy of the label distribution and the evenness in prediction across labels. The \textit{Fréchet Inception Distance} measures a distance between the generative and ground truth distribution. Finally the \textit{Classification Accuracy Score} measures the quality of the class-conditionally generated samples by training a classifier on synthetic data and testing on real.
+The traditional sanity check for generative models is human visual inspection. However, this approach is subjective and varies significantly between data modalities. For example, while most people can easily judge the quality of generated images, interpreting generated time series data often requires domain-specific knowledge. This is one of the obstacles in TSG. Despite this, according to \cite{TimeVQVAE} the most common evaluation protocols in the TSG literature is PCA and t-SNE analyses to visually see similarities of distributions, complemented by quantitative metrics where possible.\newline
 
-Common for all the above evaluation metrics is the reliance on a pre-trained classification model. In contrast to computer vision there is no widely adopted classification model for time series, but in \cite{wang2016time} a fully convolutional network (FCN) was presented as a proposed baseline classification model for time series. As their model is not available we use the open source FCN trained on the UCR Archive presented in \cite{TimeVQVAE} for our evaluations.\newline
+Following the approach in \cite{TimeVQVAE}, we employ three primary evaluation metrics in this thesis: Inception Score (IS), Fréchet Inception Distance (FID), and Classification Accuracy Score (CAS).\newline
+
+All the mentioned evaluation metrics depend on a pre-trained classification model. Unlike computer vision, where models like Inception v3 are standard, there is no universally adopted classification model for time series data. However, \cite{wang2016time} proposed a fully convolutional network (FCN) as a baseline model for time series classification. Since the original model is not readily available, we utilize an open-source FCN trained on the UCR Archive, as presented in \cite{TimeVQVAE}, for our evaluations.
 
 \subsubsection{Inception Score (IS)}
 
-Inception Score (IS) was first introduced in \cite{salimans2016improved} as an automatic evaluation method of synthetic samples.\newline
-The Inception Score works by applying a classifier to every generated sample to get the conditional label distribution $p(y|x)$. Samples containing clear characteristics should have low entropy, i.e one should be certain of the label. In addition we expect a good model to generate varied samples, so the marginal $\int p(y|x = D(z))dz$ should have high entropy. On this basis, the Inception Score is defined as 
+The Inception Score (IS) was first introduced in \cite{salimans2016improved} as an automatic method for evaluating the quality of synthetic samples. IS measures the clarity and diversity of generated samples by using a pre-trained classifier to predict labels. The intuition behind IS is that high-quality samples should result in low entropy in the conditional label distribution $p(y|x)$, while diverse samples should lead to high entropy in the marginal label distribution $p(y)$. Thus if the KL-divergence between these distributions are high, the samples should be of high quality. The Inception Score is defined as 
 
 \begin{equation}
     \label{IS}
     {\text{IS}}(\theta) = \exp\left( \mathbb{E}(D_{\text{KL}}(p_\theta(y|\mathbf{x}) || p_\theta(y))) \right).
 \end{equation}
 
-In contrast to computer vision there is no widely adopted classification model for Time Series. In \cite{wang2016time} a fully convolutional network (FCN) was presented as a proposed baseline classification model, and we use the open source FCN trained on the UCR Archive presented in \cite{TimeVQVAE} for our evaluations. \newline
-
-Let $X_{\text{gen}} = \{x_{i,\text{gen}}\}_{i=1}^N$ be a set of generated samples. We use the apply a SoftMax layer to pretrained FCN representations to obtain an estimate of the conditional label distribution as follows
-\[
-    x_{i,\text{gen}} \xrightarrow{\mathrm{FCN} + \mathrm{SoftMax}} p(y |x_{i,\text{gen}}).
-\]
-The marginal label distribution is obtained by averaging across all the synthetic data as follows
+In the context of time series, we use a fully convolutional network (FCN) trained on the UCR Archive \cite{TimeVQVAE} to obtain an estimate for $p(y|x)$. For a synthetic dataset $X_{\text{gen}} = \{x_{i,\text{gen}}\}_{i=1}^N$, the marginal label distribution is obtained by averaging across all the synthetic data as follows
 
 \[
     p(y) = \frac{1}{N} \sum_{i=1}^N p(y |x_{i,\text{gen}}).
 \]
 
-Issues with IS \cite{barratt2018note} (Use different network, for image classification).  Important to report different metrics that indicate that the model has not overfitted. 
+Issues with IS \cite{barratt2018note}.The primary concern with IS is that it does not use any statistics of real world samples to compare with the statistics of the generated samples. Important to report different metrics that indicate that the model has not overfitted. 
+
 Also issues with IS \cite{borji2021pros}.\newline
 
 
 
 \subsubsection{Fréchet Inception Distance (FID)}
-As an attempt to improve on IS \cite{heusel2018gans} introduced the Fréchet Inception Distance (FID). Since then FID has been the standard for assessing generative models \cite{borji2021pros}.\newline
-The primary concern with IS is, as mentioned earlier, that it does not use any statistics of real world samples to compare with the statistics of the generated samples. In contrast FID relates the synthetic sample to the real world samle via the \textit{Fréchet distance}. For any two probability distributions, $f,g$ over $\R^n$, with finite mean and variances, their  distance is defined as 
+To address some limitations of IS, the Fréchet Inception Distance (FID) was introduced in \cite{heusel2018gans}. Since then FID has been the standard for assessing generative models \cite{borji2021pros}. FID compares the distributions of real and generated samples using the Fréchet distance, providing a measure of how similar the generated samples are to the real data. For any two probability distributions, $f,g$ over $\R^n$, with finite mean and variances, their Fréchet distance is defined as 
 \begin{equation}
     \begin{aligned}
         d_F(f,g) &= \left(\inf_{\gamma \in \Gamma(f,g)} \int_{\R^n\times\R^n}||x-y||_2^2d\gamma(x,y) \right)^{\frac{1}{2}}\\\\
             &= \left(\inf_{\gamma \in \Gamma(f,g)} \E_{(x,y)\sim \gamma} ||x-y||_2^2\right)^{\frac{1}{2}},
     \end{aligned}
 \end{equation}
-where $\Gamma(f,g)$ is the set of all \textit{couplings} of $f$ and $g$. The Fréchet distance is a special case of the Wasserstein metric and will in literature be referred to as such.\newline 
-
-In \cite{DOWSON1982450} it was shown that for two Gaussian distributions the Fréchet distance is explicitly solvable as
-
+where $\Gamma(f,g)$ is the set of all \textit{couplings} of $f$ and $g$. For two Gaussian distributions, as proven in  \cite{DOWSON1982450}, the Fréchet distance is explicitly computable as
 \begin{equation}
     \label{eq:FID Gaussian}
-    d(\N(\mu,\Sigma),\N(\mu',\Sigma'))^2 = ||\mu-\mu'||_2^2 + \Tr \left( \Sigma + \Sigma' - 2(\Sigma\Sigma')^{\frac12}\right)
+    d(\N(\mu,\Sigma),\N(\mu',\Sigma'))^2 = ||\mu-\mu'||_2^2 + \Tr \left( \Sigma + \Sigma' - 2(\Sigma\Sigma')^{\frac12}\right).
 \end{equation}
 
-The \textit{Fréchet Inception Distance} is an application of the Fréchet distance on the representation distributions from a specified model. The models are Inception v3 in the image domain and SupervisedFCN in the time series domain.\newline
-
-In \cite{heusel2018gans} they argue that since the Gaussian distribution is the maximum entropy distribution over $\R^n$ for a given mean and covariance it is a reasonable distribution to assume for the representations. The mean and covariance is estimated from the samples and the explicit formula \ref{FID Gaussian} is used to calculate the FID. \newline
-
-FID is not without fault, and the Gaussian assumption has been shown not to hold \cite{jayasumana2024rethinking}. Further, as the FID relies on estimating large covariance matrices, a large number of samples is needed to obtain a reliable estimate.\newline
-
-Rethinking FID: \cite{jayasumana2024rethinking} \newline
-
-\cite{chong2020effectively} FID and IS are biased.\newline
-
-FID score measures difference in the distribution of representations of time series. The representations capture high level semantics of the time series and analyses of these representations can provide greater insights to the realism of generated samples. \newline
-
+In FID, the mean and covariance of the feature representations of real and generated samples are computed using a pre-trained model. They argue in \cite{heusel2018gans} that since the Gaussian distribution is the maximum entropy distribution over $\R^n$, for a given mean and covariance, it is a reasonable distribution to assume for the representations. But, despite its usefulness, FID has limitations, such as the Gaussian assumption not always holding true and the need for a large number of samples to estimate the covariance matrix reliably \cite{jayasumana2024rethinking}, \cite{chong2020effectively}.
 
 \subsubsection{Classification Accuracy Score (CAS)}
 % \cite{smith2020conditional} report the CAS.
-A method for evaluating the models ability to learn class conditional distributions is to train a separate classifier on the on synthetic data and test on real data (TSTR). That is we generate $N$ synthetic samples $\{x_i,y_i\}_{i=1}^N$ using class conditional sampling. We then train a classifier on this synthetic dataset, and evaluate the CAS of this classifier on a real test dataset. High CAS values indicate that the generative model produces samples similar to the real data and captures relevant class specific features.\newline
+Classification Accuracy Score (CAS) evaluates the model's ability to learn class-conditional distributions. This is done by training a classifier on synthetic data and testing it on real data (Train on Synthetic, Test on Real - TSTR). The process involves generating synthetic samples conditioned on class labels, training a classifier on these samples, and evaluating its accuracy on a real test dataset. High CAS values indicate that the generative model produces samples that capture relevant class-specific features.\newline
 
-We evaluate the CAS for TSTR by using the Supervised FCN introduced in \cite{TimeVQVAE} on all our models considered and compare against the baseline model to investigate the relative performance. 
-
-
+In this thesis, we use the Supervised FCN introduced in \cite{TimeVQVAE} to evaluate CAS across all models considered, comparing the results against a baseline model to assess relative performance.
 
 \end{document}
