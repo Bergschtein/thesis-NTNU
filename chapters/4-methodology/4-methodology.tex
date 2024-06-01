@@ -10,6 +10,7 @@ A schematic figure of our proposed tokenization model is given in Figure \ref{fi
 Our model, termed NC-VQVAE, is a generative time series model that learns expressive discrete latent representations by combining VQVAE \cite{VQVAE} with non-contrastive SSL algorithms. NC-VQVAE uses the two-stage modeling approach presented in \cite{TimeVQVAE} and can be considered an extension of their "naive TimeVQVAE." Our model primarily extends the tokenization stage, incorporating Barlow Twins \cite{zbontar2021barlow} and VIbCReg \cite{lee2024computer} as our non-contrastive SSL methods, while the framework remains flexible. For the second stage, we model the prior using a bidirectional transformer similar to MaskGIT \cite{chang2022maskgit}.
 
 \subsection{Stage 1: Tokenization}
+\TODO{Pseudocode}
 
 The architecture of the tokenization model, shown in Figure \ref{fig:NCVQVAE}, consists of two branches: the original and augmented branch. The model takes a time series $x$ as input and creates an augmented view $x'$. The original branch follows the naive TimeVQVAE architecture from \cite{TimeVQVAE}, while the augmented branch is an autoencoder, constructed by omitting the quantization layer. The views are passed through their respective branches, and we compute the SSL loss derived from the original discrete latent representation $z_q$ and the augmented continuous latent $z'$, before the decoder reconstructs each latent representation. \newline 
 

@@ -2,28 +2,31 @@
 
 \begin{document}
 
+How would i explain the thesis to a non technical friend?
+
+How would i explain it to a mathematician?
+
 In this thesis we investigate possible improvements on the TimeVQVAE model presented by... We investigate how a "self supervised learning extension" of the tokenization affects the learned representations, and the effect on the prior learning. In particular we investigate if the learned representations are more informative, in the sense that they simultaneously enables high quality reconstruction, and improved the downstream classification accuracy. For the generative model we investigate if the learned representations enables faster convergence during training, and how the quality of the synthetic samples are affected. \\
 
 \section{Acknowledgements}
-Supervisors, Erlend, IDUN, UCR Archive creators
+Supervisors, Erlend, IDUN, UCR Archive creators, Ping Pong table, Tindegruppa, Pernille for making coming home totally exhausted, 
 
 \section{Motivation}
 	- The role and importance of time series.
 	- The need for models that capture complex structures for which traditional statistical models fail. 
-Real world time series data is often incomplete (missing datapoints), irregular (datapoints not evenly spaced in time) and noisy. 
-	ML4ITS. 
-	- 
+Real world time series data is often incomplete (missing datapoints), irregular (datapoints not evenly spaced in time) and noisy. ML4ITS. 
 	- Why do people care about time series generation (TSG)?
 		- Applications
 	- Why is (unsupervised) representation learning for time series interesting?
+
 Distributions of time series in their original temporal representation are complex and difficult to model. One would like to translate time series to a space where modelling is easier. This is one of the reasons to investigate representation learning for time series. Time series are recorded at record speed from sensors of various kinds (IoT, wearable devices). Unfortunately many of these do not have easily recognizable patterns for human observers, which makes labeling of such data quite difficult. In order to take advantage of this vast amount of unlabeled data we need techniques that can extract useful patterns without supervision. This is one of the reasons for investigating possible unsupervised models. A subcategory of unsupervised learning called self-supervised learning has in recent times shown great potential for learning informative and useful representations without the need of labeled data in the fields of computer vision and natural language processing. Most notably the GPT models from OpenAI which utilizes masked language modelling for pre-training. 
 
 \section{Overview/structure}
 \begin{itemize}
-	\item Main inspirations
-	\cite{TimeVQVAE} 
-	\item Collaboration with Erlend
+	\item Main inspirations \cite{TimeVQVAE} 
+	\item During the work on our theses, Erlend Lokna and myself have collaborated extensively. This has been declared from the beginning and talked about continuously with our supervisors. Erlend, with his developer experience, has taken lead on code development for our model, and should get credit for his high level of programming skills. I have, in addition to code contribution and being a source of ideas, taken the lead on data processing and visualization. We have exchanges ideas, possible paths forward and the overall structure of the theses. Additionally have conducted the same experiments, hence our works will have many similarities. All writing though, is done independently. The collaboration has been very fruitful, and working closely with Erlend has made the process quite enjoyable. 
 	\item Structure of the thesis
+	\item Use of LLMs in this thesis. Grammar, assistance with code for visualization, Latex help, 
 \end{itemize}
 \section{Research questions}
 Stage1
@@ -37,8 +40,6 @@ Stage 2
 	\item[\textbf{RQ4:}] How does augmentations influence prior learning and synthetic sample quality?
 \end{itemize}
 
-		-  
-	- 
 	- How does SSL VQVAE compare when we train a powerful prior model on top of it (MaskGIT)? 
 
 \section{Sustainability impact}
@@ -46,7 +47,7 @@ Ethical and environmental impact consideration with basis in UN sustainability g
 
 The field of AI and machine learning is in rapid development and the fear of being left in the dust in the gold rush makes many actors scrape all data they can find to train ever larger models. 
 
-One downside, not considering the massive copyright disputes, questionable privacy and the spread of misinformation by hallucinations and use of deepfakes, is their colossal environmental impact. 
+One downside, not considering the massive copyright disputes in LLMs, questionable privacy and the spread of misinformation by hallucinations and use of deepfakes, is their colossal environmental impact. Large models are power hungry. 
 
 
 AI and machine learning are not universal tools though the modern LLMs make it seem so.

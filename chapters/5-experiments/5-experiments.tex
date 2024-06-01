@@ -4,21 +4,19 @@
 
 
 \section{Implementation details}
-We follow \cite{TimeVQVAE} closely in the encoder/decoder/codebook implementation, and 
+
+In our implementation, we closely follow to the methodology outlined in \cite{TimeVQVAE}, particularly in the design and deployment of the encoder, decoder, and codebook.
 
 \subsubsection{Time Frequency Modelling}
-The short time fourier transform (STFT) and its inverse ISTFT are implemented with \texttt{torch.stft} and \texttt{torch.istft} respectively. We follow \cite{TimeVQVAE} and set the main parameter \texttt{nfft} to $8$, and use default parameters for the rest. This results in a fequency axis with range $[1,2,3,4,5]$ and half as long time axis. \newline
-
+We utilize the Short Time Fourier Transform (STFT) and its inverse (ISTFT) for time-frequency modeling, employing \texttt{torch.stft} and \texttt{torch.istft} functions, respectively. Consistent with \cite{TimeVQVAE}, we set the primary parameter \texttt{nfft} to 8 and maintain default settings for others. This configuration yields a frequency axis spanning $[1, 2, 3, 4, 5]$ and a time axis half the length of the original.
 
 \subsubsection{Encoder and decoder}
 
-The same encoder and decoder architecture as in \cite{VQVAE} is used and further use the implementation from \cite{nadavbh12} with adaptations from \cite{TimeVQVAE}.\newline
+The encoder and decoder architectures closely resemble those described in \cite{nadavbh12}, with further adaptations from \cite{TimeVQVAE}.\newline
 
-The encoder presented in figure \ref{fig:VQVAE Encoder} consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). The downsampling convolutional layers are implemented with parameters: \texttt{kernel size=(3,4), stride=(1,2), padding=(1,1)}. This results in downsampling of only the temporal axis, which is downsampled by a factor of $2$ for each downsampling block. The residual convolutional layers have parameters: \texttt{kernel size=(3,3),stride=(1,1), padding=(1,1)}.\newline
+As illustrated in Figure \ref{fig:VQVAE Encoder}, the encoder consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). Downsampling convolutional layers are implemented with parameters: \texttt{kernel size=(3,4), stride=(1,2), padding=(1,1)}, downsampling the temporal axis by a factor of 2 per block. Residual convolutional layers have parameters: \texttt{kernel size=(3,3),stride=(1,1), padding=(1,1)}. The decoder mirrors this architecture, featuring $m$ residual and $n$ upsampling layers using transposed convolutional blocks with identical parameters.\newline
 
-The decoder is implemented similarity with $m$ residual followed $n$ upsampling layers using transposed convolutional blocks with same parameters as in the encoder.\newline
-
-The downsampling rate is determined by $2^n$ where $n$ is set such that $z$ has width of $32$. For more in depth consideration of the detail regarding TimeVQVAE implementation we refer to Appendix C.3 of \cite{TimeVQVAE}.
+The downsampling rate is determined by $2^n$, ensuring the resulting latent representation ($z$) has a width of 32. For a comprehensive understanding of the TimeVQVAE implementation details, we direct readers to Appendix C.3 of \cite{TimeVQVAE}.
 
 \begin{figure}[h]
     
@@ -31,30 +29,26 @@ The downsampling rate is determined by $2^n$ where $n$ is set such that $z$ has 
 \subsubsection{VQ}
 % Implementation from lucidrains/vector-quantize-pytorch.
 %  https://github.com/lucidrains/vector-quantize-pytorch \newline
-Codebook size = 32 and dimension = 64. \newline
-Use exponential moving average with decay $0.9$, and commitment loss with weight $\beta = 1$.
+We adopt a codebook size of 32 and a dimension of 64, utilizing exponential moving average with a decay of 0.9 and a commitment loss with weight $\beta = 1$.
 
 \subsubsection{Augmentations}
 window warp:    window ratio: 0.4,min window warp: 0.9, max windowwarp: 2.0\newline
 amplitude resize: Amp Rrate: 0.2\newline
 gaussian noise: gaus mean: 0, gaus std: 0.05\newline
-slice and shuffle:\newline
+slice and shuffle:
 
-\subsubsection{Projector}
-We follow the implementation from \cite{lee2024computer} for both Barlow Twins and VIbCReg.\newline
-Barlow Twins: Projector's dimension size is set to $4096$. $\lambda$ is set to $5\cdot10^3$. \newline
-VIbCReg: The dimension of the the projector is set to $4096$. $\lambda$ and $\mu$ are both set to $25$, while $\nu$ is set to $100$.
+\subsubsection{SSL}
+For both Barlow Twins and VIbCReg, we implement the projector following the guidelines in \cite{lee2024computer}. The projector's dimension size is set to 4096 for both methods, with $\lambda$ set to $5 \times 10^3$ for Barlow Twins. For VIbCReg, $\lambda$ and $\mu$ are both set to 25, while $\nu$ is set to 100.
 
 \subsubsection{Prior learning}
-The number of iterations in the iterative decoding algorithm $T$, is set to $10$, following \cite{chang2022maskgit}. We too use the cosine as mask scheduling function $\gamma$. The implementation is adopted from \cite{TimeVQVAE}. 
+In the iterative decoding algorithm, the number of iterations $T$ is set to 10, following \cite{chang2022maskgit}. We employ cosine as the mask scheduling function ($\gamma$), adopting the implementation from \cite{TimeVQVAE}. 
 
 
 \subsubsection{Optimizer}
-The AdamW optimizer with batch sizes for stage1: 128 and stage2: 256, initial learning rate $10^{-3}$, cosine learning rate scheduler and weight decay of $10^{-5}$. We run 1000 epochs for both stage 1 and 2. 
-
+We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.
 \subsubsection{Evaluation}
-KNN and SVM are implemented using scikit-learn. $K=5$ in KNN and linear kernel in SVM.\newline
-FCN for IS, FID and CAS
+For downstream classification, K-nearest neighbors (KNN) and Support Vector Machines (SVM) are implemented using scikit-learn, with $K=5$ for KNN and a linear kernel for SVM. 
+% Additionally, SupervisedFCN \cite{VQVAE} is employed for calculating Inception Score (IS), Fréchet Inception Distance (FID), and Consistency Accuracy Score (CAS).
 
 \section{Initial Experimentation and Model Development}
 
@@ -69,20 +63,17 @@ Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \new
 
 \section{Main Experiments}
 
-% % In this thesis we are primarily interested in two things. For stage 1, if NC-VQVAE learns more expressive representations, i.e are we able to reconstruct on par with VQVAE while simultaneously improve on downstream classification. For stage 2 we are interested in the effect NC-VQVAE has on prior learning and time series generation. \newline
+In this thesis, we focus on two main objectives. Firstly, in Stage 1, we aim to determine whether NC-VQVAE can learn more expressive representations compared to VQVAE. Specifically, we investigate whether NC-VQVAE can achieve reconstruction performance on par with VQVAE while simultaneously enhancing downstream classification. In Stage 2, our interest lies in examining the impact of NC-VQVAE on prior learning and time series generation.\newline
 
-% % We evaluate our model NC-VQVAE with both Barlow Twins and VIbCReg as SSL method against the naive VQVAE as described in \cite{TimeVQVAE}. For each SSL method, we train three separate models which uses different sets of augmentations and each configuration is trained on four different seeds. This makes for a total of 364 models trained at each stage. Firstly we look at the tokenization models, evaluating the reconstruction capability and performance on downstream classification. Then we train a prior model on top of the different tokenization models and evaluate the performance of the generative models by IS, FID, CAS. We additionally do visual inspections in both stages.\newline
+To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning (SSL) methods. For each SSL method, we train three distinct models employing different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage.\newline
 
-
-% In this thesis, we focus on two main objectives. Firstly, in Stage 1, we aim to determine whether NC-VQVAE can learn more expressive representations compared to VQVAE. Specifically, we investigate whether NC-VQVAE can achieve reconstruction performance on par with VQVAE while simultaneously enhancing downstream classification. In Stage 2, our interest lies in examining the impact of NC-VQVAE on prior learning and time series generation.\newline
-
-% To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning (SSL) methods. For each SSL method, we train three distinct models employing different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage.\newline
-
-% Our evaluation process begins with assessing the tokenization models, focusing on their reconstruction capability and performance in downstream classification tasks. Subsequently, we proceed to train a prior model on top of the various tokenization models. We then evaluate the performance of the generative models using metrics such as IS (Inception Score), FID (Fréchet Inception Distance), and CAS (Classification Accuracy Score). Additionally, visual inspections are conducted at both stages to provide further insights into the models' performance.\newline
+Our evaluation process begins with assessing the tokenization models, focusing on their reconstruction capability and performance in downstream classification tasks. Subsequently, we proceed to train a prior model on top of the various tokenization models. We then evaluate the performance of the generative models using metrics such as IS (Inception Score), FID (Fréchet Inception Distance), and CAS (Classification Accuracy Score). Additionally, visual inspections are conducted at both stages to provide further insights into the models' performance.\newline
 
 
 \section{Stage 1}
+\TODO{hyperparameters}
 
+One of the most interesting aspects of out model is the choice of augmentations. 
 
 \subsection{Augmentations}
 In our experiments we consider three sets of augmentations with different characteristics. They are
@@ -92,7 +83,7 @@ In our experiments we consider three sets of augmentations with different charac
     \item Gaussian noise
 \end{itemize}
 
-\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesALL \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view \ref{fig:ShapesAll_winwarp}. \newline
+\textbf{Amplitude Resizing + Window Warp} scales in both x and y direction. The window warp has similar qualities to phase shift, but not uniformly and keeps endpoints fixed. They were considered as the observed conditional distribution in some datasets, such as ShapesAll \ref{fig:datasets}, had similar overall shape, but peaked with different amplitude and at different locations. Thus the augmented view had similar characteristics as the conditional distribution of the original view \ref{fig:ShapesAll_winwarp}. In many cases we will refer to this set of augmentations simply as warp. \newline
 
 \begin{figure}[h]
     \centering
@@ -101,7 +92,7 @@ In our experiments we consider three sets of augmentations with different charac
     \label{fig:ShapesAll_winwarp}
 \end{figure}
 
-\textbf{Slice and Shuffle} crops the time series into four sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which is illustrated in figure \ref{fig:ElectricDevices_SliceAndShuffel}. This could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature.\newline
+\textbf{Slice and Shuffle} crops the time series into four sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which is illustrated in figure \ref{fig:ElectricDevices_SliceAndShuffel}. This could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature. In many cases we will refer to this augmentation simply as slice.\newline
 \begin{figure}[h]
     \includegraphics[scale = 0.3]{ElectricDevices_SliceAndShuffel.png}
     \centering
@@ -110,7 +101,7 @@ In our experiments we consider three sets of augmentations with different charac
 \end{figure}
 
 
-\textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component as seen in figure \ref{fig:StarLight_Gaussian}. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder. Of the three augmentations, gaussian noise provides the most predictable augmented views from a numerical standpoint, which might result in a SSL loss which is easier to minimize.
+\textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component as seen in figure \ref{fig:StarLight_Gaussian}. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder. Of the three augmentations, gaussian noise provides the most predictable augmented views from a numerical standpoint, which might result in a SSL loss which is easier to minimize. In many cases we will refer to this augmentation simply as Gaussian or gauss.
 
 \begin{figure}[h]
     \includegraphics[scale = 0.3]{StarLight_Gaussian.png}
@@ -141,7 +132,7 @@ The tokenization model, as we are interested in representation learning, is eval
 \section{UCR Time Series Classification Archive}
 The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
-Our subset of the UCR archive is
+Our subset of the UCR archive is presented in Table \ref{tab:UCRsubset.}
 
 \begin{table}[h]
     \centering

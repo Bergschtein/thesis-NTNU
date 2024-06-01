@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber chapters/2-theoretical-background/2-theoretical-background"] 0 "chapters/2-theoretical-background/2-theoretical-background.bcf" "chapters/2-theoretical-background/2-theoretical-background.bbl" "chapters/2-theoretical-background/2-theoretical-background" 1717168510
+["biber chapters/2-theoretical-background/2-theoretical-background"] 0 "chapters/2-theoretical-background/2-theoretical-background.bcf" "chapters/2-theoretical-background/2-theoretical-background.bbl" "chapters/2-theoretical-background/2-theoretical-background" 1717240939
   "chapters/2-theoretical-background/2-theoretical-background.bcf" 0 -1 0 "pdflatex"
   (generated)
-  "chapters/2-theoretical-background/2-theoretical-background.blg"
   "chapters/2-theoretical-background/2-theoretical-background.bbl"
-["pdflatex"] 1717168503 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.pdf" "2-theoretical-background" 1717168510
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.aux" 1717168503 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.tex" 1717168502 68276 d15e4f66fa877bf9057a4e455609582c ""
+  "chapters/2-theoretical-background/2-theoretical-background.blg"
+["pdflatex"] 1717240932 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.pdf" "2-theoretical-background" 1717240939
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.aux" 1717240932 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.tex" 1717240931 70757 06ab4aefc468b05e0391ae26fb27b8dd ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/dejavu/dejavumono_t1-type1.enc" 1380151016 2620 1ef8c8026e6f0fc7a8bfd158c7dfbe38 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc" 1276641224 6938 5135be6a8802f13a7faf296d1959a1ab ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -314,8 +314,8 @@
   "chapters/2-theoretical-background/2-theoretical-background.aux" 0 -1 0 "pdflatex"
   "chapters/2-theoretical-background/2-theoretical-background.bbl" 0 -1 0 "biber chapters/2-theoretical-background/2-theoretical-background"
   "chapters/2-theoretical-background/2-theoretical-background.out" 0 -1 0 "pdflatex"
-  "chapters/2-theoretical-background/2-theoretical-background.run.xml" 1717168509 2541 1d92667ca836e250f09a1b7669bc626f "pdflatex"
-  "chapters/2-theoretical-background/2-theoretical-background.tex" 1717168502 68276 d15e4f66fa877bf9057a4e455609582c ""
+  "chapters/2-theoretical-background/2-theoretical-background.run.xml" 1717240938 2541 1d92667ca836e250f09a1b7669bc626f "pdflatex"
+  "chapters/2-theoretical-background/2-theoretical-background.tex" 1717240931 70757 06ab4aefc468b05e0391ae26fb27b8dd ""
   "figures//Attention.png" 1715684598 127332 dcc5fc921ad5e3f4c5e951919299c5e7 ""
   "figures//Autoencoder.png" 1715589974 28496 49583adbebd42d236d1d7847052dbdef ""
   "figures//ClassifierComparrison.png" 1714917453 269684 e848a165a817c8c7f8a6fa1b8f8ca79b ""
@@ -336,11 +336,11 @@
   "ntnuthesis.cls" 1693220167 11751 64fa3abf1f4a97cc88859996175f2d9f ""
   "preamble.tex" 1716557615 1089 41f6110463251b1e633cee557d68d868 ""
   (generated)
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.log"
-  "chapters/2-theoretical-background/2-theoretical-background.bcf"
-  "chapters/2-theoretical-background/2-theoretical-background.out"
   "chapters/2-theoretical-background/2-theoretical-background.pdf"
-  "chapters/2-theoretical-background/2-theoretical-background.run.xml"
-  "chapters/2-theoretical-background/2-theoretical-background.log"
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.log"
   "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/2-theoretical-background/2-theoretical-background.pdf"
   "chapters/2-theoretical-background/2-theoretical-background.aux"
+  "chapters/2-theoretical-background/2-theoretical-background.bcf"
+  "chapters/2-theoretical-background/2-theoretical-background.run.xml"
+  "chapters/2-theoretical-background/2-theoretical-background.log"
+  "chapters/2-theoretical-background/2-theoretical-background.out"
