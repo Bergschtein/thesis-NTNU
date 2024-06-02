@@ -87,22 +87,25 @@ We present top 1 and mean reconstruction loss across the four runs in table \ref
     \label{tab:best_recons}
 \end{table}
 
-From the tables we see that NC-VQVAE reconstructs on par with the baseline model, and that some configuration outperforms the naive VQVAE on mean reconstruction loss for 9 out of 13 datasets. In figure \ref{fig:Mean_val_recons} observe that the difference in reconstruction loss is small for most datasets, both across SSL methods and augmentations. The use of gaussian augmentation introduces less of a regularizing effect compared to the two others, with the exception of Slice and shuffle on ECG5000. These results show that the introduction of a non contrastive loss does not hurt the reconstruction capabilities of our model compared to naive VQVAE.
+We observe that NC-VQVAE reconstructs on par with the baseline model, and that some configuration outperforms the naive VQVAE on mean reconstruction loss for 9 out of 13 datasets.\newline
 
+In figure \ref{fig:Mean_val_recons} observe that the difference in reconstruction loss is small for most datasets, both across SSL methods and augmentations. Nevertheless we observe that VIbCReg generally performs slightly better than Barlow Twins, except for FordA. Additionally the use of gaussian augmentation introduces less of a regularizing effect compared to the two other sets of augmentations, with the exception of Slice and Shuffle on ECG5000. These results show that the introduction of a non contrastive loss does not hurt the reconstruction capabilities, compared to naive VQVAE. \newline
 
-\begin{figure}[H]
+\begin{figure}[h]
     \includegraphics[scale=0.4]{Mean_val_recons.png}
     \centering  
     \caption{Mean validation reconstruction loss for the two models, compared to naive VQVAE}
     \label{fig:Mean_val_recons}
 \end{figure}
 
-The right configuration for NC-VQVAE acts as a regularizer, in figure \ref{fig:FordA_val_recons} we see how the validation reconstruction loss developes on FordA during training. 
+Regarding the effect of by the reconstruction loss of augmented branch on validation reconstruction, a small initial experiment was conducted. The results show that the validation reconstruction loss was quite robust to the particular value of augmentation reconstruction weight, indicating a minor role played, as seen in Figure \ref{fig:ReconsWeight_warp} and \ref{fig:ReconsWeight_slice}.\newline
 
-\begin{figure}[H]
-    \includegraphics[scale=0.15]{FordA_val_recons.png}
+By investigating the development of the validation reconstruction loss during training, we have observed that right configuration for NC-VQVAE can act as a regularizer. In Figure \ref{fig:FordA_val_recons} we see the development on FordA. 
+
+\begin{figure}[h]
+    \includegraphics[scale=0.10]{FordA_val_recons.png}
     \centering  
-    \caption{Development of the validation reconstruction loss for FordA during training. Averaged across all four runs. }
+    \caption{Development of the validation reconstruction loss for Barlow Twins and naive VQVAE on FordA during training. Averaged across all four runs. }
     \label{fig:FordA_val_recons}
 \end{figure}
 
@@ -112,7 +115,7 @@ The right configuration for NC-VQVAE acts as a regularizer, in figure \ref{fig:F
 We present the mean and max downstream classification accuracy in table \ref{tab:mean_probe} and \ref{tab:best_probe} respectively. 
 
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \title{Mean linear probe accuracy}
     \begin{adjustbox}{width=\textwidth}
@@ -184,57 +187,20 @@ We present the mean and max downstream classification accuracy in table \ref{tab
     \label{tab:best_probe}
 \end{table}
 
-We observe a significant improvement in probe accuracy with NC-VQVAE, compared to naive VQVAE. Some configuration is best on 12 out of 13 datasets, while the one where our model falls short, the difference is one percent for both SVM and KNN. The largest differences are seen on FordA, FordB, Mallat, ShapesAll, TwoPatterns and UWaveGestureLibraryAll. \newline
+We observe a significant improvement in probe accuracy with NC-VQVAE, compared to naive VQVAE. Some configuration is best on 12 out of 13 datasets, while the one where our model falls short, the difference is one percent for both SVM and KNN. The largest differences are seen on FordA, FordB, Mallat, ShapesAll, TwoPatterns and UWaveGestureLibraryAll.\newline
 
-Even though the specific choice of augmentation has a large impact, it is interesting that on the majority of datasets, all choices result in improved probe accuracy. 
-
-\begin{figure}[H]
+In Figure \ref{fig:Mean_probe} we observe that even though the specific choice of augmentation has a large impact, on the majority of datasets, all choices result in significantly improved probe accuracy. We note that both SSL methods produce similar probe accuracies for a given augmentation, highlighting the importance of selecting suitable augmentations. \newline
+\begin{figure}[h]
     \includegraphics[scale=0.35]{probe_accuracies.pdf}
     \centering  
     \caption{Mean probe accuracies.}
     \label{fig:Mean_probe}
 \end{figure}
 
-These results show that NC-VQVAE is able to reconstruct on par with naive VQVAE, and in some cases improve the reconstruction loss, while significantly improving the probe accuracy for the discrete latent representations for most datasets. The NC-VQVAE produces representations that separates classes more effectively, and could in turn encode more class specific information.
 
+We observe that Slice and Shuffle, and Window Warp and Amplitude Resize result in the most dramatic increases in accuracy, while Gaussian noise consistently results in less drastic improvement. We hypothesize that, since Slice and Warp often result in augmented views that deviate quite a lot from the original view, the SSL loss pushes the representations in different directions, which again might result in a better utilization of the latent space. In Figure \ref{fig:FordA_TSNE} and \ref{fig:TSNE_TwoPatterns} we see the effect of NC-VQVAE on the discrete latent representations of FordA and TwoPatterns. From these visualizations it is evident that representations learned using NC-VQVAE are more structured than those of the naive VQVAE. Similar samples, typically with the same label, are clustered closer together in latent space. This further indicate that the SSL loss introduces information regarding shape and semantics into the latent representations.\newline
 
-\subsection{Losses}
-\TODO{How does the minimization of diffrerent losses influence FID/IS?}
-
-We investigate some trends in the development of different loss terms in this section. To summarize, using VIbCReg results in more easily minimizable losses compared to Barlow Twins, and the Gaussian augmentation results in significantly easier minimization of the SSL loss as well as reducing the VQ loss. \newline
-
-In figure \ref{fig:SSL_loss_UWave} we observe the typical pattern of the SSL loss during training. 
-\begin{figure}[H]
-    \centering
-    \begin{minipage}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{BT_loss_Uwave.png}
-    \end{minipage}
-    \hfill
-    \begin{minipage}[b]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{vib_loss_Uwave.png}
-    \end{minipage}
-    \caption{SSL loss during training on UWaveGestureLibraryAll. Averaged across four runs. The pattern shown here is typical across datasets. The Gaussian noise augmentation leads to an easier minimization, while the two others are relatively similar with the occasional dataset where one or the other is minimized the most. In general the VIbCReg loss is minimized faster than Barlow Twins.}
-    \label{fig:SSL_loss_UWave}
-\end{figure}
-
-We see that the Gaussian augmentation results in a SSL loss which is easier to minimize, which might be attributed to the fact that it affects the samples in a more predictable way. We too see that the VIbCReg loss decreases more rapidly than the Barlow Twins loss. Both observations are too seen across datasets. Previously in figure \ref{fig:Mean_probe} we have seen that the gaussian augmentation often resulted in lower probe accuracy than the other two. In figure \ref{fig:Vibcreg_loss_knn_accuracy} we see that on the datasets with a significant increase in probe accuracy, the augmentations that result in a more challenging SSL loss typically has higher downstream classification accuracy. We also see that for a specific augmentation, the pattern is rather flat, indicating that the particular augmentation plays the most prominent role in probe accuracy. The SSL loss for a specific augmentation varies very little compared to probe accuracy. This could be due to the fact that augmentations such as Slice and Shuffle often alter the semantics of the sample and could make the SSL loss push latent representation to more unpopulated areas of the latent space, making it easier to classify, but harder to minimize.
-
-\begin{figure}[H]
-    \includegraphics[scale=0.30]{Vibcreg_loss_knn_accuracy.png}
-    \centering  
-    \caption{KNN accuracy plotted against VIbCReg loss. Each point correspond to a single run of the model. Similar tendency is shown for Barlow Twins.}
-    \label{fig:Vibcreg_loss_knn_accuracy}
-\end{figure}
-
-The training reconstruction losses are heavily minimized, both across models and augmentations. The only consistent noticeable difference is the augmented reconstruction loss, where models using Slice and Shuffle have a slightly higher loss. The differences in VQ loss for the different models is mainly due to the codebook, where we too observe that VIbCReg minimizes more effectively than Barlow Twins, and again that gaussian augmentations results in the hardest minimization followed by Window Warp and then Slice and Shuffle. Both VIbCReg and Barlow Twins with Gaussian augmentation routinely perform on par with naive VQVAE in terms of VQ loss during training. The minimization of the codebook loss indicates that the encoder is properly aligned with the discrete latent codes. We hypothesize that when the SSL loss is not properly minimized, the encoder must adjust its weights more throughout training which keeps the encoder outputs and the discrete codes from aligning completely. 
-
-\TODO{What effect might this have on stage 2??}
-\subsection{Visual inspection}
-After training the stage 1 model, we map the training and test data to discrete latent representations using the learned encoder and codebook. The representations are then global average pooled before being mapped onto the plane by TSNE showed in Figure \ref{fig:FordA_TSNE}. 
-
-\begin{figure}[H] 
+\begin{figure}[h] 
     \centering
     \begin{minipage}[b]{0.32\textwidth}
         \centering
@@ -255,7 +221,7 @@ After training the stage 1 model, we map the training and test data to discrete 
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     \begin{minipage}[b]{0.32\textwidth}
         \centering
@@ -275,7 +241,43 @@ After training the stage 1 model, we map the training and test data to discrete 
     \label{fig:TSNE_TwoPatterns}
 \end{figure}
 
-From these visualizations it is evident that representations learned using NC-VQVAE are more structured than those of the naive VQVAE. Similar samples, typically with the same label, are clustered closer together in latent space. 
+To summarize the results from stage 1,  NC-VQVAE is able to reconstruct on par with naive VQVAE, and in some cases improve the reconstruction loss, while significantly improving the probe accuracy for most datasets. To address research question 1, we conclude that the representations learned using NC-VQVAE are more expressive compared to the naive VQVAE. As the representations separates classes more effectively, they could encode more class specific information. Since we are not sacrificing reconstruction quality, this could be beneficial for prior learning.
+
+\subsection{Losses}
+\TODO{How does the minimization of diffrerent losses influence FID/IS?}
+
+We investigate some trends in the development of different loss terms in this section. To summarize, using VIbCReg results in more easily minimizable losses compared to Barlow Twins, and the Gaussian augmentation results in significantly easier minimization of the SSL loss as well as reducing the VQ loss. \newline
+
+In figure \ref{fig:SSL_loss_UWave} we observe the typical pattern of the SSL loss during training. 
+\begin{figure}[h]
+    \centering
+    \begin{minipage}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{BT_loss_Uwave.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{vib_loss_Uwave.png}
+    \end{minipage}
+    \caption{SSL loss during training on UWaveGestureLibraryAll. Averaged across four runs.}
+    \label{fig:SSL_loss_UWave}
+\end{figure}
+
+We see that the Gaussian augmentation results in a SSL loss which is easier to minimize, which might be attributed to the fact that it affects the samples in a more predictable way. We too see that the VIbCReg loss decreases more rapidly than the Barlow Twins loss. Both observations are seen across datasets. \newline
+
+Previously in figure \ref{fig:Mean_probe} we have seen that the gaussian augmentation often resulted in lower probe accuracy than the other two. In figure \ref{fig:Vibcreg_loss_knn_accuracy} we see that, on the datasets with a significant increase in probe accuracy, the augmentations that result in a more challenging SSL loss typically has higher downstream classification accuracy. We also see that for a specific augmentation, the pattern is rather flat, indicating that the particular augmentation plays the most prominent role in probe accuracy. The SSL loss for a specific augmentation varies very little compared to probe accuracy. \newline
+
+\begin{figure}[h]
+    \includegraphics[scale=0.30]{Vibcreg_loss_knn_accuracy.png}
+    \centering  
+    \caption{KNN accuracy plotted against VIbCReg loss. Each point correspond to a single run of the model. Similar tendency is shown for Barlow Twins.}
+    \label{fig:Vibcreg_loss_knn_accuracy}
+\end{figure}
+
+The training reconstruction losses are heavily minimized, both across models and augmentations. The only consistent noticeable difference is the augmented reconstruction loss, where models using Slice and Shuffle have a slightly higher loss. The differences in VQ loss for the different models is mainly due to the codebook, where we too observe that VIbCReg minimizes more effectively than Barlow Twins, and again that gaussian augmentations results in the hardest minimization followed by Window Warp and then Slice and Shuffle.\newline 
+
+Both VIbCReg and Barlow Twins with Gaussian augmentation routinely perform on par with naive VQVAE in terms of VQ loss during training. The minimization of the codebook loss indicates that the encoder is properly aligned with the discrete latent codes. We hypothesize that when the SSL loss is not properly minimized, the encoder must adjust its weights more throughout training which keeps the encoder outputs and the discrete codes from aligning completely. 
 
 \section{Stage 2}
 
@@ -283,8 +285,7 @@ For datasets with very few samples, or very few per class, the generative scores
 
 \subsection{Generative quality}
 
-The generative quality of or models are evaluated according to FID, IS and CAS. We present the top 1 results in table \ref{tab:FID_IS_best}, and the mean score across the four runs in table \ref{tab:FID_IS_mean}. From the tables we see that our model produces better IS score for 12 out of 13 datates, and better FID for 10 out of 13.\newline
-
+The generative quality of or models are evaluated according to FID, IS and CAS. We present the top 1 and mean score across the four runs for both FID and IS in table \ref{tab:FID_IS_best} and \ref{tab:FID_IS_mean}. From the tables we see that our model produces better IS score for 12 out of 13 datates, and better FID for 10 out of 13.\newline
 
 \begin{table}[H]
     \title{Top 1 FID and IS}
@@ -321,7 +322,7 @@ The generative quality of or models are evaluated according to FID, IS and CAS. 
 \end{table}
 
 
-\begin{table}[H]
+\begin{table}[h]
     \centering
     \title{Mean FID and IS}
     \begin{adjustbox}{width=\textwidth}
@@ -408,7 +409,7 @@ We present the mean CAS for all models across datasets in table \ref{tab:mean_ca
 
 We see that some configuration of NC-VQVAE outperforms the naive VQVAE on all datasets, as well as VIbCReg with gaussian augmentation outperforming the baseline on 12 out of 13, where the one dataset where it falls short its within one percent. In general we observe that NC-VQVAE performs well across all datasets, and in particular with gaussian augmentation. The dataset where we see the most dramatic increase is Mallat, with an improvement of $0.437$. This particular case will be investigated in section \ref{section:Visual inspection}.  
 
-\begin{figure}[H]
+\begin{figure}[h]
     \includegraphics[scale=0.4]{Mean_CAS.png}
     \centering  
     \caption{Mean CAS across all datasets.}
@@ -424,6 +425,43 @@ Mention that during experiments with our stage 2 modification, embed / finetune,
 \newline
 
 Naive VQVAE outperforms NC-VQVAE in terms of validation prior loss across datasets. There is the occasional dataset where a model with gaussian augmentation performs equally well. The minimization of the validation prior loss does therefore not correspond to improved synthetic samples in general.
+
+
+
+\subsection{The influence of stage 1 on stage 2}
+The best performing datasets in terms of probe accuracies: "FordA", "FordB", "Mallat", "ShapesAll", "TwoPatterns", "UWaveGestureLibraryAll"\newline
+
+Relationship between reconstruction in stage 1 and FID/IS/CAS:
+Does better reconstruction capabilities in stage 1 improve the generative model?\newline
+
+Relationship between probes in stage 1 and FID/IS/CAS:
+Does better probe accuracies (class separation) in stage 1 improve the generative model?\newline
+
+How does the best performing models from stage 1 transfer to stage 2?\newline
+
+Look at FordA, FordB, Mallat, ShapesALL, TwoPatterns and UWaveGestureLibraryAll. The datasets where probe accuracies are good compared to baseline. Slice is aug with best performance overall on these datasets. \newline
+
+\begin{figure}[h]
+    \includegraphics[scale=0.3]{KNN_IS_Subset.png}
+    \centering  
+    \caption{KNN plotted against Inception Score on the subset of datasets with significant improvement in probe accuracy.}
+    \label{fig:KNN_IS_Subset}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[scale=0.3]{KNN_FID_Subset.png}
+    \centering  
+    \caption{KNN plotted against Fréchet Inception Distance on the subset of datasets with significant improvement in probe accuracy.}
+    \label{fig:KNN_FID_Subset}
+\end{figure}
+
+In Figure \ref{fig:KNN_IS_Subset} and \ref{fig:KNN_FID_Subset}, we see the relationship between KNN accuracy and FID/IS on the subsets where the probe accuracy is substantially improved with NC-VQVAE. The corresponding plots with SVM accuracy show similar trends. From Figure \ref{fig:KNN_IS_Subset} we see a trend, with higher probe accuracy correlating with higher IS. Upon closer inspection, we see a clear pattern of the prominent effect of augmentations. 
+For each specific augmentation, the correlation between KNN and IS is close to $0$.
+
+Particularly interesting is UWaveGestureLibraryAll.
+
+
+
 
 \subsection{Token usage}
 We say memorization/overfitting when the selected probabilities are mainly >0.9. 
@@ -468,22 +506,26 @@ Higher masking ratios during training etc.
 
 \subsection{Visual inspection}
 \label{section:Visual inspection}
+In the following we present generated samples from naive VQVAE and NC-VQVAE for some selected dataset. The ground truth, both test and train, are additionally included in order to better make sense of the IS and FID scores. \newline
 
-Typically naive vqvae has more trouble with capturing the global consistency of the samples when samples are scarce and diverse, as seen on ShapesAll and Symbols. In contrast, our method will tend to overfit in these cases. The overfitting issue is most prominent in the class conditional distributions. \newline
+Some datasets, such as FordA and B, is poorly suited for this type of visual inspection, as illustrated previously in Figure \ref{fig:datasets}. As a result, the selection of datasets is primarily based on how well they lend themselves to this type of presentation.\newline
 
-For the most simple shapes, NC-VQVAE is better at maintaining the little variability that is present. 
+For each figure in the following sections, 50 samples are generated from each model. For the ground truth, we plot a subset of 50 randomly selected samples, or the entire set if the dataset contain less than 50 samples.\newline
 
-Simple patterns, such as sinusoids, are very easily captured (Symbols/ShapesAll). Sharp changes in modularity and frequency are much harder(TwoPatterns).\newline
+Typically naive VQVAE has more trouble with capturing the global consistency of the samples when samples are scarce and diverse, as seen on ShapesAll and Symbols. In contrast, our method will tend to overfit in these cases. The overfitting issue is most prominent in the class conditional distributions. \newline
 
-Datasets or classes with very few samples might be mimicked/overfitted.\newline
-
-Different samples sizes, how easy patterns are etc should be considered when setting nr of epochs, and T in maskgit (lower for simple patterns).  
-
-
-There are only minor differences seen in the generated samples form the models trained with different augmentations, especially when sample size is low. 
-
+There are only minor differences seen in the generated samples form NC-VQVAE trained with different augmentations, especially when sample size is low.\newline
 
 \subsubsection{ECG5000}
+
+In Figure \ref{fig:Warp_ECG5000} we present generated samples from naive VQVAE and NC-VQVAE trained with Window Warp and Amplitude Resize augmentations on ECG5000.\newline
+
+We see some evidence that VIbCReg maintains more variability than Barlow Twins, particularly in class 1 and 2. \newline
+
+In class 4, where the training data only consists of 2 samples, both Barlow Twins and VIbCReg catches the pattern, while producing some variation which resemble the training samples. The naive VQVAE samples does not capture this distribution, but when compared to the test data, it is more similar, which again could explain why naive VQVAE performs slightly better in terms of FID score than NC-VQVAE. \newline
+
+The ability of NC-VQVAE to accurately model the conditional distributions and their characteristics, is evidence for why CAS was slightly higher than for naive VQVAE.
+
 
 \begin{figure}[H]
     \centering
@@ -500,12 +542,21 @@ There are only minor differences seen in the generated samples form the models t
         \centering
         \includegraphics[width=\textwidth]{ECG5000-conditional-class4.pdf}
     \end{minipage}
-    \caption{Class conditional distribution for some selected classes of ECG5000. Barlow and VIbCReg both trained with window warp and amplitude resize augmentations.}
+    \caption{Class conditional distribution for some selected classes of ECG5000. Barlow and VIbCReg both trained with window warp and amplitude resize augmentations. 50 samples from each model.}
     \label{fig:Warp_ECG5000}
 \end{figure}
 
 
 \subsubsection{Mallat}
+Mallat is a simulated dataset, where the classes have very little variability and training and test distribution are indistinguishable, except for sample size. \newline
+
+We observe that VIbCReg is superior in capturing the variability, compared to Barlow Twins and naive VQVAE. This is most evident in the first 300 timesteps of class 5 in Figure \ref{fig:Gaussian_Mallat}. Looking as class 7, we see Barlow Twins completely collapsing, essentially producing the same sample over and over. \newline
+
+These illustrations explains the significant increase in CAS seen in Figure \ref{fig:Mean_CAS}, particularly for VIbCReg. It too explains how VIbCReg both increases IS and reduces FID. \newline
+
+
+
+\TODO{TSNE/PCA}
 
 \begin{figure}[H]
     \centering
@@ -529,15 +580,13 @@ There are only minor differences seen in the generated samples form the models t
 
 \subsubsection{Symbols}
 
-Naive VQVAE: Does not capture the entire underlying distribution, some classes are not represented/not recognizable. Global consistency for the sinusoids are poor, particularly towards the end.
- \newline
-VIbCReg: Good mode coverage, but underrepresents the sinusoids or lacks diversity in each class. 
+The Symbols dataset consists of several distinct, but simple, patterns. For each class there is less than 5 training samples.
 
-Barlow Twins: windowwarp: little variability in sinusoids, could it be that the ssl loss makes these too close in latent space?
+In Figure \ref{fig:Gauss_Symbols}, particularly the unconditional sample, we see that naive VQVAE does not capture the entire underlying distribution, some classes are not represented/not recognizable, while global consistency for the sinusoids are poor, particularly towards the end.\newline
 
-Does the high IS scores correlate with good mode covarage? For symbols our model cover the modes much better than naive. But produces many very similar samples. Does this have something to do with the selected token histograms. Seems like our models select tokens with higher probability, sometimes much higher!\newline
+In class 3, we observe that both Barlow Twins and VIbCReg mimic the training data to a large degree,VIbCReg to a slightly higher degree than Barlow Twins. At first glance the naive VQVAE looks to produce the most desirable distribution, but upon closer inspection we see an excessive amount of noise and lack of consistency.\newline
 
-IS has a flaw in that it does not take intraclass diversity into account. Thus a model which generates the mode at each class will get a high IS score. Thus it can give high scores to models that overfit.  
+The IS on Symbols, for both VIbCReg and BarlowTwins, is substantially higher than naive VQVAE. While this is not surprising after inspecting the samples, it exposes an issue with the IS metric. It fails to take intraclass diversity into account, and is therefore oblivious to overfitting. \newline
 
 \begin{figure}[H]
     \centering
@@ -564,10 +613,9 @@ IS has a flaw in that it does not take intraclass diversity into account. Thus a
 
 
 \subsubsection{ShapesALL}
-A LOT BETTER class conditional sampling!
+The dataset ShapesAll consists of 60 classes, with 10 samples within each class. Each class has distinct patterns, with varying complexity.\newline
 
-Generated vs real.
-
+In Figure \ref{fig:Gauss_ShapesAll}, we observe clearly that naive VQVAE struggles with capturing the global consistency of the samples. We too observe that Barlow Twins mimic the training slightly more closely than VIbCReg, which provides some insight as to why Barlow Twins improves CAS by about 10 percent compared to naive VQVAE. Both Barlow Twins and VIbCReg improve IS, but fail to improve FID. As we have seen in the other datasets with few samples for a specific class, NC-VQVAE has a tendency to overfit.
 
 \begin{figure}[H]
     \centering
@@ -591,10 +639,9 @@ Generated vs real.
 
 
 \subsubsection{UWaveGestureLibraryAll}
+The dataset UWaveGestureLibraryAll contains time series with distinct discontinuities and sharp changes in modularity. As noted in \cite{TimeVQVAE}, such datasets are challenging to model.\newline
 
-As before in TimeVQVAE, sharp changes in modularity is challenging to model.
-
-There is evidence that gaussian augmentation results in less diverse samples, which most likely is a result of ??. Most evident in Barlow Twins. VIbCReg is able to maintain variability to a greater degree (See class 1). Most to least diverse: warp, slice, gauss for VIbCReg, slice, warp, gauss for Barlow Twins. VIbCReg does best in terms of capturing the flat spots after the "break", though not great. 
+In Figure \ref{fig:Warp_Uwave} a selected subset of classes are illustrated. We observe upon close inspection that VIbCReg maintains variability in the samples to a greater degree than Barlow Twins, as well at slightly better capturing the "dead spots" following the discontinuities. \newline 
 
 
 \begin{figure}[H]
@@ -620,51 +667,45 @@ There is evidence that gaussian augmentation results in less diverse samples, wh
 
 
 
-\section{The influence of stage 1 on stage 2}
-The best performing datasets in terms of probe accuracies: "FordA", "FordB", "Mallat", "ShapesAll", "TwoPatterns", "UWaveGestureLibraryAll"\newline
-
-Relationship between reconstruction in stage 1 and FID/IS/CAS:
-Does better reconstruction capabilities in stage 1 improve the generative model?\newline
-
-Relationship between probes in stage 1 and FID/IS/CAS:
-Does better probe accuracies (class separation) in stage 1 improve the generative model?\newline
-
-How does the best performing models from stage 1 transfer to stage 2?\newline
-
-Look at FordA, FordB, Mallat, ShapesALL, TwoPatterns and UWaveGestureLibraryAll. The datasets where probe accuracies are good compared to baseline. Slice is aug with best performance overall on these datasets. \newline
-
-\begin{figure}[H]
-    \includegraphics[scale=0.3]{KNN_IS_Subset.png}
-    \centering  
-    \caption{KNN plotted against Inception Score on the subset of datasets with significant improvement in probe accuracy.}
-    \label{fig:KNN_IS_Subset}
-\end{figure}
-
-\begin{figure}[H]
-    \includegraphics[scale=0.3]{KNN_FID_Subset.png}
-    \centering  
-    \caption{KNN plotted against Fréchet Inception Distance on the subset of datasets with significant improvement in probe accuracy.}
-    \label{fig:KNN_FID_Subset}
-\end{figure}
-
-In Figure \ref{fig:KNN_IS_Subset} and \ref{fig:KNN_FID_Subset}, we see the relationship between KNN accuracy and FID/IS on the subsets where the probe accuracy is substantially improved with NC-VQVAE. The corresponding plots with SVM accuracy show similar trends. From Figure \ref{fig:KNN_IS_Subset} we see a trend, with higher probe accuracy correlating with higher IS. Upon closer inspection, we see a clear pattern of the prominent effect of augmentations. 
-For each specific augmentation, the correlation between KNN and IS is close to $0$.
-
-Particularly interesting is UWaveGestureLibraryAll.
-
-
-
 
 \section{Differences in Barlow Twins and VIbCReg}
 
-VIbCReg seems to keep the variablility in the conditional distribution a bit better than Barlow Twins. Can it be attributed to the variance term in VIbCReg?
+VIbCReg seems to keep the variability in the conditional distribution a bit better than Barlow Twins. Can it be attributed to the variance term in VIbCReg?
 
-TSNE and PCA of Mallat.
+\begin{figure}[H]
+    \centering
+    % \hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{VIB_gauss_latentspace_PCA_Mallat.png}
+    \end{minipage}
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{BT_gauss_latentspace_PCA_Mallat.png}
+    \end{minipage}
+    \caption{PCA of discrete latent representation from Mallat. Both VIbCReg (left) and Barlow Twins (right) are trained with gaussian augmentation.}
+    \label{fig:Mallat_latent_PCA}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % \hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{VIB_gauss_dataspace_PCA_Mallat.png}
+    \end{minipage}
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{BT_gauss_dataspace_PCA_Mallat.png}
+    \end{minipage}
+    \caption{PCA of generated time series from Mallat. Both VIbCReg (left) and Barlow Twins (right) are trained with gaussian augmentation.}
+    \label{fig:Mallat_data_PCA}
+\end{figure}
 
 
 \subsection{Overfitting problem}
 
-
+We have observed on multiple occasions that when the sample size is small and the patterns in the data are simple NC-VQVAE has a tendency to overfit, and memorize the training data to a large degree. We have not employed any form of dropout or other regularization techniques when training on small datasets. 
 
 \subsection{Thoughts}
 
@@ -687,7 +728,21 @@ Is there correlation between CAS and linear probe accuracy?? \newline
 Temporal vs frequency influence of augmentations. We compress only along temporal axis in the encoder. Could this be a reason for Gaussian artifacts in generation and not slice?\newline
 
 
-
+\subsection{Augmentation Reconstruction Weight}
+\begin{figure}[h]
+    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
+    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
+    % \centering  
+    \caption{Augmentation: Window Warp and Amplitude Resize. Averaged across 2 runs. Trained for 250 epochs}  
+    \label{fig:ReconsWeight_warp}
+\end{figure}
+\begin{figure}[h]
+    \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight_Slice.png}
+    \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight_Slice.png}
+    % \centering  
+    \caption{Augmentation: Slice and Shuffle. Averaged across 2 runs. Trained for 250 epochs}  
+    \label{fig:ReconsWeight_slice}
+\end{figure}
 
 
 % \subsection{Augmentation Reconstruction Weight}
@@ -743,7 +798,7 @@ Temporal vs frequency influence of augmentations. We compress only along tempora
 % Color code according to SSL-model.
 
 
-\section{Discussion}
+\section{Conclusion}
 Even though there are issues, we believe our model is a step in the right direction. The representations learned by NC-VQVAE are more expressive than naive VQVAE, demonstrating that we can optimize more than one objective, without sacrificing the reconstruction capability. 
 
 The representations enable easier learning of the semantics of the conditional distributions, to such a degree that one has to take measures not to overfit. 
