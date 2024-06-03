@@ -2,37 +2,35 @@
 
 \begin{document}
 
-This thesis' main theme is machine learning. More specifically it revolves around two areas of machine learning called generative modelling and representation learning. Machine learning algorithms are designed to learn patterns in data, and leverage these learned patterns for some task. That might be to detect cats and dogs in images, bank transactions that are suspicious, 
+The overarching theme of this thesis is machine learning, with a focus on two specialized areas: generative modeling and representation learning.\newline
 
-In generative modelling, the goal is to detect patterns in the data is such a way that we can create, that is generate, similar looking data. Recent developments has given most people a relationship with generative modelling, ChatGPT for instance, is an example of this. The internet now too flows over with AI generated images. For many, how one are able to learn these patterns is a mystery. It is here representation learning enters the stage. A representation of information can be seen as a certain perspective, and similarly to how different perspectives on a matter highlight different aspects, and are useful in different contexts. Representation learning then, can be thought of as finding perspectives which are useful for a computer. 
+Machine learning algorithms are fundamentally pattern finders designed to pick up on patterns in data and utilize these patterns for various tasks. These tasks may include distinguishing images of dogs from cats, identifying fraudulent bank transactions from legitimate ones, or predicting tomorrow's weather. This process is known as \textit{predictive modeling}, which aims to use patterns in existing data to make predictions about unseen data.\newline
 
-The idea in many generative models is to transform the data in a clever way, shaving away unnecessary information, and revealing a more informative perspective for the task at hand. Using the new perspective, we can more simply capture patterns. 
-
-
+In \textit{generative modeling}, the objective shifts to recognizing patterns that enable the creation of data that resembles the original training data. A familiar example of this is ChatGPT, a generative model capable of producing text similar to its training input.\newline
 
 
+The second major component of this thesis is representation learning, which involves viewing information from different perspectives. Just as diverse perspectives on an issue can highlight various aspects and be useful in different contexts, different data representations can reveal distinct patterns. In machine learning, representation learning is about finding perspectives that are computationally useful. For instance, consider the sequence of numbers $1, 3, 7, 15, 31, \dots$. One approach to finding a generating formula might involve examining the differences between consecutive numbers. However, a change in perspective, such as expressing the numbers in binary (i.e., $1, 11, 111, 1111, 11111$), makes the pattern more apparent—simply add another $1$ to each subsequent number. While this is a simple example, it illustrates how changing perspectives can clarify patterns, a process that is crucial in complex scenarios commonly encountered in modern machine learning.\newline
+
+In our research, we are interested in generative modelling of time series. Time series, as the name kinda spoils, is data with a time component. Time series data encompasses diverse measurements such as weather conditions, patient heart rates, economic indicators (e.g., GDP, inflation, unemployment rates), energy usage, social media activity, and sales figures, all recorded at regular intervals. With the ever forward pointing arrow of time, it is really no surprise that these types of data are everywhere. \newline
+
+In this thesis we attempt, and in many ways succeed, to find a better perspective on time series, such that we can create new ones that resemble, but not completely mimic, the training data. We do this by squishing the data into a smaller space, in a way that preserves the most important information. In this compressed space, we too push similar looking time series to the same regions, which in a sense organizes it. Finally, using a clever method, similar to the one used by ChatGPT, we create new data in the compressed space, and decompress them to get new time series.\newline
+
+The primary contribution of this thesis lies in this compressed but structured perspective on time series data.\newline
 
 
-When considering images for instance, 
-
-Typically machine learning methods are developed 
-
-
-We attempt, and in many ways succeed, in learning better representations for 
-
-To the technical audience, i would briefly describe the work as integrating a self supervised learning objective into a tokenization model, which in turn makes 
-
-
-How would i explain the thesis to a non technical friend?
-
-How would i explain it to a mathematician?
-
-In this thesis we investigate possible improvements on the TimeVQVAE model presented by... We investigate how a "self supervised learning extension" of the tokenization affects the learned representations, and the effect on the prior learning. In particular we investigate if the learned representations are more informative, in the sense that they simultaneously enables high quality reconstruction, and improved the downstream classification accuracy. For the generative model we investigate if the learned representations enables faster convergence during training, and how the quality of the synthetic samples are affected. \\
+Technically speaking, we investigate possible enhancements to the TimeVQVAE model presented in \cite{TimeVQVAE} by introcuding a non contrastive self-supervised loss to the tokenization model. We specifically examine if the representations learned are more informative, in the sense that they improve the downstream classification accuracy, while simultaneously enable high quality reconstruction, and investigate how the learned representations affect the quality of the synthetic samples.
 
 \section{Acknowledgements}
-Supervisors, Erlend, IDUN, UCR Archive creators, Ping Pong table, Tindegruppa, Pernille for making coming home totally exhausted, 
+This thesis is the culmination of 6 years of studies in Trondheim. There are many people that deserve big thank you for making these years so memorable. If you are reading this, chances are quite high that your name should be here, but the margins are sadly too narrow.\newline 
+
+I would firstly like to thank my supervisors, Erlend Aune and Daesoo Lee, for introducing me to this fascinating research field, and being open minded and supportive throughout the process. Erlend Lokna, a dear friend and great collaborator, for your indispensable contributions on this project. Developing advanced machine learning models is both challenging and time consuming, and synchronously banging our heads made it all a little easier. From the many late nights of writing, experimentation and discussion, to trash talking over the ping pong table, this project would not be the same without you. It was sweet to end on a 9-1 victory the final day, which once and for all cemented me as the top dog, and nothing (except a rematch) could change that.\newline
+
+I would too like to thank my family, mom, dad, Otto, Andreas and Tiril for being a continuous source of inspiration and motivation. You move so graciously through life, sharing both wisdom and skills, paving the way for the youngest in the flock. My roommates Pernille and Eldrun for being devilishly funny and handling me as i go into goblin mode. Preben and Elias, despite placing bets on whether i would last one or two weeks into my bachelors, for their endless curiosity and fearlessness in face of difficult mathematics, pushing me to learn way more than i aught to have. \newline
+
+Finally, Tindegruppa, the university climbing group, my crew. You have such a special place in my heart. You reintroduced the joy of movement in my life, after abruptly retiring as professional handball player. You provided an arena to play, connect with nature and go on adventure. Someone once told me, to have a great time as a student in Trondheim, you need to find your little cult, be it on Samfundet, in a band or some part of NTNUI. I can wholeheartedly say i found mine, and to all the members, such loving, crazy and interesting people, thank you. See you on top of some remote peak very soon.
 
 \section{Motivation}
+
 	- The role and importance of time series.
 	- The need for models that capture complex structures for which traditional statistical models fail. 
 Real world time series data is often incomplete (missing datapoints), irregular (datapoints not evenly spaced in time) and noisy. ML4ITS. 
@@ -45,10 +43,10 @@ Distributions of time series in their original temporal representation are compl
 \section{Overview/structure}
 \begin{itemize}
 	\item Main inspirations \cite{TimeVQVAE} 
-	\item During the work on our theses, Erlend Lokna and myself have collaborated extensively. This has been declared from the beginning and talked about continuously with our supervisors. Erlend, with his developer experience, has taken lead on code development for our model, and should get credit for his high level of programming skills. I have, in addition to code contribution and being a source of ideas, taken the lead on data processing and visualization. We have exchanges ideas, possible paths forward and the overall structure of the theses. Additionally have conducted the same experiments, hence our works will have many similarities. All writing though, is done independently. The collaboration has been very fruitful, and working closely with Erlend has made the process quite enjoyable. 
 	\item Structure of the thesis
-	\item Use of LLMs in this thesis. Grammar, assistance with code for visualization, Latex help, 
+
 \end{itemize}
+
 \section{Research questions}
 Stage1
 \begin{itemize}
@@ -57,11 +55,10 @@ Stage1
 \end{itemize}
 Stage 2
 \begin{itemize}
-	\item[\textbf{RQ3:}] Will more expressive representations improve prior model learning?
-	\item[\textbf{RQ4:}] How does augmentations influence prior learning and synthetic sample quality?
+	\item[\textbf{RQ3:}] Will more expressive representations improve synthetic sample quality
+	\item[\textbf{RQ4:}] How does augmentations influence synthetic sample quality?
 \end{itemize}
 
-	- How does SSL VQVAE compare when we train a powerful prior model on top of it (MaskGIT)? 
 
 \section{Sustainability impact}
 Ethical and environmental impact consideration with basis in UN sustainability goals.
@@ -75,12 +72,12 @@ AI and machine learning are not universal tools though the modern LLMs make it s
 
 
 
-\section{AI Declaration}
+\section{Collaboration and AI Declaration }
+
+During the work on our theses, Erlend Lokna and myself have collaborated extensively. This has been declared from the beginning and talked about continuously with our supervisors. Erlend, with his developer experience, has taken lead on code development for our model, and should get credit for his high level of programming skills. I have, in addition to code contribution and being a source of ideas, taken the lead on data processing and visualization. We have exchanges ideas, possible paths forward and the overall structure of the theses. Additionally have conducted the same experiments, hence our works will have many similarities. All writing though, is done independently. The collaboration has been very fruitful, and working closely with Erlend has made the process quite enjoyable, despite him being lousy at ping pong. \newline
 
 
-
-
-
+Use of LLMs in this thesis. Grammar, assistance with code for visualization, Latex help, 
 
 
 \end{document}
