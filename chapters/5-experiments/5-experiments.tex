@@ -96,7 +96,7 @@ slice and shuffle:
 
 
 \subsubsection{Prior learning}
-In the iterative decoding algorithm, the number of iterations $T$ is set to 10, and use cosine as the mask scheduling function ($\gamma$), following \cite{chang2022maskgit}. We adopt the implementation from \cite{TimeVQVAE}.
+We adopt the implementation from \cite{chang2022maskgit}. In the iterative decoding algorithm, the number of iterations $T$ is set to 10, and use cosine as mask scheduling function ($\gamma$). 
 
 \subsubsection{Optimizer}
 We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.
@@ -111,7 +111,7 @@ SupervisedFCN is employed for calculating Inception Score (IS), Fréchet Incepti
 \section{UCR Time Series Classification Archive}
 The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
-The subset selected for our experiments is presented in Table \ref{tab:UCRsubset.}
+The subset selected for our experiments is presented in Table \ref{tab:UCRsubset}.
 
 \begin{table}[h]
     \centering

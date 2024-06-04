@@ -1,61 +1,60 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
+This thesis covers a lot of ground and the field of machine learning draws on many parts of mathematics, statistics and computational sciences. As much as the author would love deep diving into every aspect, certain sections are somewhat superficial. There are though, for the interested reader, a large number of sources going into greater detail referenced throughout. \newline
 
-\TODO{Introduce the section, what we think and the philosophy of presenting material in such a way.}
+In this section we begin by introducing neural networks, and relevant architectures for our work, such as convolutional neural networks and transformers. We give an intruduction to representation learning, highlighting standard evaluation protocols, and give an introduction to self-supervised learning (SSL), with emphasis on siamese architecture-based SSL. We present the Vector Quantized Variational Autoencoder, trying to highlight aspects brushed over in \cite{VQVAE}, building it up from Autoencoders. Before finally we go through the evaluation metrics used to assess our models.
 
-\section{Notation}
+% \section{Notation}
 
-\begin{itemize}
-    \item Encoder $E$
-    \item Decoder $D$
-    \item Estimated values are presented with a hat, $\widehat{x}$ for a reconstructed value, $\widehat{f}$ for a trained model etc.
-    \item Parameters $\theta$ 
-    \item Dataset $X = \{x_i\}_{i=1}^N$  
-\end{itemize}
+% \begin{itemize}
+%     \item Encoder $E$
+%     \item Decoder $D$
+%     \item Estimated values are presented with a hat, $\widehat{x}$ for a reconstructed value, $\widehat{f}$ for a trained model etc.
+%     \item Parameters $\theta$ 
+%     \item Dataset $X = \{x_i\}_{i=1}^N$  
+% \end{itemize}
 
-\section{Information theoretic/basic stats used in evaluation}
+% \section{Information theoretic/basic stats used in evaluation}
 
-- maximum entropy distribution
+% - maximum entropy distribution
 
-- mutual information
-
-
-\begin{definition}[Differential entropy]
-    The differential entropy of a random variable $X$  with pdf or pmf $p$ defined on a sample space $\mathcal{X}$ is
-    \begin{equation}
-        h(X) =\E[-\log(f(X))] -\sum_{x\in \mathcal{X}} p(x)\log(p(x)),\text{ if $X$ is discrete,}
-    \end{equation}
-    \begin{equation}
-        h(X) =\E[-\log(f(X))] -\int_{\mathcal{X}} p(x)\log(p(x)),\text{ if $X$ is continuous}
-    \end{equation}
-\end{definition}
+% - mutual information
 
 
-- perplexity
-
-\begin{definition}[KL-Divergence]
-    For probability distribution $P$ and $Q$ defined on the same sample space $\mathcal{X}$, if for all $x\in\mathcal{X} $ $Q(x)=0$ implies $P(x)=0$, the Kullback-Leibler divergence is defined as
-    \begin{equation}
-        \KL(P||Q) = \sum_{x\in\mathcal{X}} P(x)\log\left(\frac{P(x)}{Q(x)}\right), \text{ if $P$ and $Q$ are discrete,}
-    \end{equation}
-    \begin{equation}
-        \KL(P||Q) = \int_{x} p(x)\log\left(\frac{p(x)}{q(x)}\right)dx, \text{ if $P$ and $Q$ are continuous}.
-    \end{equation}
-\end{definition}
-
-\url{https://stats.stackexchange.com/questions/188903/intuition-on-the-kullback-leibler-kl-divergence/189758#189758}
-
-- Cross entropy 
-
-- Graphical probabilistic models 
-    - Ancestral sampling
-
-- Generative models
+% \begin{definition}[Differential entropy]
+%     The differential entropy of a random variable $X$  with pdf or pmf $p$ defined on a sample space $\mathcal{X}$ is
+%     \begin{equation}
+%         h(X) =\E[-\log(f(X))] -\sum_{x\in \mathcal{X}} p(x)\log(p(x)),\text{ if $X$ is discrete,}
+%     \end{equation}
+%     \begin{equation}
+%         h(X) =\E[-\log(f(X))] -\int_{\mathcal{X}} p(x)\log(p(x)),\text{ if $X$ is continuous}
+%     \end{equation}
+% \end{definition}
 
 
-\section{Time Series Inference}
-- short-time-fourier transform etc.
+% - perplexity
+
+% \begin{definition}[KL-Divergence]
+%     For probability distribution $P$ and $Q$ defined on the same sample space $\mathcal{X}$, if for all $x\in\mathcal{X} $ $Q(x)=0$ implies $P(x)=0$, the Kullback-Leibler divergence is defined as
+%     \begin{equation}
+%         \KL(P||Q) = \sum_{x\in\mathcal{X}} P(x)\log\left(\frac{P(x)}{Q(x)}\right), \text{ if $P$ and $Q$ are discrete,}
+%     \end{equation}
+%     \begin{equation}
+%         \KL(P||Q) = \int_{x} p(x)\log\left(\frac{p(x)}{q(x)}\right)dx, \text{ if $P$ and $Q$ are continuous}.
+%     \end{equation}
+% \end{definition}
+
+% \url{https://stats.stackexchange.com/questions/188903/intuition-on-the-kullback-leibler-kl-divergence/189758#189758}
+
+% - Cross entropy 
+
+% - Graphical probabilistic models 
+%     - Ancestral sampling
+
+% - Generative models
+
+
 
 \section{Neural Network}
 An \textit{artificial neural network} or simply \textit{neural network} is a fundamental model in machine learning, and more specifically in \textit{deep learning}. Neural networks are loosely inspired by the way neurons are assembled in the brain. The concept dates back to 1943 when Warren McCulloch and Walter Pitts developed the first artificial neuron, which is considered the first neural model ever invented\cite{MCCULLOCH199099}. The first practical implementation was by Frank Rosenblatt in 1957 \cite{rosenblatt1957perceptron}. However, it wasn't until the development of the backpropagation algorithm in its modern form in the 1980s that neural networks gained significant traction. Since then, neural networks have been highly influential in the machine learning field, with a broad range of impressive applications, including face recognition, defeating humans in chess, Go, and Starcraft, self-driving cars, and predicting protein structures.
@@ -135,7 +134,6 @@ The concept of CNNs is inspired by the structure and function of the visual cort
 
 For an in-depth exploration of the advancements and applications of convolutional neural networks, refer to \cite{gu2017recent}.
 
-% "Convolution leverages three important ideas that can help improve ML systems: sparse interactions, parameter sharing and equivariant representations" \cite{deeplearningbook}.
 \subsection{The convolution operation}
 
 
@@ -180,11 +178,9 @@ In digital signal processing, discrete convolutions are widely used with predefi
 \end{figure}
 
 \subsection{Pooling}
-As mentioned earlier, CNNs are primarily used for high-dimensional data. To reduce the dimensionality to a manageable level, pooling operations are employed. Pooling is a downsampling technique applied to feature maps, where regions of the output are replaced with summary statistics. The aim with pooling is to retain the most important information while discarding less relevant details.
+As mentioned earlier, CNNs are primarily used for high-dimensional data. To reduce the dimensionality to a manageable level, pooling operations are employed. Pooling is a downsampling technique applied to feature maps, where regions of the output are replaced with summary statistics. The aim with pooling is to retain the most important information while discarding less relevant details. Two of the most common pooling methods are max pooling and average pooling. Max pooling replaces the region with its maximum value, while average pooling replaces it with the average value.\newline
 
-Two of the most common pooling methods are max pooling and average pooling. Max pooling replaces the region with its maximum value, while average pooling replaces it with the average value.\newline
-
-There are two key hyperparameters for any pooling operation: the filter size, which determines the region of values to calculate the summary statistic, and the stride length, which determines how the filter moves across the feature map. In addition to reducing dimensionality, pooling helps make representations approximately invariant to small distortions in the input.Illustrations of max pooling with different stride is presented in figure \ref{fig:mp2} and \ref{fig:mp2}, while the effect of max and average pooling on image data is illustrated in \ref{fig:mean_max_pool}.\newline
+There are two key hyperparameters for any pooling operation: the filter size, which determines the region of values to calculate the summary statistic, and the stride length, which determines how the filter moves across the feature map. In addition to reducing dimensionality, pooling helps make representations approximately invariant to small distortions in the input. Illustrations of max pooling with different stride is presented in figure \ref{fig:mp2} and \ref{fig:mp2}, while the effect of max and average pooling on image data is illustrated in \ref{fig:mean_max_pool}.\newline
 
 \begin{figure}[h]
     \includegraphics[scale=0.5]{MP_stride2}
@@ -206,7 +202,9 @@ There are two key hyperparameters for any pooling operation: the filter size, wh
     \label{fig:mean_max_pool}
 \end{figure}
 
-Global pooling is a technique that involves calculating a summary statistic, such as the maximum or average, for an entire feature map. This effectively summarizes the presence of a feature across the entire input. This method is particularly useful in the final layers of a convolutional neural network (CNN), where it reduces the spatial dimensions of the feature maps to a single value per map. This process condenses information and enhances computational efficiency. Additionally, global pooling helps CNNs handle variably sized inputs more effectively and serves as a method for downsampling representations for visualization purposes.
+Global pooling is a technique that involves calculating a summary statistic, such as the maximum or average, for an entire feature map. This effectively summarizes the presence of a feature across the entire input. This method is particularly useful in the final layers of a convolutional neural network (CNN), where it reduces the spatial dimensions of the feature maps to a single value per map. This process condenses information and enhances computational efficiency.
+
+% Additionally, global pooling helps CNNs handle variably sized inputs more effectively and serves as a method for downsampling representations for visualization purposes.
 
 \subsection{Architecture}
 There are many specific architectures within the category of convolutional neural networks (CNNs), but their basic components are largely the same. CNNs typically consist of convolutional layers, pooling layers, and fully connected layers. Figure \ref{fig:LeNet5} illustrates the original LeNet-5 \cite{LeCun1989ConvNet} as an example of a general CNN.\newline
@@ -219,7 +217,7 @@ There are many specific architectures within the category of convolutional neura
     \label{fig:convlayer}
 \end{figure}
 
-\textbf{A pooling layer} is typically placed between convolutional layers and  act as strong downsamplers that aim to enforce approximate translation invariance. A pooling operation, such as max pooling or average pooling, is applied across each feature map, reducing its spatial dimensions while retaining important information. The pooling layer helps to reduce the computational load and control overfitting by progressively reducing the spatial size of the representation.\newline
+\textbf{A pooling layer} is typically placed between convolutional layers and act as strong downsamplers that aim to enforce approximate translation invariance. A pooling operation, such as max pooling or average pooling, is applied across each feature map, reducing its spatial dimensions while retaining important information. The pooling layer helps to reduce the computational load and control overfitting by progressively reducing the spatial size of the representation.\newline
 
 \textbf{Fully connected layers} are standard hidden layers in a neural network, connecting every input to every node in the output. Due to computational constraints, fully connected layers are introduced only after the input data has been sufficiently downsampled through convolutional and pooling layers. The fully connected layers aggregate the local features learned by convolutional layers across the entire image, learning high level reasoning and enabling the network to make final classifications or predictions.
 
@@ -480,7 +478,7 @@ An autoencoder consists of two neural networks: an encoder $E$ and a decoder $D$
 
 The primary goal of an autoencoder is to learn an efficient encoding of the data. The encoder compresses the data into a lower-dimensional representation, and the decoder reconstructs the original data from this compressed representation. The training objective is to make the composition of the encoder and decoder approximate the identity function, meaning that the output should be as close as possible to the input. Autoencoders are typically trained to minimize the reconstruction error, which typically is the mean square error (MSE) between the input and the reconstructed output. This process forces the model to learn efficient latent representations of the data.\newline
 
-One of the critical aspects of autoencoders is the \textit{information bottleneck}. The dimension of the latent space is much smaller than that of the data space. This bottleneck forces the model to capture the most important features of the data while discarding less relevant information. By compressing the data, the encoder learns a compact representation that retains the essential features needed for accurate reconstruction by the decoder However, learning effective latent representations can be challenging. Without proper regularization, the latent space may capture noise or irrelevant details, leading to overfitting.\newline
+One of the critical aspects of autoencoders is the \textit{information bottleneck}. The dimension of the latent space is much smaller than that of the data space. This bottleneck forces the model to capture the most important features of the data while discarding less relevant information. By compressing the data, the encoder learns a compact representation that retains the essential features needed for accurate reconstruction by the decoder. However, learning effective latent representations can be challenging. Without proper regularization, the latent space may capture noise or irrelevant details, leading to overfitting.\newline
 
 Event though Autoencoders are outdated, they serve as the foundational building block for more complex models such as Variational Autoencoders (VAEs) and Vector Quantized Variational Autoencoders (VQVAEs), which further enhance the ability to learn meaningful and useful representations from data.
 
@@ -645,7 +643,7 @@ The codebook loss only affects the codebook, and can hence alternatively be upda
 To understand the necessity of the commitment term, consider a simple example where the data is either $0$ or $1$, and the codebook is initialized with $\mathcal{Z} = \{-1,1\}$. The encoder output $E(x)$ is quantized to $-1$ if its negative and $1$ if its positive. Suppose that the encoder and decoder will try to differentiate between the two classes by pushing $E(0)$ and $E(1)$ away from each other. Since the reconstruction loss only affects the encoder and decoder, and the codebook loss only affect the codebook, if the encoder and decoder parameter trains faster than the codebook the distance between the encodings and the codewords will increase and the codebook loss diverge. This behavior is observed experimentally.
 
 \subsubsection{Prior Learning}
-In VQVAE, the prior learning process is designed to enhance the flexibility and quality of the generative model. During the initial training, the prior is uniform. This approach allows the encoder to focus on learning the optimal mapping from the data space to the discrete latent space without being influenced by a predefined prior distribution. After the initial training, the prior distribution is refined by fitting a model on the latent variables, referred to as prior learning. By training the prior with a generative objective, on learns a more accurate prior which can improve the quality of generated samples. The choice of prior model depends on the particular application. In the original VQVAE paper PixelCNN \cite{oord2016pixel} was used for image data, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
+In VQVAE, the prior learning process is designed to enhance the flexibility and quality of the generative model. During the initial training, the prior is uniform. This approach allows the encoder to focus on learning the optimal mapping from the data space to the discrete latent space without being influenced by a predefined prior distribution. After the initial training, the prior distribution is refined by fitting a model on the latent variables, referred to as prior learning. By training the prior with a generative objective, one learn a more accurate prior which can improve the quality of generated samples. The choice of prior model depends on the particular application. In the original VQVAE paper PixelCNN \cite{oord2016pixel} was used for image data, while WaveNet \cite{oord2016wavenet} was used for audio. More recently in TimeVQVAE \cite{TimeVQVAE} utilized a bidirectional transformer \cite{chang2022maskgit} for prior learning in the time series domain. 
 
 \section{Evaluation metrics}
 
@@ -685,11 +683,7 @@ In the context of time series, we use a fully convolutional network (FCN) traine
     p(y) = \frac{1}{N} \sum_{i=1}^N p(y |x_{i,\text{gen}}).
 \]
 
-Issues with IS \cite{barratt2018note}.The primary concern with IS is that it does not use any statistics of real world samples to compare with the statistics of the generated samples. Important to report different metrics that indicate that the model has not overfitted. 
-
-Also issues with IS \cite{borji2021pros}.\newline
-
-
+The primary concern with IS is that it does not use any statistics of real world samples to compare with the statistics of the generated samples. Additionally IS has no mechanism for considering the diversity of generated samples within a class, which stresses the importance of reporting different metrics that indicate that the model does not overfit. 
 
 \subsubsection{Fréchet Inception Distance (FID)}
 To address some limitations of IS, the Fréchet Inception Distance (FID) was introduced in \cite{heusel2018gans}. Since then FID has been the standard for assessing generative models \cite{borji2021pros}. FID compares the distributions of real and generated samples using the Fréchet distance, providing a measure of how similar the generated samples are to the real data. For any two probability distributions, $f,g$ over $\R^n$, with finite mean and variances, their Fréchet distance is defined as 

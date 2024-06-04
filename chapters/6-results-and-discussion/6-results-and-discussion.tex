@@ -1,7 +1,8 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-
+\TODO{The spacing and figure placement is under development.}
+\TODO{Have not yet polished formulations and language.}
 In this thesis, we focus on two main objectives, which relates back to the research questions. Firstly, in Stage 1, we aim to determine whether NC-VQVAE can learn more expressive representations compared to VQVAE. Specifically, we investigate whether NC-VQVAE can achieve reconstruction performance on par with VQVAE while simultaneously enhancing downstream classification. In Stage 2, our interest lies in examining the impact of NC-VQVAE on prior learning and time series generation.\newline
 
 Our evaluation process begins with assessing the tokenization models, focusing on their reconstruction capability and performance in downstream classification tasks. Subsequently, we then evaluate the performance of the generative models using metrics such as IS (Inception Score), FID (Fréchet Inception Distance), and CAS (Classification Accuracy Score). Additionally, visual inspections are conducted to provide further insights into the models' performance.
@@ -494,19 +495,13 @@ Typically naive VQVAE has more trouble with capturing the global consistency of 
 
 In Figure \ref{fig:Warp_ECG5000} we present generated samples from naive VQVAE and NC-VQVAE trained with Window Warp and Amplitude Resize augmentations on ECG5000.\newline
 
-We see some evidence that VIbCReg maintains more variability than Barlow Twins, particularly in class 1 and 2. \newline
 
-In class 4, where the training data only consists of 2 samples, both Barlow Twins and VIbCReg catches the pattern, while producing some variation which resemble the training samples. The naive VQVAE samples does not capture this distribution, but when compared to the test data, it is more similar, which again could explain why naive VQVAE performs slightly better in terms of FID score than NC-VQVAE. \newline
-
-The ability of NC-VQVAE to accurately model the conditional distributions and their characteristics, is evidence for why CAS was slightly higher than for naive VQVAE.
-
-
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
     % \hfill
     \begin{minipage}[b]{0.32\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{ECG5000-conditional-class1.pdf}
+        \includegraphics[width=\textwidth]{ECG5000-unconditional.pdf}
     \end{minipage}
     \begin{minipage}[b]{0.32\textwidth}
         \centering
@@ -516,17 +511,21 @@ The ability of NC-VQVAE to accurately model the conditional distributions and th
         \centering
         \includegraphics[width=\textwidth]{ECG5000-conditional-class4.pdf}
     \end{minipage}
-    \caption{Class conditional distribution for some selected classes of ECG5000. Barlow and VIbCReg both trained with window warp and amplitude resize augmentations. 50 samples from each model.}
+    \caption{Dataset: ECG5000. Barlow and VIbCReg both trained with window warp and amplitude resize augmentations. 50 samples from each model.}
     \label{fig:Warp_ECG5000}
 \end{figure}
 
 
+We see some evidence that VIbCReg maintains more variability than Barlow Twins, while both has good mode coverage. In class 4, where the training data only consists of 2 samples, both Barlow Twins and VIbCReg catches the pattern, while producing some variation which resemble the training samples. The naive VQVAE samples does not capture this distribution, but when compared to the test data, it is more similar. This could explain the minor increase in CAS for NC-VQVAE. 
+Looking at the unconditional sample, it is not evident why naive VQVAE performs better in terms of FID score than NC-VQVAE.
+
+
 \subsubsection{Mallat}
-Mallat is a simulated dataset, where the classes have very little variability and training and test distribution are indistinguishable, except for sample size. \newline
+Mallat is a simulated dataset, where the classes have very little variability and training and test distribution are almost indistinguishable, except for sample size. \newline
 
 We observe that VIbCReg is superior in capturing the variability, compared to Barlow Twins and naive VQVAE. This is most evident in the first 300 timesteps of class 5 in Figure \ref{fig:Gaussian_Mallat}. Looking as class 7, we see Barlow Twins completely collapsing, essentially producing the same sample over and over. \newline
 
-These illustrations explains the significant increase in CAS seen in Figure \ref{fig:Mean_CAS}, particularly for VIbCReg. It too explains why VIbCReg with gaussian augmentation both increases IS and reduces FID. \newline
+These figures explain the significant increase in CAS seen in Figure \ref{fig:Mean_CAS}, particularly for VIbCReg. It too explains why VIbCReg with gaussian augmentation both increases IS and reduces FID. \newline
 
 \begin{figure}[H]
     \centering
@@ -666,37 +665,11 @@ In Figure \ref{fig:Warp_Uwave} a selected subset of classes are illustrated. We 
 \end{figure}
 
 
-% \section{Differences in Barlow Twins and VIbCReg}
 
-% VIbCReg seems to keep the variability in the conditional distribution a bit better than Barlow Twins. We hypothesize that it is due to the variance term present in VIbCReg.
-
-
-\subsection{Overfitting problem}
-
-We have observed on multiple occasions that when the sample size is small and the patterns in the data are simple NC-VQVAE has a tendency to overfit, and memorize the training data to a large degree. We have not employed any form of dropout or other regularization techniques when training on small datasets. 
-
-\subsection{Thoughts}
-
-Better inception score and CAS of our models indicate that the class separability learned in latent space makes the conditional distributions more distinct easier to classify. The FID is variable, but in many cases better, which indicated that the generative distributions are closer to the ground truth.\newline
-
-Gaussian noise aug seems to result in a lot easier the BT/VIbCReg loss to minimize. \newline
-Slice and shuffle is harder to minimize, but could seem to push representations for different classes further apart resulting in better linear probes.\newline
-
-Talk about the difficulty/ease in minimizing the SSL loss for the different augmentations. Does this affect linear probes / reconstruction / FID / IS / Prior loss
-\newline
-
-
-
-For datasets of smaller size with classes of different characteristics (a clear distributional difference in visual inspection [Sony2 and Symbols]) NC-VQVAE seems to perform better both in terms of FID and IS. \newline
-
-The biases introduced by augmentations in stage 1 seems to be included in the generated samples to some degree. In particular datasets with high frequency components, when applying Gaussian noise (easier to spot), has substantially better FID score.  \newline
-
-Is there correlation between CAS and linear probe accuracy?? \newline
-
-Temporal vs frequency influence of augmentations. We compress only along temporal axis in the encoder. Could this be a reason for Gaussian artifacts in generation and not slice?\newline
 
 
 \subsection{Augmentation Reconstruction Weight}
+\TODO{Should this be included at all?}
 \begin{figure}[h]
     \includegraphics[scale=0.55]{BT_ValRecons_ReconsWeight.png}
     \includegraphics[scale=0.55]{ViB_ValRecons_ReconsWeight.png}
@@ -765,45 +738,20 @@ Temporal vs frequency influence of augmentations. We compress only along tempora
 % Plot for each dataset and each augmentation: 
 % Color code according to SSL-model.
 
+\section{Discussion}
 
-\section{Conclusion}
+\subsection{Differences in Barlow Twins and VIbCReg}
 
-Key takeaways: We are able to simultaneously reconstruct well and significantly improve downstream classification accuracy, which is very interesting from a representation learning perspective. We improve both IS, FID and CAS for most datasets, indicating that the conditional distribution is better captured, as well as the synthetic data being closer to the ground truth. Additionally we see some differences in Barlow Twins and VIbCReg when it comes to sample diversity.\newline
+VIbCReg seems to keep the variability in the conditional distribution a bit better than Barlow Twins. We hypothesize that it is due to the variance term present in VIbCReg, and wonder whether increasing its weight might assist in producing more diverse samples. 
 
-To summarize NC-VQVAE is able to capture the conditional distribution of the data better than naive VQVAE for a wide variety of datasets. For datasets with few training samples, our model can be prone to overfitting. We see our model as a step in the right direction, but further development is needed to ensure better intraclass diversity, possibly through a more refined sampling procedure. \newline
+\subsection{Overfitting problem}
 
+We have observed on multiple occasions that when the sample size is small and the patterns in the data are simple NC-VQVAE has a tendency to overfit, and memorize the training data to a large degree. We have not employed any form of dropout or other regularization techniques when training on small datasets. 
 
-NC-VQVAE is better able to mimic the training data. When data is abundant, then our model better captures the entire distribution, while covering \newline
+\subsection{Temporal vs frequency influence of augmentations}
+We assessed and chose our different sets of augmentations based on their effect on the temporal representation on the time series. As we model the time frequency domain, future work should more thoroughly investigate the effects of augmentation on spectrograms. Additionally, all models considered compress the input only along temporal axis in the encoder, which in a sens puts more emphasis in the frequency components rather than the exact temporal structure. \newline
 
-Some of the issues of TimeVQVAE are still highly relevant, such as the difficulty in modelling data with sharp differences in modularity, such as TwoPatterns and ElectricDevices.\newline
-
-
-
-Even though there are issues, we believe our model is a step in the right direction. The representations learned by NC-VQVAE are more expressive than naive VQVAE, demonstrating that we can optimize more than one objective, without sacrificing the reconstruction capability. 
-
-The representations enable easier learning of the semantics of the conditional distributions, to such a degree that one has to take measures not to overfit. 
-
-The representations makes it easier to capture the gobal consistency of the samples, which tha naive VQVAE has large issues with. This without the HF-LF split.
-
-The added flexibility of NC-VQVAE, with possibility of choosing dataset specific augmentations, can in some applications be beneficial.\newline
-
-
-\section{Further work}
-
-
-
-\cite{morningstar2024augmentations} suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention.\newline
-HF-LF split - augmentations tailored for HF and LF, as they often have quite different characteristics.\newline
-Wavelet transform to improve HF-LF split.\newline
-
-Further optimize the relationship between aug recon loss and choice of augmentations.\newline
-
-Improving on the stage 2 learning to better handle the expressive representations, and be able to create more diverse samples. Higher masking ratio during training, lower value for $T$ etc.\newline
-
-The differences in Barlow and VIbCReg indicate that further optimization of the SSL method/pretext task for generative performance is possible and could be an interesting extension of this project. \newline
-
-Investigation of the attention maps. Could one find if there is a HF direction, translation direction etc. similarly to how one in NLP can find gender direction, nationality direction etc?
-
+The  gaussian augmentation introduces HF component, though its influence in the time domain is visually clear, its affect on the spectrograms is minor, as the LF components typically has much larger magnitude. Window Warp and Amplitude Resize changes LF, often changing the exact location of dominant frequencies on the time axis, but not their order. The effect of Slice and Shuffle is variable, but has a tendency to create sharp discontinuities, which in many cases is a significant HF component.
 
 
 
