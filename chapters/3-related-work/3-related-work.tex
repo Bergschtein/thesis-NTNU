@@ -14,7 +14,7 @@ MaskGIT's architecture relies on a tokenization procedure in its first stage. In
 
 \subsection{Masked Visual Token Modeling (Prior learning)}
 
-For prior learning, the codebook learned in the tokenization procedure is provided with a masking vector, which is the embedding of the special masking token, which we denote by $\M$. The input embedding in the bidirectional transformer is initialized with this expanded codebook. For an image $X$ in the dataset $\mathcal{D}$, let $z = \{z_{k_i}\}_{i=1}^N$ denote the sequence of codewords obtained by passing $X$ through the VQ-Encoder. This sequence can equivalently be described as a sequence of indices $s = \{k_i\}_{i=1}^N$. Prior learning involves masking this sequence and training the bidirectional transformer to predict the masked indices.
+For prior learning, the codebook learned in the tokenization procedure is provided with a masking vector, which is the embedding of the special masking token, denoted by $\M$. The input embedding in the bidirectional transformer is initialized with this expanded codebook. For an image $X$ in the dataset $\mathcal{D}$, let $z = \{z_{k_i}\}_{i=1}^N$ denote the sequence of codewords obtained by passing $X$ through the VQ-Encoder. This sequence can equivalently be described as a sequence of indices $s = \{k_i\}_{i=1}^N$. Prior learning involves masking this sequence and training the bidirectional transformer to predict the masked indices.
 \newline
 
 Let $s = \{k_i\}_{i=1}^N$ be the sequence of indices described above, and denote the corresponding binary mask by $M = \{m_i\}_{i=1}^N$. During training, a subset of $s$ is replaced by the masking token $\M$ according to the binary mask $M$. This is done by 
@@ -33,7 +33,11 @@ The sampling procedure, or choice number of tokens to mask, is parameterized by 
     \item Create $M$ by setting $m_i = 1$ if $i\in I$, and $m_i = 0$ otherwise.
 \end{itemize}
 
-A forward computation is illustrated in Figure \ref{fig:MaskGIT}, where the bidirectional transformer predicts the probabilities $p(s_i|s_\text{Mask})$ of each masked token, and $\loss_\text{Mask}$ is computed as the cross entropy between the ground truth one-hot token and the predicted token probabilities. 
+A forward computation is illustrated in Figure \ref{fig:MaskGIT}, where the bidirectional transformer predicts the probabilities $p(s_i|s_\text{Mask})$ of each masked token. The training objective is to minimize the negative log likelihood of the masked tokes, conditional on the unmasked
+\begin{equation}
+    \loss_\text{Mask} = -\E_{s\in \mathcal{D}}\left[\sum_{i \in I} p(s_i|s_\text{Mask} ) \right],
+\end{equation}
+and $\loss_\text{Mask}$ is computed as the cross entropy between the ground truth one-hot token and the predicted token probabilities. 
 
 \begin{figure}[h]
     \includegraphics[scale=0.25]{MaskGIT.png}
@@ -42,11 +46,6 @@ A forward computation is illustrated in Figure \ref{fig:MaskGIT}, where the bidi
     \label{fig:MaskGIT}
 \end{figure}
 
-The training objective is to minimize the negative log likelihood of the masked tokes, conditional on the unmasked
-
-\begin{equation}
-    \loss_\text{Mask} = -\E_{s\in \mathcal{D}}\left[\sum_{i \in I} p(s_i|s_\text{Mask} ) \right]
-\end{equation}
 
 \subsection{Iterative Decoding (Sample generation)}
 
@@ -124,14 +123,13 @@ To update the codebooks, TimeVQVAE uses an exponential moving average method as 
 \section{SSL}
 Our model leverages self-supervised learning algorithms to learn more expressive latent representations. In this section, we present the relevant SSL algorithms for our work: Barlow Twins and VIbCReg.
 
-% \newline
 % One fundamental difference between Barlow Twins and VIbCReg is that the branches are regularized differently. In Barlow Twins the regularization is applied to the cross correlation matrix of the projected output of the two branches, which in general favours scenarios where the two branches produces similar summary statistics. In VIbCReg the covariance term is applied on each branch separately, which works better in scenarios where the branches are different \cite{bardes2022vicreg}.
 
 \subsection{Barlow Twins}
 
 Barlow Twins is a non-contrastive SSL method that applies the \textit{redundancy-reduction principle}\cite{Barlow_origin} from neuroscientist H. Barlow to a pair of identical networks. The key idea is to encourage representations of similar samples to be alike while reducing redundancy between the components of the vectors.\newline
 
-The model produces two augmented views of each sample and projects their representations onto a feature space such that their cross-correlation is close to the identity matrix. This approach ensures that the representations are both invariant to distortions and decorrelated.\newline
+The model produces two augmented views of each sample and projects their representations onto a feature space such that their cross-correlation is close to the identity matrix. This approach enforces both distortion invariance and decorrelated features in the representations.\newline
 
 \begin{figure}[h]
     \includegraphics[scale=0.35]{BarlowTwins.png}
@@ -140,9 +138,7 @@ The model produces two augmented views of each sample and projects their represe
     \label{fig:BarlowTwins}
 \end{figure}
 
-The Barlow Twins algorithm, illustrated in Figure \ref{fig:BarlowTwins}, starts out by creating two augmented views for each datapoint in a batch $D$. These augmentations are sampled from a collection of augmentations $\mathcal{T}$. The batches of augmented views $T(D) = X$ and $T'(D) =X'$, are then passed through an encoder to give representations $Y$ and $Y'$, which are further projected to produce embeddings $Z$ and $Z'$. The embeddings are assumed to be mean centered across the batch dimension. \newline
-
-The loss function is calculated using the cross-correlation matrix $\C$ between $Z$ and $Z'$, measuring its deviation from the identity. The Barlow Twins loss is defined as
+The Barlow Twins algorithm, illustrated in Figure \ref{fig:BarlowTwins}, starts out by creating two augmented views for each datapoint in a batch $D$. These augmentations are sampled from a collection of augmentations $\mathcal{T}$. The batches of augmented views $T(D) = X$ and $T'(D) =X'$, are then passed through an encoder to give representations $Y$ and $Y'$, which are further projected to produce embeddings $Z$ and $Z'$. The embeddings are assumed to be mean centered across the batch dimension. The loss function is calculated using the cross-correlation matrix $\C$ between $Z$ and $Z'$, measuring its deviation from the identity. The Barlow Twins loss is defined as
 \begin{equation}
     \label{eq:BTLoss}
     \loss_{\text{BT}} = 
@@ -160,7 +156,7 @@ The \textit{invariance term} helps make the embeddings invariant to the distorti
 
 VIbCReg \cite{lee2024vibcreg} is a non-contrastive SSL model with a siamese architecture based on VICReg \cite{bardes2022vicreg}. It improves upon VICReg by incorporating better covariance regularization and IterNorm \cite{huang2019iterative}. A key difference from Barlow Twins is that variance/covariance regularization is applied to each branch individually.\newline
 
-As with Barlow Twins, a batch $D$ is augmented to create two views and passed through an encoder and projector. The embedding $Z$ and $Z'$ are \textit{whitened} \todo{define or elaborate on this} using IterNorm \cite{huang2019iterative}.\newline
+As with Barlow Twins, a batch $D$ is augmented to create two views and passed through an encoder and projector. The embedding $Z$ and $Z'$ are \textit{whitened} using IterNorm \cite{huang2019iterative}.\newline
 
 \begin{figure}[h]
     \includegraphics[scale=0.15]{VICReg_VIbCReg.png}
@@ -175,9 +171,7 @@ The similarity loss is defined as the mean square error between the two embeddin
 \begin{equation}
     s(Z,Z') = \frac{1}{B} \sum_{b=1}^B || Z_b-Z_b'||_2^2,
 \end{equation}
-which encourages the embeddings to be similar.\newline
-
-The FcE term, which encourages the variation across a batch to stay at a specified level $\gamma$, is defined as 
+which encourages the embeddings to be similar. The FcE term, which encourages the variation across a batch to stay at a specified level $\gamma$, is defined as 
 \begin{equation}
     v(Z) =  \frac{1}{F} \sum_{f=1}^F \max(0,\gamma - \sqrt{\text{Var}(Z_f)+\epsilon}),
 \end{equation}

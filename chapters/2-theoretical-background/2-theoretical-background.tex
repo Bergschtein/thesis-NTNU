@@ -665,7 +665,8 @@ The Inception Score (IS) was first introduced in \cite{salimans2016improved} as 
     {\text{IS}}(\theta) = \exp\left( \mathbb{E}(D_{\text{KL}}(p_\theta(y|\mathbf{x}) || p_\theta(y))) \right).
 \end{equation}
 
-In the context of time series, we use a fully convolutional network (FCN) trained on the UCR Archive \cite{TimeVQVAE} to obtain an estimate for $p(y|x)$. For a synthetic dataset $X_{\text{gen}} = \{x_{i,\text{gen}}\}_{i=1}^N$, the marginal label distribution is obtained by averaging across all the synthetic data as follows
+
+In practice one use a pretrained classifier as estimate for $p(y|x)$. For a synthetic dataset $X_{\text{gen}} = \{x_{i,\text{gen}}\}_{i=1}^N$, the marginal label distribution is obtained by averaging across all the synthetic data as follows
 
 \[
     p(y) = \frac{1}{N} \sum_{i=1}^N p(y |x_{i,\text{gen}}).
@@ -687,7 +688,7 @@ where $\Gamma(f,g)$ is the set of all \textit{couplings} of $f$ and $g$. For two
     d(\N(\mu,\Sigma),\N(\mu',\Sigma'))^2 = ||\mu-\mu'||_2^2 + \Tr \left( \Sigma + \Sigma' - 2(\Sigma\Sigma')^{\frac12}\right).
 \end{equation}
 
-In FID, the mean and covariance of the feature representations of real and generated samples are computed using a pre-trained model. They argue in \cite{heusel2018gans} that since the Gaussian distribution is the maximum entropy distribution over $\R^n$, for a given mean and covariance, it is a reasonable distribution to assume for the representations. But, despite its usefulness, FID has limitations, such as the Gaussian assumption not always holding true and the need for a large number of samples to estimate the covariance matrix reliably \cite{jayasumana2024rethinking}, \cite{chong2020effectively}.
+In FID, the mean and covariance of the feature representations of real and generated samples are computed using a pretrained model. They argue in \cite{heusel2018gans} that since the Gaussian distribution is the maximum entropy distribution over $\R^n$, for a given mean and covariance, it is a reasonable distribution to assume for the representations. But, despite its usefulness, FID has limitations, such as the Gaussian assumption not always holding true and the need for a large number of samples to estimate the covariance matrix reliably \cite{jayasumana2024rethinking, chong2020effectively}.
 
 \subsubsection{Classification Accuracy Score (CAS)}
 % \cite{smith2020conditional} report the CAS.
