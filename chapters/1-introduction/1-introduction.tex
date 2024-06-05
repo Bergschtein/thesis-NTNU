@@ -37,13 +37,12 @@ However, traditional statistical models often struggle to capture the intricate 
 
 Time series generation (TSG) is a task with applications across numerous fields. Whether it's generating synthetic data for training machine learning models, simulating realistic scenarios for predictive analytics, or augmenting limited datasets for robust analysis, the ability to generate plausible and diverse time series is highly valuable.\newline
 
-Unsupervised representation learning offers a promising avenue for enhancing time series generation, as it has for natural language and image data. By automatically discovering and extracting meaningful features from raw data, representation learning can assist the modeling of complex relationships and structures without the need for explicit supervision. This approach is particularly appealing for time series data, where the underlying patterns may be latent and not easily found through manual inspection. The ability to learn rich representations of time series data holds immense potential for advancing research and solving real-world problems.
-
+Unsupervised representation learning offers a promising path for enhancing time series generation, as it has for natural language and image data. By automatically discovering and extracting meaningful features from raw data, representation learning can assist the modeling of complex relationships and structures without the need for explicit supervision. This approach is particularly appealing for time series data, where the underlying patterns may be latent and not easily found through manual inspection. The ability to learn expressive representations of time series data holds immense potential for advancing research and solving real-world problems.
 
 
 \section{Research questions}
 
-Our research in this thesis revolves around the following four questions
+We aim to leverage non contrastive self-supervised learning, a subcategory of unsupervised learning, in order to enhance the expressiveness of the discrete latent representations in TimeVQVAE. Our research revolves around the following four questions:
 \begin{itemize}
 	\item[\textbf{RQ1:}] Will self a supervised learning approach enhance downstream classification, while simultaneously enable high quality reconstruction?
 	\item[\textbf{RQ2:}] How does different augmentations influence reconstruction quality and downstream classification accuracy? 
