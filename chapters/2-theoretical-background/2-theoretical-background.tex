@@ -305,20 +305,23 @@ In an $N$-layered network $f = f_N\circ ...\circ f_1$, the intermediate value of
     \item Evaluate the new model on the downstream task. 
 \end{itemize}
 
-The standard evaluation protocol involves training a linear head $g_D$ on top of the \textit{frozen} representations in a supervised manner and evaluate this model's performance. This means training $f_D = g_D\circ \widehat{h}$ by only updating the parameters of the linear layer $g_D$, and evaluate $\widehat{f}_D$ on a test set. This protocol is sometimes referred to as \textit{linear probing}. A common downstream task is classification, where the idea is that good and informative representations should differentiate data in such a way that it is easy to separate them. \newline
 
-An alternative protocol, similar to the one above, allows all parameters of $f_D$ to be learnable on the downstream task. This protocol is referred to as a pretraining-finetuning. In this approach, the model typically is pretrained on a large, potentially unlabeled dataset, and then fine-tuned on a smaller, labeled dataset specific to the downstream task. \newline
+\begin{figure}[h]
+    \includegraphics[scale=0.3]{RepLearning.pdf}
+    \centering    
+    \caption{Illustration of representation learning protocols. Figure inspired by \cite{nozawa2022empirical}.}
+    \label{fig:rep_protocol}
+\end{figure}
+
+
+As illustrated in Figure \ref{fig:rep_protocol}, the standard evaluation protocol involves training a linear head $g_D$ on top of the \textit{frozen} representations in a supervised manner and evaluate this model's performance. This means training $f_D = g_D\circ \widehat{h}$ by only updating the parameters of the linear layer $g_D$, and evaluate $\widehat{f}_D$ on a test set. This protocol is sometimes referred to as \textit{linear probing}. A common downstream task is classification, where the idea is that good and informative representations should differentiate data in such a way that it is easy to separate them. \newline
+
+An alternative protocol, similar to the one above, allows all parameters of $f_D$ to be learnable on the downstream task. This protocol is referred to as pretraining-finetuning. In this approach, the model typically is pretrained on a large, potentially unlabeled dataset, and then fine-tuned on a smaller, labeled dataset specific to the downstream task. \newline
 
 Evaluating $f_D$ involves assessing accuracy on the downstream task, training time, and the sensitivity of these metrics to the training data size. The baseline comparison is typically an identical but randomly initialized model. It is highly advantageous if one can pretrain a feature extractor using abundant, cheap data, ensuring faster convergence on a downstream task where data is expensive or scarce.\newline
 
 It is worth mentioning that in cases where the sole goal is to create the best-performing model, a more complex task-specific head $g_D$ is often used. For a comprehensive survey on representation learning, see\cite{nozawa2022empirical}.
 
-
-\begin{figure}[h]
-    \includegraphics[scale=0.5]{rep_learnin_protocol.png}
-    \centering    
-    \caption{Taken from \cite{nozawa2022empirical}}
-\end{figure}
 
 
 \section{Transformers}
@@ -424,8 +427,14 @@ For a dataset $X = \{x_i\}_{i=1}^N$ with \textit{pseudo labels} $P = \{p_i\}_{i=
 Pseudo labels are automatically generated labels from the data. In \textit{siamese} architectures, these pseudo labels are typically augmentations of the original data. SSL has become an integral part of pretraining large models, enabling them to learn from vast amounts of unlabeled data. Pretraining with SSL allows models to capture the semantics of data without the need for extensive labeled datasets, significantly reducing the resources required for subsequent supervised training.
 
 \subsection{Siamese Architecture-based SSL }
-A siamese network architecture \cite{siamese} consists of two branches with a shared encoder on each branch. These networks are trained to produce similar representations for different views of the same data. A major challenge in this architecture is avoiding trivial solutions, where the networks ignore the input and produce identical constant embeddings, a problem known as \textit{collapse}.\newline
-\TODO{Figure of siamese}
+A siamese network architecture \cite{siamese} consists of two branches with a shared encoder on each branch, as illustrated in Figure \ref{fig:siamese}. These networks are trained to produce similar representations for different views of the same data. A major challenge in this architecture is avoiding trivial solutions, where the networks ignore the input and produce identical constant embeddings, a problem known as \textit{collapse}.\newline
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.5]{Siamese.pdf}
+    \caption{Schematics of a basic siamese architecture.}
+    \label{fig:siamese}
+\end{figure}
 
 In computer vision, several representation learning algorithms utilizing siamese architectures have been proposed. These can be broadly categorized into \textit{contrastive} and \textit{non-contrastive} SSL methods.\newline
 
