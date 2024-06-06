@@ -653,8 +653,8 @@ Addressing research question 3, we conclude that the expressive representations 
 
 Regarding research question 4, we observe that the generative performance is less sensitive to the choice of augmentations compared to the downstream classification accuracy observed in stage 1. Nonetheless, Gaussian noise consistently yields the least variability in performance compared to the baseline, outperforming the naive VQVAE consistently in terms of IS, FID, and CAS metrics.
 
-\section{Ablation}
-During the development of our model, we investigated the effect of the augmentation reconstruction weight, $\zeta$, both on validation reconstruction and downstream classification. This experiment was carried out on a small scale, focusing on two sets of augmentations: Window Warp and Amplitude Resize, and Slice and Shuffle. We conducted our experiment on a subset of the UCR Archive consisting of FordA, ShapesAll, TwoPatterns and UWaveGestureLibraryAll. The tokenization model underwent training for 250 epochs, with all other parameters maintained as in the main experiment setup. We explored the effect of $\zeta$ across a range of values, specifically $\zeta \in {0.05, 0.10, 0.15, 0.20}$. TThe influence on reconstruction is visualized in Figure \ref{fig:aug_recons_val_recons}, while the impact on KNN and SVM accuracy is presented in Figure \ref{fig:aug_recons_KNN} and \ref{fig:aug_recons_SVM}, respectively.\newline
+\section{Ablation Study}
+During the development of our model, we investigated the effect of the augmentation reconstruction weight, $\zeta$, both on validation reconstruction and downstream classification. This experiment was carried out on a small scale, focusing on two sets of augmentations: Window Warp and Amplitude Resize, and Slice and Shuffle. We conducted our experiment on a subset of the UCR Archive consisting of FordA, ShapesAll, TwoPatterns and UWaveGestureLibraryAll. The tokenization model underwent training for 250 epochs, with all other parameters maintained as in the main experiment setup. We explored the effect of $\zeta$ across a range of values, specifically $\zeta \in \{0.05, 0.10, 0.15, 0.20\}$. TThe influence on reconstruction is visualized in Figure \ref{fig:aug_recons_val_recons}, while the impact on KNN and SVM accuracy is presented in Figure \ref{fig:aug_recons_KNN} and \ref{fig:aug_recons_SVM}, respectively.\newline
 
 
 
@@ -721,12 +721,11 @@ Observing Figure  \ref{fig:aug_recons_val_recons}, we note that the reconstructi
 Examining Figure \ref{fig:aug_recons_KNN} and \ref{fig:aug_recons_SVM}, we observe that augmentation reconstruction weight affects KNN to a larger degree than SVM, indicating that the weight introduces differences in local structure of the discrete latent space, while the global structure is less affected. Furthermore, it's evident that VIbCReg consistently produces high probe accuracies and demonstrates greater robustness compared to Barlow Twins across different augmentation reconstruction weights.
 
 \section{Discussion}
-\TODO{Discuss limitations and difficulty in assessing generative models}
-The difficulty in visually assessing generative performance for datasets with complicated distributions is still highly relevant, and 
-
+% \TODO{Discuss limitations and difficulty in assessing generative models}
+% The difficulty in visually assessing generative performance for datasets with complicated distributions is still highly relevant, and 
 
 \subsection*{The role of augmentations}
-We observe that both probe accuracies and generative scores are highly dependent on the particular choice of augmentations. The probe accuracies are generally better when augmentation are clearly different from the original view, as for warp and slice, while the generative scores has a tendency to follow the opposite pattern, though not as clearly. Additionally, we have observed that the optimal choice of augmentations is highly dataset dependent, an further systematic analysis of different augmentations on specific datasets are needed to understand the dynamics better.
+We observe that both probe accuracies and generative scores are dependent on the particular choice of augmentations. The probe accuracies are generally better when augmentation are clearly different from the original view, as for warp and slice, while the generative scores has a tendency to follow the opposite pattern, though not as clearly. Additionally, we have observed that the optimal choice of augmentations is highly dataset dependent, and a systematic analysis of different augmentations on specific datasets is needed to understand the dynamics better.
 
 \subsection*{Differences in Barlow Twins and VIbCReg}
 
@@ -746,6 +745,27 @@ We have observed on multiple occasions that when the sample size is small and th
 The  gaussian augmentation introduces HF component, though its influence in the time domain is visually clear, its affect on the spectrograms is minor, as the LF components typically has much larger magnitude. Window Warp and Amplitude Resize changes LF, often changing the exact location of dominant frequencies on the time axis, but not their order. The effect of Slice and Shuffle is variable, but has a tendency to create sharp discontinuities, which in many cases is a significant HF component.\newline
 
 We assessed and chose our different sets of augmentations based on their effect on the temporal representation on the time series. As we model the time frequency domain, future work should more thoroughly investigate the effects of augmentation on spectrograms. Additionally, all models considered compress the input only along temporal axis in the encoder, which in a sens puts more emphasis in the frequency components rather than the exact temporal structure. 
+
+\subsubsection{Training Time and Model Size}
+The addition of the self-supervised loss in NC-VQVAE comes at a cost in terms of model size, and consequently training time. The added complexity is a result of the high dimensionality of the projector used in both Barlow Twins and VIbCReg. As the projector is discarded after stage 1, the increased complexity only affect training of the tokenization model. Examining Figure \ref{fig:comp}, we observe a significant increase in training time and trainable parameters. The different nodes in the Idun cluster vary greatly in computational resources, which to some degree explain the outliers. \newline 
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{training_time.pdf}
+        \caption{Training time distributions for Stage 1.}
+        \label{fig:l}
+    \end{subfigure}
+    \hspace{0.05\textwidth} % Adjust the horizontal space between columns
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{numparam.png}
+        \caption{Number of parameters in Stage 1 for models trained on Wafer.}
+        \label{fig:parm}
+    \end{subfigure}
+    \caption{Overview of training time and model size for Stage 1.}
+    \label{fig:comp}
+\end{figure}
+
 
 
 \end{document}

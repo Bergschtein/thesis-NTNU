@@ -22,7 +22,7 @@ To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using bot
 
 \subsection{Implementation details}
 
-In our implementation, we closely follow to the methodology outlined in \cite{TimeVQVAE}, particularly in the design and deployment of the encoder, decoder, and codebook.
+In our implementation, we closely follow to the methodology outlined in \cite{TimeVQVAE}, particularly in the design and deployment of the encoder, decoder, and codebook. The code base for the project is found at \url{https://github.com/erlendlokna/Generative-SSL-VQVAE-modelling}
 
 \subsubsection{Time Frequency Modelling}
 We utilize the Short Time Fourier Transform (STFT) and its inverse (ISTFT) for time-frequency modeling, using the functions \texttt{torch.stft} and \texttt{torch.istft}, respectively. Consistent with \cite{TimeVQVAE}, we set the primary parameter $\texttt{n}_{\texttt{fft}}$ to 8 and use default parameters for others. This configuration yields a frequency axis spanning $[1, 2, 3, 4, 5]$ and a time axis half the length of the original.
@@ -31,11 +31,13 @@ We utilize the Short Time Fourier Transform (STFT) and its inverse (ISTFT) for t
 
 The encoder and decoder architectures closely resemble those described in \cite{nadavbh12}, with further adaptations from \cite{TimeVQVAE}.\newline
 
-As illustrated in Figure \ref{fig:VQVAE Encoder}, the encoder consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). Downsampling convolutional layers are implemented with parameters: \texttt{kernel size=(3,4)}, \texttt{stride=(1,2)}, \texttt{padding=(1,1)}, downsampling the temporal axis by a factor of 2 per block. Residual convolutional layers have parameters: \texttt{kernel size=(3,3)},\texttt{stride=(1,1)}, \texttt{padding=(1,1)}. The decoder mirrors this architecture, featuring $m$ residual and $n$ upsampling layers using transposed convolutional blocks with identical parameters.\newline
+As illustrated in Figure \ref{fig:VQVAE Encoder}, the encoder consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). Downsampling convolutional layers are implemented with parameters: 
+\[\texttt{kernel size=(3,4)}, \texttt{stride=(1,2)}, \texttt{padding=(1,1)},\] downsampling the temporal axis by a factor of 2 per block. Residual convolutional layers have parameters: 
+\[\texttt{kernel size=(3,3)},\texttt{stride=(1,1)}, \texttt{padding=(1,1)}.\]
+The decoder mirrors this architecture, featuring $m$ residual and $n$ upsampling layers using transposed convolutional blocks with identical parameters.\newline
 
 The downsampling rate is determined by $2^n$, ensuring the resulting latent representation ($z$) has a width of 32. While we set the number of residual blocks $m = 4$. For an in depth walkthrough of the TimeVQVAE implementation details, we direct readers to Appendix C.3 of \cite{TimeVQVAE}.\newline
 
-The augmentation reconstruction weight $\zeta$ in NC-VQVAE is set to $0.1$.  
 
 \begin{figure}[h]
     
@@ -46,8 +48,7 @@ The augmentation reconstruction weight $\zeta$ in NC-VQVAE is set to $0.1$.
 \end{figure}
 
 \subsubsection{VQ}
-% Implementation from lucidrains/vector-quantize-pytorch.
-%  https://github.com/lucidrains/vector-quantize-pytorch \newline
+
 We adopt a codebook size of 32 and a dimension of 64, utilizing exponential moving average with a decay of 0.9 and a commitment loss weight $\beta = 1$.
 
 \subsubsection{SSL}
@@ -85,7 +86,6 @@ slice and shuffle:
     \label{fig:ElectricDevices_SliceAndShuffel}
 \end{figure}
 
-
 \textbf{Gaussian noise} adds a nose $\epsilon \sim N(0,0.05)$ to each datapoint in the time series. This introduces, in many cases, a substantial high frequency component as seen in Figure \ref{fig:StarLight_Gaussian}. As the naive VQVAE described in \cite{TimeVQVAE} had trouble with reconstruction of HF components, this augmentation could provide more emphasis on these. The reconstruction of the augmented views can too provide more information regarding HF components for the decoder. Of the three augmentations, gaussian noise provides the most predictable augmented views from a numerical standpoint, which might result in a SSL loss which is easier to minimize. In many cases we will refer to this augmentation simply as Gaussian or gauss.
 \begin{figure}[h]
     \includegraphics[scale = 0.3]{StarLight_Gaussian.png}
@@ -94,13 +94,20 @@ slice and shuffle:
     \label{fig:StarLight_Gaussian}
 \end{figure}
 
+For the reconstruction loss on the augmented brach we set the weight $\zeta$ to $0.1$.  
 
 \subsubsection{Prior learning}
 We adopt the implementation from \cite{chang2022maskgit}. In the iterative decoding algorithm, the number of iterations $T$ is set to 10, and use cosine as mask scheduling function ($\gamma$). 
 
-\subsubsection{Optimizer}
-We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.
+\subsubsection{Training}
+We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.\newline
 
+Experiments were run on the Idun HPC cluster \cite{Idun}, using several compute nodes. The total training time of all 728 models was approximately 700 hours. 
+
+
+\subsubsection{Total number of parameters}
+
+NC-VQVAE: 
 
 \subsection{Evaluation}
 For downstream classification, K-nearest neighbors (KNN) and Support Vector Machines (SVM) are implemented using scikit-learn, with $K=5$ for KNN and a linear kernel for SVM. \newline
@@ -108,10 +115,11 @@ For downstream classification, K-nearest neighbors (KNN) and Support Vector Mach
 SupervisedFCN is employed for calculating Inception Score (IS), Fréchet Inception Distance (FID), and Classification Accuracy Score (CAS). See Appendix B and C.2 of \cite{VQVAE} for detailed information.
 
 
+
 \section{UCR Time Series Classification Archive}
 The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
-The subset selected for our experiments is presented in Table \ref{tab:UCRsubset}.
+
 
 \begin{table}[h]
     \centering
@@ -138,7 +146,7 @@ The subset selected for our experiments is presented in Table \ref{tab:UCRsubset
     \label{tab:UCRsubset}
     \end{table}
 
-We choose to test on a subset, rather than on the entire UCR Archive, due to computational limitations as well as to more thoroughly investigate the effect of our models and the role of augmentations. The subset is chosen such that they span a wide range of train set sizes, lengths, classes and type, while the class distributions have visually different characteristics which can be seen from table \ref{tab:UCRsubset} and figure \ref{fig:datasets}. 
+The subset selected for our experiments is presented in Table \ref{tab:UCRsubset}. We choose to test on a subset, rather than on the entire UCR Archive, due to computational limitations as well as to more thoroughly investigate the effect of our models and the role of augmentations. The subset is chosen such that they span a wide range of train set sizes, lengths, classes and type, while the class distributions have visually different characteristics which can be seen from table \ref{tab:UCRsubset} and figure \ref{fig:datasets}.
 
 \begin{figure}[h]
     \centering

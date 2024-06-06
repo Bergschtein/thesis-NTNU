@@ -115,7 +115,6 @@ If the dataset $X$ is large, gradient calculations can be expensive. In such cas
 \caption{Stochastic Gradient Descent (SDG)}
 \label{alg:SDG}
 \end{algorithm}
-\TODO{Mini batch SDG}
 
 For the actual gradient computations, the backpropagation algorithm is used. It provides an efficient way of computing gradients in neural networks by leveraging their compositional structure. Essentially, backpropagation is an efficient application of the Leibniz chain rule for differentiation.\newline
 
@@ -125,30 +124,29 @@ For a thorough introduction to the subject of neural networks and their training
 % This section draw inspiration on the presentation of convolutional networks in chapter 9 of \cite{deeplearningbook}.\newline
 \section{Convolutional Neural Network}
 
-A convolutional neural network (CNN) is a specialized type of neural network designed to learn local features in data through the mathematical operation of convolution. Essentially, a CNN replaces matrix multiplication with convolution in at least one of its layers \cite{deeplearningbook}. \newline
+A convolutional neural network (CNN) is a specialized type of neural network designed to learn local features in data through the mathematical operation of convolution. Essentially, a CNN is a neural network which replaces matrix multiplication with convolution in at least one of its layers \cite{deeplearningbook}. \newline
 
-Fully connected neural networks face significant challenges when dealing with high-dimensional input data, such as images, due to their rapidly increasing computational complexity. CNNs address this issue by employing downsampling techniques and leveraging the convolution operation to reduce the dimensionality and complexity of the data. Which makes CNNs particularly well-suited for tasks involving high-dimensional data.\newline
+Fully connected neural networks face challenges when dealing with high-dimensional input data, such as images, due to their rapidly increasing computational complexity. CNNs address this issue by employing downsampling techniques and leveraging the convolution operation to reduce the dimensionality and complexity of the data. Which makes CNNs particularly well-suited for tasks involving high-dimensional data.\newline
 
-The concept of CNNs is inspired by the structure and function of the visual cortex in mammals. In the 1960s, Hubel and Wiesel discovered the visual processing capabilities of the cortex \cite{https://doi.org/10.1113/jphysiol.1968.sp008455}, leading to the development of the neocognitron in 1980 \cite{6313076}, which is considered the precursor to modern CNNs. In 1989, Yann LeCun and his team introduced a contemporary framework for CNNs and showcased its effectiveness in handwritten digit recognition \cite{LeCun1989ConvNet}. Since then, CNNs have become a cornerstone of machine learning. For an in-depth exploration of the advancements and applications of convolutional neural networks, refer to \cite{gu2017recent}.
+The core idea of convolutional neural networks is inspired by the structure and function of the visual cortex in mammals. In the 1960s, Hubel and Wiesel discovered the visual processing capabilities of the cortex \cite{https://doi.org/10.1113/jphysiol.1968.sp008455}, leading to the development of the neocognitron in 1980 \cite{6313076}, which is considered the precursor to modern CNNs. In 1989, Yann LeCun and his team introduced a contemporary framework for CNNs and showcased its effectiveness in handwritten digit recognition \cite{LeCun1989ConvNet}. Since then, CNNs have become a cornerstone of machine learning. For an in-depth exploration of the advancements and applications of convolutional neural networks, refer to \cite{gu2017recent}.
 
 \subsection{The convolution operation}
 
-The convolution operation is a fundamental mathematical concept with wide-ranging applications, particularly in the context of neural networks. It generalizes the notion of a moving weighted average and is deeply connected to the Fourier transform.\newline
+The convolution operation is a fundamental mathematical concept with wide-ranging applications, particularly in the context of neural networks. It generalizes the notion of a weighted moving average and has deep connections to the Fourier transform.\newline
 
 For real-valued functions $f$ and $g$, their convolution is defined as
 \begin{equation}
     (f*g)(t) = \int_{-\infty}^{\infty} f(\tau)g(t-\tau) d\tau.
 \end{equation}
 
-While the detailed mathematical criteria for the existence of this integral are outside the scope of this thesis, it suffices to note that if $f$ and $g$ are integrable (in the Riemann or Lebesgue sense) then the convolution is well-defined. Generally, the convolution of $f$ and $g$ is as smooth as the smoothest of $f$ and $g$. Additionally, convolution is commutative, meaning $f*g = g*f$, which can be shown by a simple change of variables. \newline
-
+While the detailed mathematical criteria for the existence of this integral is outside the scope of this thesis, it suffices to note that if $f$ and $g$ are integrable (in the Riemann or Lebesgue sense) then the convolution is well-defined. Generally, the convolution of $f$ and $g$ is as smooth as the smoothest of $f$ and $g$. Additionally, convolution is commutative, meaning $f*g = g*f$, which can be shown by a simple change of variables. \newline
 
 In the context of convolutional neural networks, the function $g$ is referred to as the \textit{kernel}, and it consists of learnable parameters. The function $f$ is the input, and the result of the convolution is called the \textit{feature map} \cite{deeplearningbook}. Since machine learning typically involves discrete signals represented as multidimensional arrays, we use a discrete version of the convolution operation. For a discrete input $I$ and kernel $K$, their convolution is defined as
 
 \begin{equation}
     (I*K)[n] = \sum_{m=-\infty}^{\infty} I[m]K[n-m].
 \end{equation}
-In practice $I$ and $K$ usually have finite support, meaning they are zero beyond a certain range, which avoids any convergence issues.\newline
+In practice $I$ and $K$ have finite support, meaning they are zero beyond a certain range, which avoids any convergence issues.\newline
 
 Convolutions can be naturally extended to higher-dimensional functions. For a two-dimensional image $I$ and a kernel $K$, their convolution is calculated as 
 \begin{equation}

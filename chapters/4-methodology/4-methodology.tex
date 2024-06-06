@@ -17,21 +17,21 @@ The architecture of the tokenization model, shown in Figure \ref{fig:NCVQVAE}, c
 The SSL loss is calculated by concatenating the global average and max pool of both representations individually and passing the resulting vectors through the projector.\newline
 
 \begin{figure}[h]
-    \includegraphics[scale=0.27]{Siam-VQVAE.png}
+    \includegraphics[scale=0.35]{Siam-VQVAE.pdf}
     \centering  
-    \caption{Overview of proposed model. NC-VQVAE. Fix index on Z, add weight to arrow from ssl loss to total. fix argmin index thing.}
+    \caption{Overview of proposed model: NC-VQVAE.}
     \label{fig:NCVQVAE}
 \end{figure}
 
 \subsubsection{Loss}
 Our training objective mirrors the training objective from TimeVQVAE in equation \ref{eq:TimeVQVAE_loss}, without the frequency split. Our contribution is the addition of an SLL loss together with a reconstruction loss on the augmented branch.\newline
 
-To refresh the reader's memory, the VQ loss consists of a reconstruction loss and a codebook loss, which is the MSE of continuous and discrete latent representations, along with a commitment loss to prevent the codewords from diverging. In our setup, the codebook loss reduces to
+To refresh the reader's memory, the VQ loss consists of a reconstruction loss and a codebook loss, which is the Euclidean distance between continuous and discrete latent representations, along with a commitment loss to prevent the codewords from diverging. In our setup, the codebook loss reduces to
 \begin{equation}
     \label{eq:NCVQVAE_codebook}
     \begin{aligned}
-        \loss_\text{codebook} &= ||\sg[z_q] - z_q ||_2^2 \\
-                              &+ \beta||z_q - \sg[z_q]||_2^2,
+        \loss_\text{codebook} &= ||\sg[z] - z_q ||_2^2 \\
+                              &+ \beta||z - \sg[z_q]||_2^2,
     \end{aligned}
 \end{equation}
 and the reconstruction loss to
@@ -61,9 +61,14 @@ The total loss is given by
 \begin{equation}
     \loss_{NC-VQVAE} = \loss_{VQ} + \eta\loss_{\text{SSL}} + \zeta \loss_\text{recons}',
 \end{equation}
-where $\eta$ and $\zeta$ are hyperparameters influencing the importance of each term in the total training objective.
+where $\eta$ and $\zeta$ are hyperparameters influencing the importance of each term in the total training objective. An illustration of the effect of the different loss terms on the latent space during training is presented in Figure \ref{fig:NCVQVAE_losses}. 
 
-\TODO{FIgure of how the different losses push latents}
+\begin{figure}
+    \centering
+    \includegraphics[scale = 0.7]{NCVQVAE_losses.pdf}
+    \caption{Illustration of the effect of different loss terms during training.}
+    \label{fig:NCVQVAE_losses}
+\end{figure}
 
 \subsection{Stage 2: Prior learning}
 
