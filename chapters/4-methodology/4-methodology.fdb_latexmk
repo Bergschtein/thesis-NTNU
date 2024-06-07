@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber chapters/4-methodology/4-methodology"] 0 "chapters/4-methodology/4-methodology.bcf" "chapters/4-methodology/4-methodology.bbl" "chapters/4-methodology/4-methodology" 1717671178
+["biber chapters/4-methodology/4-methodology"] 0 "chapters/4-methodology/4-methodology.bcf" "chapters/4-methodology/4-methodology.bbl" "chapters/4-methodology/4-methodology" 1717752811
   "chapters/4-methodology/4-methodology.bcf" 0 -1 0 "pdflatex"
   (generated)
-  "chapters/4-methodology/4-methodology.blg"
   "chapters/4-methodology/4-methodology.bbl"
-["pdflatex"] 1717671173 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.pdf" "4-methodology" 1717671178
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.aux" 1717671173 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.tex" 1717671173 6727 aeb59435cb228557adcdd27aad635669 ""
+  "chapters/4-methodology/4-methodology.blg"
+["pdflatex"] 1717752807 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.pdf" "4-methodology" 1717752811
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.aux" 1717752807 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.tex" 1717752807 6634 94798348fb83d2708bab866acdfdec69 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc" 1276641224 6938 5135be6a8802f13a7faf296d1959a1ab ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm" 1136768653 3584 929cdff2b7a8c11bd4d49fd68cb0ae70 ""
@@ -298,18 +298,18 @@
   "chapters/4-methodology/4-methodology.aux" 0 -1 0 "pdflatex"
   "chapters/4-methodology/4-methodology.bbl" 1703246952 466 f7f239c736cf01ac6ce7bd829f9b3c7b "biber chapters/4-methodology/4-methodology"
   "chapters/4-methodology/4-methodology.out" 0 -1 0 "pdflatex"
-  "chapters/4-methodology/4-methodology.run.xml" 1717671177 2464 413ba466c4238584081d25f40b712b34 "pdflatex"
-  "chapters/4-methodology/4-methodology.tex" 1717671173 6727 aeb59435cb228557adcdd27aad635669 ""
+  "chapters/4-methodology/4-methodology.run.xml" 1717752811 2464 413ba466c4238584081d25f40b712b34 "pdflatex"
+  "chapters/4-methodology/4-methodology.tex" 1717752807 6634 94798348fb83d2708bab866acdfdec69 ""
   "figures//NCVQVAE_losses.pdf" 1717669274 61087 9175700ff0ef0af63e06359f12b9e9b2 ""
   "figures//Siam-VQVAE.pdf" 1717670992 404166 7c62280b7049c27ac67ff16c5be6375c ""
   "ntnuthesis.cls" 1693220167 11751 64fa3abf1f4a97cc88859996175f2d9f ""
   "preamble.tex" 1716557615 1089 41f6110463251b1e633cee557d68d868 ""
   (generated)
   "chapters/4-methodology/4-methodology.bcf"
-  "chapters/4-methodology/4-methodology.out"
-  "chapters/4-methodology/4-methodology.pdf"
+  "chapters/4-methodology/4-methodology.log"
   "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.pdf"
   "chapters/4-methodology/4-methodology.run.xml"
   "chapters/4-methodology/4-methodology.aux"
+  "chapters/4-methodology/4-methodology.out"
   "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/4-methodology/4-methodology.log"
-  "chapters/4-methodology/4-methodology.log"
+  "chapters/4-methodology/4-methodology.pdf"

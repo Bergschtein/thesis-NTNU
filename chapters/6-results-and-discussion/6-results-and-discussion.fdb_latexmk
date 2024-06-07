@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber chapters/6-results-and-discussion/6-results-and-discussion"] 0 "chapters/6-results-and-discussion/6-results-and-discussion.bcf" "chapters/6-results-and-discussion/6-results-and-discussion.bbl" "chapters/6-results-and-discussion/6-results-and-discussion" 1717682472
+["biber chapters/6-results-and-discussion/6-results-and-discussion"] 0 "chapters/6-results-and-discussion/6-results-and-discussion.bcf" "chapters/6-results-and-discussion/6-results-and-discussion.bbl" "chapters/6-results-and-discussion/6-results-and-discussion" 1717758485
   "chapters/6-results-and-discussion/6-results-and-discussion.bcf" 0 -1 0 "pdflatex"
   (generated)
   "chapters/6-results-and-discussion/6-results-and-discussion.blg"
   "chapters/6-results-and-discussion/6-results-and-discussion.bbl"
-["pdflatex"] 1717682463 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.pdf" "6-results-and-discussion" 1717682472
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.aux" 1717682463 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex" 1717682183 61983 ec97d695d97918bd2063e99554396f3a ""
+["pdflatex"] 1717758477 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.pdf" "6-results-and-discussion" 1717758485
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.aux" 1717758477 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.tex" 1717758476 61922 40007c59ac923e1eb03c2b9a6aa3d5b2 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc" 1276641224 6938 5135be6a8802f13a7faf296d1959a1ab ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm" 1136768653 3584 929cdff2b7a8c11bd4d49fd68cb0ae70 ""
@@ -293,8 +293,8 @@
   "chapters/6-results-and-discussion/6-results-and-discussion.aux" 0 -1 0 "pdflatex"
   "chapters/6-results-and-discussion/6-results-and-discussion.bbl" 1717594914 0 d41d8cd98f00b204e9800998ecf8427e "biber chapters/6-results-and-discussion/6-results-and-discussion"
   "chapters/6-results-and-discussion/6-results-and-discussion.out" 0 -1 0 "pdflatex"
-  "chapters/6-results-and-discussion/6-results-and-discussion.run.xml" 1717682471 2541 86105b0646dbd53d343d7e5dd2be1b10 "pdflatex"
-  "chapters/6-results-and-discussion/6-results-and-discussion.tex" 1717682183 61983 ec97d695d97918bd2063e99554396f3a ""
+  "chapters/6-results-and-discussion/6-results-and-discussion.run.xml" 1717758485 2541 86105b0646dbd53d343d7e5dd2be1b10 "pdflatex"
+  "chapters/6-results-and-discussion/6-results-and-discussion.tex" 1717758476 61922 40007c59ac923e1eb03c2b9a6aa3d5b2 ""
   "figures//BT_KNN_ReconsWeight.png" 1714847211 13024 6c4a58e29f392f76ea2d35d64973d12d ""
   "figures//BT_SVM_ReconsWeight_Slice.png" 1714847227 13249 96c24fc99fc324075f40d9862175be41 ""
   "figures//BT_Slice_FordA_TSNE.png" 1716997193 317161 58d794432e011c03ad495103d9d42ce1 ""
@@ -346,11 +346,11 @@
   "ntnuthesis.cls" 1693220167 11751 64fa3abf1f4a97cc88859996175f2d9f ""
   "preamble.tex" 1716557615 1089 41f6110463251b1e633cee557d68d868 ""
   (generated)
-  "chapters/6-results-and-discussion/6-results-and-discussion.log"
-  "chapters/6-results-and-discussion/6-results-and-discussion.bcf"
-  "chapters/6-results-and-discussion/6-results-and-discussion.out"
-  "chapters/6-results-and-discussion/6-results-and-discussion.run.xml"
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.log"
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.pdf"
   "chapters/6-results-and-discussion/6-results-and-discussion.aux"
+  "chapters/6-results-and-discussion/6-results-and-discussion.log"
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.log"
+  "chapters/6-results-and-discussion/6-results-and-discussion.out"
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/6-results-and-discussion/6-results-and-discussion.pdf"
+  "chapters/6-results-and-discussion/6-results-and-discussion.run.xml"
   "chapters/6-results-and-discussion/6-results-and-discussion.pdf"
+  "chapters/6-results-and-discussion/6-results-and-discussion.bcf"

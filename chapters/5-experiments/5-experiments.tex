@@ -2,22 +2,22 @@
 
 \begin{document}
 
-\section{Initial Experimentation and Model Development}
-\TODO{This section is under construction. Contemplating if i should even include it at all in some form.}
+% \section{Initial Experimentation and Model Development}
+% \TODO{This section is under construction. Contemplating if i should even include it at all in some form.}
 
-The overarching objective in creating our model is to learn more expressive latent representations for better time series generation. We want to keep the reconstruction capabilities of the tokenization model at a high level, where the rationality is that if the tokenization model reconstructs well the latent representations contains all relevant information of the input. We simultaneously want enforce better class separability in the latent representations, as we hypothesize that such additional structure eases/improved learning of the generative model.\newline
+% The overarching objective in creating our model is to learn more expressive latent representations for better time series generation. We want to keep the reconstruction capabilities of the tokenization model at a high level, where the rationality is that if the tokenization model reconstructs well the latent representations contains all relevant information of the input. We simultaneously want enforce better class separability in the latent representations, as we hypothesize that such additional structure eases/improved learning of the generative model.\newline
 
-During development we encountered several problems:\newline
-When we attempted a siamese architecture, with quantization in the augmented branch, and to derive the SSL loss from the discrete representations there were a correlation problem. The codewords were very highly correlated, which resulted from the passing both views through the VQ.  $SSL(z_q,z_q')$ \newline
-In an attempt to solve this we attempted to derive the SSL loss from the continuous latent representations, but the resulting discrete latent representations performed poorly on the downstream classification task. Separability problem: $SSL(z,z')$ \newline
-The solution was to remove the VQ in the augmented branch and rather derive the SSL loss from $z_q$ and $z'$. Solution: $SSL(z_q,z')$ \newline
+% During development we encountered several problems:\newline
+% When we attempted a siamese architecture, with quantization in the augmented branch, and to derive the SSL loss from the discrete representations there were a correlation problem. The codewords were very highly correlated, which resulted from the passing both views through the VQ.  $SSL(z_q,z_q')$ \newline
+% In an attempt to solve this we attempted to derive the SSL loss from the continuous latent representations, but the resulting discrete latent representations performed poorly on the downstream classification task. Separability problem: $SSL(z,z')$ \newline
+% The solution was to remove the VQ in the augmented branch and rather derive the SSL loss from $z_q$ and $z'$. Solution: $SSL(z_q,z')$ \newline
 
-Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \newline
+% Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \newline
 
 \section{Main Experiments}
 \TODO{This section i need som assistance with. Find it difficult to write anything smart.}
 
-To evaluate our model, NC-VQVAE, we compare it against the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning methods. For each SSL method, we train three distinct models using different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage.
+To evaluate our model NC-VQVAE and address the research questions, we compare it to the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning methods. Additionally, as we are interested in the effect of augmentations on representation learning, for each SSL method we train three distinct models using different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage. All experiments were run on the Idun HPC cluster \cite{Idun}, using several compute nodes. The total training time of all 728 models was approximately 700 hours. 
 
 
 \subsection{Implementation details}
@@ -31,21 +31,19 @@ We utilize the Short Time Fourier Transform (STFT) and its inverse (ISTFT) for t
 
 The encoder and decoder architectures closely resemble those described in \cite{nadavbh12}, with further adaptations from \cite{TimeVQVAE}.\newline
 
-As illustrated in Figure \ref{fig:VQVAE Encoder}, the encoder consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). Downsampling convolutional layers are implemented with parameters: 
-\[\texttt{kernel size=(3,4)}, \texttt{stride=(1,2)}, \texttt{padding=(1,1)},\] downsampling the temporal axis by a factor of 2 per block. Residual convolutional layers have parameters: 
-\[\texttt{kernel size=(3,3)},\texttt{stride=(1,1)}, \texttt{padding=(1,1)}.\]
-The decoder mirrors this architecture, featuring $m$ residual and $n$ upsampling layers using transposed convolutional blocks with identical parameters.\newline
-
-The downsampling rate is determined by $2^n$, ensuring the resulting latent representation ($z$) has a width of 32. While we set the number of residual blocks $m = 4$. For an in depth walkthrough of the TimeVQVAE implementation details, we direct readers to Appendix C.3 of \cite{TimeVQVAE}.\newline
-
-
 \begin{figure}[h]
-    
     \includegraphics[scale = 0.30]{VQVAE Encoder.png}
     \centering
     \caption{Overview of the encoder architecture. The decoder architecture is simply obtained by reversing the arrows and switching out the convolutional block for transposed convolutional blocks.}
     \label{fig:VQVAE Encoder}
 \end{figure}
+As illustrated in Figure \ref{fig:VQVAE Encoder}, the encoder consists of $n$ downsampling convolutional blocks (\texttt{Conv2d - BatchNorm2d - LeakyReLU}), followed by $m$ residual blocks (\texttt{LeakyReLU - Conv2d - BatchNorm2d - LeakyReLU - Conv2d}). Downsampling convolutional layers are implemented with parameters: 
+\[\texttt{kernel size=(3,4)}, \texttt{stride=(1,2)}, \texttt{padding=(1,1)},\] downsampling the temporal axis by a factor of 2 per block. Residual convolutional layers have parameters: 
+\[\texttt{kernel size=(3,3)},\texttt{stride=(1,1)}, \texttt{padding=(1,1)}.\]
+The decoder mirrors this architecture, featuring $m$ residual and $n$ upsampling layers using transposed convolutional blocks with identical parameters.\newline
+
+The downsampling rate is determined by $2^n$, ensuring the resulting latent representation ($z$) has a width of 32. While we set the number of residual blocks $m = 4$. For an in depth walkthrough of the TimeVQVAE implementation details, we direct readers to Appendix C.3 of \cite{TimeVQVAE}.
+
 
 \subsubsection{VQ}
 
@@ -57,10 +55,11 @@ We use identical projectors for both methods, consisting of 3 linear layers. The
 
 For Barlow Twins the weight of the redundancy reduction term, $\lambda$, is set to $0.005$. The weight of the Barlow Twins loss in the NC-VQVAE is set to $\eta = 1/D$ where $D$ is the projector output dimension.\newline
 
-For VIbCReg, the weights of the similarity loss, $\lambda$, and variance loss, $\mu$, are both set to 25, while for the covariance loss, $\nu$ is set to 100. The weight of the VIbCReg loss in the NC-VQVAE is set to $\eta = 0.01$.\newline
-
+For VIbCReg, the weights of the similarity loss, $\lambda$, and variance loss, $\mu$, are both set to 25, while for the covariance loss, $\nu$ is set to 100. The weight of the VIbCReg loss in the NC-VQVAE is set to $\eta = 0.01$.
 
 \subsubsection{Augmentations}
+For the reconstruction loss on the augmented brach we set the weight $\zeta$ to $0.1$. \newline 
+
 In our experiments we consider three sets of augmentations with different characteristics. They are
 \begin{itemize}
     \item Amplitude Resizing + Window Warp
@@ -78,7 +77,6 @@ In our experiments we consider three sets of augmentations with different charac
 \end{figure}
 
 \textbf{Slice and Shuffle} crops the time series into four randomly selected sections and permutes them. For datasets with sharp modularity and few peaks, such as ElectricDevices \ref{fig:datasets}, the augmentation provides a view with peaks occurring at timestamps not seen in the training data, which is illustrated in Figure \ref{fig:ElectricDevices_SliceAndShuffel}. This could improve the reconstruction on unseen data, as well as encouraging the model to focus more on the existence of a peak rather than its specific location. For some datasets such as FordA \ref{fig:datasets}, the semantics of the dataset is preserved under this augmentation, despite their continuous nature. In many cases we will refer to this augmentation simply as slice.\newline
-slice and shuffle:
 \begin{figure}[h]
     \includegraphics[scale = 0.3]{ElectricDevices_SliceAndShuffel.png}
     \centering
@@ -94,20 +92,14 @@ slice and shuffle:
     \label{fig:StarLight_Gaussian}
 \end{figure}
 
-For the reconstruction loss on the augmented brach we set the weight $\zeta$ to $0.1$.  
+
 
 \subsubsection{Prior learning}
 We adopt the implementation from \cite{chang2022maskgit}. In the iterative decoding algorithm, the number of iterations $T$ is set to 10, and use cosine as mask scheduling function ($\gamma$). 
 
 \subsubsection{Training}
-We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.\newline
+We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.
 
-Experiments were run on the Idun HPC cluster \cite{Idun}, using several compute nodes. The total training time of all 728 models was approximately 700 hours. 
-
-
-\subsubsection{Total number of parameters}
-
-NC-VQVAE: 
 
 \subsection{Evaluation}
 For downstream classification, K-nearest neighbors (KNN) and Support Vector Machines (SVM) are implemented using scikit-learn, with $K=5$ for KNN and a linear kernel for SVM. \newline
@@ -115,10 +107,8 @@ For downstream classification, K-nearest neighbors (KNN) and Support Vector Mach
 SupervisedFCN is employed for calculating Inception Score (IS), Fréchet Inception Distance (FID), and Classification Accuracy Score (CAS). See Appendix B and C.2 of \cite{VQVAE} for detailed information.
 
 
-
 \section{UCR Time Series Classification Archive}
-The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for time series classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
-
+The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
 
 \begin{table}[h]

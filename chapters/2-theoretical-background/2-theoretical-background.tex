@@ -1,9 +1,9 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-This thesis covers a lot of ground and the field of machine learning draws on many parts of mathematics, statistics and computational sciences. As much as the author would love deep diving into every aspect, certain sections are somewhat superficial. There are though, for the interested reader, a large number of sources going into greater detail referenced throughout. \newline
+This thesis covers a lot of ground. The field of machine learning draws on many parts of mathematics, statistics and computational sciences. As much as the author would love deep diving into every aspect, certain sections are somewhat superficial. There are though, for the interested reader, a large number of sources going into greater detail referenced throughout. \newline
 
-In this section we begin by introducing neural networks, and relevant architectures for our work, such as convolutional neural networks and transformers. We give an intruduction to representation learning, highlighting standard evaluation protocols, and give an introduction to self-supervised learning (SSL), with emphasis on siamese architecture-based SSL. We present the Vector Quantized Variational Autoencoder, trying to highlight aspects brushed over in \cite{VQVAE}, building it up from Autoencoders. Before finally we go through the evaluation metrics used to assess our models.
+In this section we begin by introducing neural networks, and relevant architectures for our work, such as convolutional neural networks and transformers. We give an introduction to representation learning, highlighting standard evaluation protocols, and give an introduction to self-supervised learning (SSL), with emphasis on siamese architecture-based SSL. We present the Vector Quantized Variational Autoencoder, trying to highlight aspects brushed over in \cite{VQVAE}, building it up from Autoencoders. Lastly we go through the evaluation metrics used to assess our models.
 
 % \section{Notation}
 
@@ -396,7 +396,6 @@ Bidirectional transformer models, such as BERT \cite{devlin2019bert}, utilize an
 \section{Self-Supervised learning}
 
 Self-supervised learning (SSL) has achieved great success in natural language processing (NLP) and computer vision in recent years and is rapidly being applied to other modalities. In our work, we leverage SSL for representation learning in the time series domain. Before diving into SSL, it is important to understand the broader context of machine learning, which can be coarsely divided into two categories: supervised and unsupervised learning.
-\newline
 
 \subsubsection*{Supervised Learning}
 
@@ -655,13 +654,13 @@ When evaluating the performance of representations, downstream classification ta
 
 \subsection{Generative Model Evaluation}
 
-Evaluating generative models remains a challenging task, as it requires assessing how well the generated samples match the real data distribution. While some data modalities have established evaluation standards, such as ImageNet and Inception v3 in the computer vision domain, others like time series lack widely accepted benchmarks.\newline
+Evaluating generative models remains a challenging task, as it requires assessing how well the generated samples match the real data distribution. While some data modalities have established evaluation standards, such as ImageNet and Inception v3 in the computer vision domain, others like time series lack widely accepted benchmark datasets and classification models.\newline
 
 The traditional sanity check for generative models is human visual inspection. However, this approach is subjective and varies significantly between data modalities. For example, while most people can easily judge the quality of generated images, interpreting generated time series data often requires domain-specific knowledge. This is one of the obstacles in TSG. Despite this, according to \cite{TimeVQVAE} the most common evaluation protocols in the TSG literature is PCA and t-SNE analyses to visually see similarities of distributions, complemented by quantitative metrics where possible.\newline
 
 Following the approach in \cite{TimeVQVAE}, we employ three primary evaluation metrics in this thesis: Inception Score (IS), Fréchet Inception Distance (FID), and Classification Accuracy Score (CAS).\newline
 
-All the mentioned evaluation metrics depend on a pre-trained classification model. Unlike computer vision, where models like Inception v3 are standard, there is no universally adopted classification model for time series data. However, \cite{wang2016time} proposed a fully convolutional network (FCN) as a baseline model for time series classification. Since the original model is not readily available, we utilize an open-source FCN trained on the UCR Archive, as presented in \cite{TimeVQVAE}, for our evaluations.
+All the mentioned evaluation metrics depend on a pre-trained classification model. In \cite{wang2016time} a fully convolutional network (FCN) was proposed as a baseline model for time series classification. Since the original model is not readily available, we utilize an open-source FCN trained on the UCR Archive, as presented in \cite{TimeVQVAE}, for our evaluations.
 
 \subsubsection{Inception Score (IS)}
 

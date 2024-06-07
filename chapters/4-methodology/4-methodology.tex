@@ -1,13 +1,13 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-Our work in this thesis builds upon the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. We simplify the model architecture by omitting the high-low frequency split, reducing the model to what they refer to as naive TimeVQVAE in their paper. We expand upon naive TimeVQVAE by integrating a self-supervised learning (SSL) extension. \newline
+Our work in this thesis, as mentioned earlier, builds upon the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. We simplify the model architecture by omitting the high-low frequency split, reducing the model to what they refer to as naive TimeVQVAE in their paper. We expand upon naive TimeVQVAE by integrating a self-supervised learning (SSL) extension. \newline
 
-A schematic figure of our proposed tokenization model is given in Figure \ref{fig:NCVQVAE}. To improve class separation, we introduce a non-contrastive self-supervised loss. The intuition is that the SSL loss pushes the representations of original and augmented views closer together, which should encode more semantic information into the latent representations. Additionally, we add a regularizing term by reconstructing augmented views. We hypothesize that this approach enables the model to generalize better to unseen data by allowing the decoder to "see" the augmented views.
+A schematic figure of our proposed tokenization model is given in Figure \ref{fig:NCVQVAE}. To encode semantic information into the discrete latent representation and improve class separation, we introduce a non-contrastive self-supervised loss. The intuition is that the SSL loss pushes the representations of original and augmented views closer together, which should structure the discrete latent space in such a way that data with similar characteristics inhabit distinct regions. Additionally, we add a regularizing term by reconstructing augmented views. We hypothesize that this approach enables the model to generalize better to unseen data by allowing the decoder to "see" the augmented views, as well as preventing the encoder from ignoring the augmentations.
 
 \section{Proposed model: NC-VQVAE}
 
-Our model, termed NC-VQVAE, is a generative time series model that learns expressive discrete latent representations by combining VQVAE \cite{VQVAE} with non-contrastive SSL algorithms. NC-VQVAE uses the two-stage modeling approach presented in \cite{TimeVQVAE} and can be considered an extension of their naive TimeVQVAE. Our model primarily extends the tokenization stage, incorporating Barlow Twins \cite{zbontar2021barlow} and VIbCReg \cite{lee2024computer} as our non-contrastive SSL methods, while the framework remains flexible. For the second stage, we model the prior using a bidirectional transformer similar to MaskGIT \cite{chang2022maskgit}.
+Our model, termed NC-VQVAE, is a generative time series model that learns expressive discrete latent representations by combining VQVAE with non-contrastive SSL algorithms. NC-VQVAE uses the two-stage modeling approach and can be considered an extension of their naive TimeVQVAE. Our model primarily extends the tokenization stage, incorporating Barlow Twins and VIbCReg as our non-contrastive SSL methods, while the framework remains flexible. For the second stage, we model the prior using a bidirectional transformer similar to MaskGIT.
 
 \subsection{Stage 1: Tokenization}
 \TODO{Pseudocode}
@@ -46,8 +46,8 @@ Our VQ loss is then given by
     \loss_\text{VQ} = \loss_\text{codebook} + \loss_\text{recons}.
 \end{equation}
 
-The SSL loss varies depending on the SSL method used. It is calculated on derived values from $z_q$ and $z'$. We consider Barlow Twins \ref{eq:BTLoss} and VIbCReg \ref{eq:VIbCRegLoss}, both of which utilizes a projector. We apply a global average and max pool operation on both tensors and pass them through the projector before calculating the SSL loss.\newline
-% The discrete latent representations from the original branch and the continuous latent representations from the augmented branch are pushed to similar regions of latent space.
+The SSL loss varies depending on the SSL method used. It is calculated on derived values from $z_q$ and $z'$. We consider Barlow Twins \ref{eq:BTLoss} and VIbCReg \ref{eq:VIbCRegLoss}, both of which utilize a projector. We apply a global average and max pool operation on both tensors and pass them through the projector before calculating the SSL loss.\newline
+
 
 The augmented reconstruction loss is simply given as 
 \begin{equation}
@@ -55,7 +55,7 @@ The augmented reconstruction loss is simply given as
         \loss_\text{recons}' = ||x' - \widehat{x}' ||_2^2 + ||u' - \widehat{u}'||_2^2.
 \end{equation}
 
-This loss ensures that the encoder and decoder reconstruct the augmented view, which, in conjunction with the SSL loss, influences the codebook to encode information regarding the augmentations. Additionally, it helps prevent the encoder from ignoring reconstruction in favor of the SSL loss. Initial tests showed that omitting the augmentation reconstruction led to severe overfitting.\newline
+This loss ensures that the encoder and decoder reconstruct the augmented view, which, in conjunction with the SSL loss, influences the codebook to encode information regarding the augmentations. Additionally, it helps prevent the encoder from ignoring reconstruction in favor of the SSL loss. Initial experiments showed that omitting the augmentation reconstruction led to severe overfitting.\newline
 
 The total loss is given by 
 \begin{equation}
@@ -72,7 +72,7 @@ where $\eta$ and $\zeta$ are hyperparameters influencing the importance of each 
 
 \subsection{Stage 2: Prior learning}
 
-In our model, the input embedding for the bidirectional transformer is initialized with the codebook, which has learned structure from both reconstruction and SSL loss. Instead of introducing an additional masking vector in the embedding matrix, we use the codebook directly and create a separate learnable masking vector to mask the embedded sequences. In order to separate this masking vector, we do the embedding stage before masking, effectively factoring the embedding out of the transformer. This approach ensures that the learning of the masked token embedding is independent of the other embeddings, further leveraging the learned codewords from stage 1 without unnecessary influence. Except for this adjustment, and the possibility of class conditional sampling from TimeVQVAE, our method is equivalent to MaskGITs.
+In our model, the input embedding for the bidirectional transformer is initialized with the codebook, which has additional structure from the SSL loss. Instead of introducing an additional masking vector in the embedding matrix, we use the codebook directly and create a separate learnable masking vector to mask the embedded sequences. In order to separate this masking vector, we do the embedding stage before masking, effectively factoring the embedding out of the transformer. This approach ensures that the learning of the masked token embedding is independent of the other embeddings, further leveraging the learned codewords from stage 1 without unnecessary influence. Except for this adjustment, and the possibility of class conditional sampling from TimeVQVAE, our method is equivalent to MaskGITs.
 \newline
 
 The process for generating samples at inference time follows the same iterative steps as MaskGIT, ensuring robust and high-quality sample generation.

@@ -2,9 +2,9 @@
 
 \begin{document}
 
-Our work involves building a framework that uses non-contrastive self-supervised learning (SSL) to improve representation learning in a Vector Quantized Variational Autoencoder (VQVAE) type model. Additionally, we fit a prior model on the learned representations. This section presents the works related to ours. To the best of our knowledge, enhancing VQ-based tokenization models with SSL methods has not yet been investigated in the time series domain. Therefore, the related works consist of models used as different components in our model.\newline
+Our work involves building a framework that leverage non-contrastive self-supervised learning (SSL) to improve representation learning in a Vector Quantized Variational Autoencoder (VQVAE) type model. Additionally, we fit a prior model on the learned representations. This section presents the works related to ours. To the best of our knowledge, enhancing VQ-based tokenization models with SSL methods has not yet been investigated in the time series domain. Therefore, the related works consist of models used as different components in our model.\newline
 
-We base our model on a simplified version of TimeVQVAE, which utilizes a bidirectional transformer model, MaskGIT, for prior learning. Although our non-contrastive SSL extension could use any model with a siamese architecture, we experiment with the proven methods Barlow Twins and VIbCReg.
+We base our model on a simplified version of TimeVQVAE, which utilize a bidirectional transformer model, MaskGIT, for prior learning. Although our non-contrastive SSL extension could use any model with a siamese architecture, we experiment with the proven methods Barlow Twins and VIbCReg.
 
 \section{MaskGIT}
 
@@ -92,7 +92,7 @@ The tokenization stage of TimeVQVAE follows a structure similar to VQVAE, with t
 
 \subsubsection{Loss}
 
-The codebook loss of TimeVQVAE is similar to the codebook loss presented in Section \ref{section:VQVAE}but reflects the HF-LF split
+The codebook loss of TimeVQVAE is similar to the codebook loss presented in Section \ref{section:VQVAE} but reflects the HF-LF split
 \begin{equation}
     \label{eq:TimeVQVAE_codebook}
     \begin{aligned}
@@ -102,7 +102,7 @@ The codebook loss of TimeVQVAE is similar to the codebook loss presented in Sect
                               &+ \beta||E_{HF}(\Pad_\HF(\STFT(x))) - \sg[z_q^{\HF}]||_2^2,
     \end{aligned}
 \end{equation}
-
+where $\Pad_{[\cdot]}$ denotes the zero-padding operation. 
 The reconstruction loss is computed both on time and time-frequency reconstructions and is given by
 \begin{equation}
     \label{eq:TimeVQVAE_recons}
@@ -127,7 +127,7 @@ Our model leverages self-supervised learning algorithms to learn more expressive
 
 \subsection{Barlow Twins}
 
-Barlow Twins is a non-contrastive SSL method that applies the \textit{redundancy-reduction principle}\cite{Barlow_origin} from neuroscientist H. Barlow to a pair of identical networks. The key idea is to encourage representations of similar samples to be alike while reducing redundancy between the components of the vectors.\newline
+Barlow Twins is a non-contrastive SSL method that applies the \textit{redundancy-reduction principle} \cite{Barlow_origin} from neuroscientist H. Barlow to a pair of identical networks. The key idea is to encourage representations of similar samples to be alike while reducing redundancy between the components of the vectors.\newline
 
 The model produces two augmented views of each sample and projects their representations onto a feature space such that their cross-correlation is close to the identity matrix. This approach enforces both distortion invariance and decorrelated features in the representations.\newline
 
@@ -199,7 +199,7 @@ The total loss is then given by
     \label{eq:VIbCRegLoss}
     \loss_\text{VIbCReg} = \lambda s(Z,Z') + \mu [v(Z) + v(Z')] + \nu[c(Z)+c(Z')]
 \end{equation}
-where $\lambda, \mu$ and $\nu$ are hyperparameters that determine the importance of each term. The normalization of the covariance matrix keeps the range of the FD loss small, independent of data, and eases hyperparameter tuning across datasets.
+where $\lambda, \mu$ and $\nu$ are hyperparameters that determine the importance of each term. The normalization of the covariance matrix keep the range of the FD loss small, independent of data, and eases hyperparameter tuning across datasets.
 
 % \begin{equation}
 %     C(Z) = \frac{1}{B-1} \left(\frac{Z-\bar{Z}}{||Z-\bar{Z}||_2}\right)^T\left(\frac{Z-\bar{Z}}{||Z-\bar{Z}||_2}\right) \text{ where }  \bar{Z} = \frac{1}{B}\sum_{b=1}^B  Z_b
