@@ -1,6 +1,8 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
+\TODO{Should i elaborate on anything? Feels a bit brief, but i am kinda stuck}
+
 Our work in this thesis, as mentioned earlier, builds upon the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. We simplify the model architecture by omitting the high-low frequency split, reducing the model to what they refer to as naive TimeVQVAE in their paper. We expand upon naive TimeVQVAE by integrating a self-supervised learning (SSL) extension. \newline
 
 A schematic figure of our proposed tokenization model is given in Figure \ref{fig:NCVQVAE}. To encode semantic information into the discrete latent representation and improve class separation, we introduce a non-contrastive self-supervised loss. The intuition is that the SSL loss pushes the representations of original and augmented views closer together, which should structure the discrete latent space in such a way that data with similar characteristics inhabit distinct regions. Additionally, we add a regularizing term by reconstructing augmented views. We hypothesize that this approach enables the model to generalize better to unseen data by allowing the decoder to "see" the augmented views, as well as preventing the encoder from ignoring the augmentations.
