@@ -15,6 +15,9 @@ Finally, Tindegruppa, the university climbing group, my crew. You have such a sp
 
 \section{Motivation}
 
+List a lot of time series problems. Generative models (TimeVQVAE) can solve many of them. We give confirmation that clustering and classification is also feasible. 
+
+
 In this thesis, we are interested in representation learning for improved generative modelling of time series. Time series, as the name kinda spoils, is data with a time component. With the ever forward pointing arrow of time, it is really no surprise that these types of data are everywhere. Time series data is ubiquitous across various domains, ranging from finance and healthcare to environmental monitoring and industrial processes. Its importance lies in its ability to capture sequential observations over time, offering insights into underlying patterns, trends, and behaviors. Analyzing time series data can enable us to make informed decisions, predict future trends, and understand the dynamics of complex systems. However, traditional statistical models often struggle to capture the intricate structures present in time series data. These models typically assume linear relationships and stationary behavior, failing to adequately represent the complexities inherent in real-world time series. As a result, there is a pressing need for more sophisticated modeling approaches that can capture the non-linear, non-stationary, and high-dimensional nature of time series data.\newline
 
 Time series generation (TSG), a branch of machine learning focused on synthesizing time series with similar characteristics as some observed data. TSG is applicable across numerous fields, whether it's generating synthetic data for training machine learning models, simulating realistic scenarios for predictive analytics, or augmenting limited datasets for robust analysis. The ability to generate plausible and diverse time series is highly valuable, but it is also notoriously difficult.\newline
@@ -61,7 +64,7 @@ Content of this thesis have been to some degree been made with the assistance of
 
 \section{Thesis Overview}
 \TODO{Under construction}
-
+The code base for the project is found at \url{https://github.com/erlendlokna/Generative-SSL-VQVAE-modelling}\newline
 
 We begin by building up the theoretical background for this thesis. There we introduce neural networks, and relevant architectures for our work, such as convolutional neural networks and transformers. We give an introduction to representation learning, highlighting standard evaluation protocols, and give an introduction to self-supervised learning (SSL), with emphasis on siamese architecture-based SSL. We present the Vector Quantized Variational Autoencoder, trying to highlight aspects brushed over in \cite{VQVAE}, building it up from Autoencoders. Lastly we go through the evaluation metrics used to assess our models.\newline
 

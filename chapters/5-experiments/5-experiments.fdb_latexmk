@@ -1,12 +1,12 @@
 # Fdb version 3
-["biber chapters/5-experiments/5-experiments"] 0 "chapters/5-experiments/5-experiments.bcf" "chapters/5-experiments/5-experiments.bbl" "chapters/5-experiments/5-experiments" 1717754208
+["biber chapters/5-experiments/5-experiments"] 0 "chapters/5-experiments/5-experiments.bcf" "chapters/5-experiments/5-experiments.bbl" "chapters/5-experiments/5-experiments" 1717933480
   "chapters/5-experiments/5-experiments.bcf" 0 -1 0 "pdflatex"
   (generated)
-  "chapters/5-experiments/5-experiments.bbl"
   "chapters/5-experiments/5-experiments.blg"
-["pdflatex"] 1717754202 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.pdf" "5-experiments" 1717754208
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.aux" 1717754202 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.tex" 1717754202 15164 1db596d228c87c8b9d0be4592a0756f1 ""
+  "chapters/5-experiments/5-experiments.bbl"
+["pdflatex"] 1717933475 "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.tex" "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.pdf" "5-experiments" 1717933480
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.aux" 1717933475 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.tex" 1717933475 15361 80339cac914e525b8fa6377093082e48 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/dejavu/dejavumono_t1-type1.enc" 1380151016 2620 1ef8c8026e6f0fc7a8bfd158c7dfbe38 ""
   "/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/ly1/texnansi.enc" 1276641224 6938 5135be6a8802f13a7faf296d1959a1ab ""
   "/usr/local/texlive/2021/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -297,12 +297,12 @@
   "/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1616695603 5169178 a2ce6e2d73f603b690db6777d06dbccb ""
   "/usr/local/texlive/2021/texmf-var/web2c/pdftex/pdflatex.fmt" 1643890765 2724736 4aeff028ee72267a2640867502612165 ""
   "/usr/local/texlive/2021/texmf.cnf" 1616695596 577 4c1911a7228e554c6032256d3cf5567d ""
-  "chapters/5-experiments/../../thesis.tex" 1717163360 1786 d7678f125095438be97b72de67621bd6 ""
+  "chapters/5-experiments/../../thesis.tex" 1717843401 1812 d37c38cc131a930d7644161b00a23da4 ""
   "chapters/5-experiments/5-experiments.aux" 0 -1 0 "pdflatex"
   "chapters/5-experiments/5-experiments.bbl" 0 -1 0 "biber chapters/5-experiments/5-experiments"
   "chapters/5-experiments/5-experiments.out" 0 -1 0 "pdflatex"
-  "chapters/5-experiments/5-experiments.run.xml" 1717754207 2464 f83780cfc3058c23acd61e8ef0bdf741 "pdflatex"
-  "chapters/5-experiments/5-experiments.tex" 1717754202 15164 1db596d228c87c8b9d0be4592a0756f1 ""
+  "chapters/5-experiments/5-experiments.run.xml" 1717933480 2464 f83780cfc3058c23acd61e8ef0bdf741 "pdflatex"
+  "chapters/5-experiments/5-experiments.tex" 1717933475 15361 80339cac914e525b8fa6377093082e48 ""
   "figures//ECG5000.png" 1716235242 114661 a96410e3758a185c7fe9feebf608e855 ""
   "figures//ElectricDevices.png" 1716235197 163497 37e9c03be899a977bed1877b86eb8c13 ""
   "figures//ElectricDevices_SliceAndShuffel.png" 1716480297 16846 64b0600ef94904cec7a062974f0f4d4b ""
@@ -323,11 +323,11 @@
   "ntnuthesis.cls" 1693220167 11751 64fa3abf1f4a97cc88859996175f2d9f ""
   "preamble.tex" 1716557615 1089 41f6110463251b1e633cee557d68d868 ""
   (generated)
-  "chapters/5-experiments/5-experiments.log"
-  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.log"
-  "chapters/5-experiments/5-experiments.pdf"
-  "chapters/5-experiments/5-experiments.out"
-  "chapters/5-experiments/5-experiments.aux"
-  "chapters/5-experiments/5-experiments.run.xml"
   "chapters/5-experiments/5-experiments.bcf"
+  "chapters/5-experiments/5-experiments.run.xml"
   "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.pdf"
+  "chapters/5-experiments/5-experiments.out"
+  "chapters/5-experiments/5-experiments.log"
+  "chapters/5-experiments/5-experiments.pdf"
+  "chapters/5-experiments/5-experiments.aux"
+  "/Users/johanvikmathisen/Documents/GitHub/thesis-NTNU/chapters/5-experiments/5-experiments.log"

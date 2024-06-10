@@ -2,75 +2,9 @@
 
 \begin{document}
 \TODO{Should i elaborate on anything? Feels a bit brief, but i am kinda stuck}
-Our work involves building a framework that leverage non-contrastive self-supervised learning (SSL) to improve representation learning in a Vector Quantized Variational Autoencoder (VQVAE) type model. Additionally, we fit a prior model on the learned representations. This section presents the works related to ours. To the best of our knowledge, enhancing VQ-based tokenization models with SSL methods has not yet been investigated in the time series domain. Therefore, the related works consist of models used as different components in our model.\newline
+Our work involves building a framework that leverage non-contrastive self-supervised learning (SSL) to improve representation learning in a Vector Quantized Variational Autoencoder (VQVAE) type model. This section presents the works related to ours. To the best of our knowledge, enhancing VQ-based tokenization models with SSL methods has not yet been investigated in the time series domain. Therefore, the related works consist of models used as different components in our model.\newline
 
 We base our model on a simplified version of TimeVQVAE, which utilize a bidirectional transformer model, MaskGIT, for prior learning. Although our non-contrastive SSL extension could use any model with a siamese architecture, we experiment with the proven methods Barlow Twins and VIbCReg.
-
-\section{MaskGIT}
-
-The Masked Generative Image Transformer (MaskGIT), introduced in \cite{chang2022maskgit}, is a generative transformer model for image synthesis developed by Google Research. The innovation of MaskGIT lies in its token generation method. Unlike traditional autoregressive generative transformers that treat images as a sequence of tokens, MaskGIT employs a bi-directional transformer for image synthesis. This allows MaskGIT to predict tokens in all directions during training, offering a more natural approach to image modeling. During inference, MaskGIT begins with a blank canvas, predicting the entire image iteratively by conditioning on the most confident pixels from previous predictions.\newline
-
-MaskGIT's architecture relies on a tokenization procedure in its first stage. In the original paper, VQGAN \cite{VQGAN} was used for this purpose, focusing on improving the second stage. Therefore, our discussion will primarily address this aspect of the model.
-
-\subsection{Masked Visual Token Modeling (Prior learning)}
-
-For prior learning, the codebook learned in the tokenization procedure is provided with a masking vector, which is the embedding of the special masking token, denoted by $\M$. The input embedding in the bidirectional transformer is initialized with this expanded codebook. For an image $X$ in the dataset $\mathcal{D}$, let $z = \{z_{k_i}\}_{i=1}^N$ denote the sequence of codewords obtained by passing $X$ through the VQ-Encoder. This sequence can equivalently be described as a sequence of indices $s = \{k_i\}_{i=1}^N$. Prior learning involves masking this sequence and training the bidirectional transformer to predict the masked indices.
-\newline
-
-Let $s = \{k_i\}_{i=1}^N$ be the sequence of indices described above, and denote the corresponding binary mask by $M = \{m_i\}_{i=1}^N$. During training, a subset of $s$ is replaced by the masking token $\M$ according to the binary mask $M$. This is done by 
-
-\begin{equation}
-    s_\text{Mask} = s\odot (1_N-M) +  M\cdot\M,
-\end{equation}
-
-where $\odot$ is the Hadamard product (pointwise multiplication), and $1_N$ is a vector with the same shape as $M$ and $s$.\newline
-
-The sampling procedure, or choice number of tokens to mask, is parameterized by a mask scheduling function $\gamma$. The sampling can be summarized as follows
-
-\begin{itemize}
-    \item Sample $r \sim U(0,1]$.
-    \item Sample $\lceil \gamma(r)\cdot N \rceil$ indices $I$ uniformly from $\{0,\dots,N-1\}$ without replacement. 
-    \item Create $M$ by setting $m_i = 1$ if $i\in I$, and $m_i = 0$ otherwise.
-\end{itemize}
-
-A forward computation is illustrated in Figure \ref{fig:MaskGIT}, where the bidirectional transformer predicts the probabilities $p(s_i|s_\text{Mask})$ of each masked token. The training objective is to minimize the negative log likelihood of the masked tokes, conditional on the unmasked
-\begin{equation}
-    \loss_\text{Mask} = -\E_{s\in \mathcal{D}}\left[\sum_{i \in I} p(s_i|s_\text{Mask} ) \right],
-\end{equation}
-and $\loss_\text{Mask}$ is computed as the cross entropy between the ground truth one-hot token and the predicted token probabilities. 
-
-\begin{figure}[h]
-    \includegraphics[scale=0.25]{MaskGIT.png}
-    \centering 
-    \caption{MaskGIT forward computation.}
-    \label{fig:MaskGIT}
-\end{figure}
-
-
-\subsection{Iterative Decoding (Sample generation)}
-
-The bi-directional transformer could in principle predict all masked tokens and generate a sample in a single pass by sampling according to the predicted probabilites $p(\widehat{s}_i|s_\text{Mask})$ from a forward pass of an all masked sequence. However, this approach presents certain challenges. To address these, \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to synthesize samples in a constant number of steps.\newline
-
-The decoding process goes from $t = 0$ to $T$. To generate a sample during inference, the process starts with an all masked sequence, denote as $s_\text{Mask}^{(0)}$. At iteration $t$, the model predicts the probabilities for all the mask tokens, $p(\widehat{s}_i|s_\text{Mask}^{(t)})$, in parallel. At each masked index $i$, a token $s_i^{(t)}$ is sampled according to the predicted distribution, and the corresponding probability $c_i^{(t)}$ is used as a measure of the confidence in the sample. For unmasked tokens, a confidence of $1$ is assigned to the true position.\newline
-
-The number of tokens $s_i^{(t)}$ with highest confidence that are kept for the next iteration is determined by the mask scheduling function. Specifically, $n = \lceil \gamma(t/T)\cdot N \rceil$ of the lower confidence tokens are masked again by calculating $M^{(t+1)}$ as follows
-
-\begin{equation}
-    m_i^{(t+1)} = 
-    \begin{cases}
-        1, \text{ if } c_i < \text{Sort}([c_1^{(t)},\dots,c_N^{(t)}])[n]\\
-        0, \text{ otherwise} 
-    \end{cases}
-\end{equation}
-
-\begin{figure}[h]
-    \includegraphics[scale=0.35 ]{Iterative Decoding.png}
-    \centering 
-    \caption{Illustration of first pass of the iterative decoding algorithm.}
-    \label{fig:IterativeDecoding}
-\end{figure}
-
-This process is illustrated in Figure \ref{fig:IterativeDecoding}, which shows the first pass of the iterative decoding algorithm. The algorithm synthesizes a complete image in $T$ steps. For image generation, the cosine scheduling function proved to be the most effective across all experiments in the original paper.
 
 \section{TimeVQVAE}
 
@@ -120,6 +54,73 @@ The total loss is given by
 To update the codebooks, TimeVQVAE uses an exponential moving average method as presented in Appendix A.1 of \cite{VQVAE}.
 
 
+\section{MaskGIT}
+
+The Masked Generative Image Transformer (MaskGIT), introduced in \cite{chang2022maskgit}, is a generative transformer model for image synthesis developed by Google Research. The innovation of MaskGIT lies in its token generation method. Unlike traditional autoregressive generative transformers that treat images as a sequence of tokens, MaskGIT employs a bi-directional transformer for image synthesis. This allows MaskGIT to predict tokens in all directions during training, offering a more natural approach to image modeling. During inference, MaskGIT begins with a blank canvas, predicting the entire image iteratively by conditioning on the most confident pixels from previous predictions.\newline
+
+MaskGIT's architecture relies on a tokenization procedure in its first stage. In the original paper, VQGAN \cite{VQGAN} was used for this purpose, focusing on improving the second stage. Therefore, our discussion will primarily address this aspect of the model.
+
+\subsection{Masked Visual Token Modeling (Prior learning)}
+
+For prior learning, the codebook learned in the tokenization procedure is provided with a masking vector, which is the embedding of the special masking token, denoted by $\M$. The input embedding in the bidirectional transformer is initialized with this expanded codebook. For an image $X$ in the dataset $\mathcal{D}$, let $z = \{z_{k_i}\}_{i=1}^N$ denote the sequence of codewords obtained by passing $X$ through the VQ-Encoder. This sequence can equivalently be described as a sequence of indices $s = \{k_i\}_{i=1}^N$. Prior learning involves masking this sequence and training the bidirectional transformer to predict the masked indices.
+\newline
+
+Let $s = \{k_i\}_{i=1}^N$ be the sequence of indices described above, and denote the corresponding binary mask by $M = \{m_i\}_{i=1}^N$. During training, a subset of $s$ is replaced by the masking token $\M$ according to the binary mask $M$. This is done by 
+
+\begin{equation}
+    s_\text{Mask} = s\odot (1_N-M) +  M\cdot\M,
+\end{equation}
+
+where $\odot$ is the Hadamard product (pointwise multiplication), and $1_N$ is a vector with the same shape as $M$ and $s$.\newline
+
+The sampling procedure, or choice number of tokens to mask, is parameterized by a mask scheduling function $\gamma$. The sampling can be summarized as follows
+
+\begin{itemize}
+    \item Sample $r \sim U(0,1]$.
+    \item Sample $\lceil \gamma(r)\cdot N \rceil$ indices $I$ uniformly from $\{0,\dots,N-1\}$ without replacement. 
+    \item Create $M$ by setting $m_i = 1$ if $i\in I$, and $m_i = 0$ otherwise.
+\end{itemize}
+A forward computation is illustrated in Figure \ref{fig:MaskGIT}, where the bidirectional transformer predicts the probabilities $p(s_i|s_\text{Mask})$ of each masked token. The training objective is to minimize the negative log likelihood of the masked tokes, conditional on the unmasked
+\begin{equation}
+    \loss_\text{Mask} = -\E_{s\in \mathcal{D}}\left[\sum_{i \in I} p(s_i|s_\text{Mask} ) \right],
+\end{equation}
+and $\loss_\text{Mask}$ is computed as the cross entropy between the ground truth one-hot token and the predicted token probabilities. 
+
+\begin{figure}[h]
+    \includegraphics[scale=0.25]{MaskGIT.png}
+    \centering 
+    \caption{MaskGIT forward computation.}
+    \label{fig:MaskGIT}
+\end{figure}
+
+
+\subsection{Iterative Decoding (Sample generation)}
+
+The bi-directional transformer could in principle predict all masked tokens and generate a sample in a single pass by sampling according to the predicted probabilites $p(\widehat{s}_i|s_\text{Mask})$ from a forward pass of an all masked sequence. However, this approach presents certain challenges. To address these, \cite{chang2022maskgit} proposes a novel non-autoregressive decoding method to synthesize samples in a constant number of steps.\newline
+
+The decoding process goes from $t = 0$ to $T$. To generate a sample during inference, the process starts with an all masked sequence, denote as $s_\text{Mask}^{(0)}$. At iteration $t$, the model predicts the probabilities for all the mask tokens, $p(\widehat{s}_i|s_\text{Mask}^{(t)})$, in parallel. At each masked index $i$, a token $s_i^{(t)}$ is sampled according to the predicted distribution, and the corresponding probability $c_i^{(t)}$ is used as a measure of the confidence in the sample. For unmasked tokens, a confidence of $1$ is assigned to the true position.\newline
+
+The number of tokens $s_i^{(t)}$ with highest confidence that are kept for the next iteration is determined by the mask scheduling function. Specifically, $n = \lceil \gamma(t/T)\cdot N \rceil$ of the lower confidence tokens are masked again by calculating $M^{(t+1)}$ as follows
+
+\begin{equation}
+    m_i^{(t+1)} = 
+    \begin{cases}
+        1, \text{ if } c_i < \text{Sort}([c_1^{(t)},\dots,c_N^{(t)}])[n]\\
+        0, \text{ otherwise} 
+    \end{cases}
+\end{equation}
+
+\begin{figure}[h]
+    \includegraphics[scale=0.35 ]{Iterative Decoding.png}
+    \centering 
+    \caption{Illustration of first pass of the iterative decoding algorithm.}
+    \label{fig:IterativeDecoding}
+\end{figure}
+
+This process is illustrated in Figure \ref{fig:IterativeDecoding}, which shows the first pass of the iterative decoding algorithm. The algorithm synthesizes a complete image in $T$ steps. For image generation, the cosine scheduling function proved to be the most effective across all experiments in the original paper.
+
+
+
 \section{SSL}
 Our model leverages self-supervised learning algorithms to learn more expressive latent representations. In this section, we present the relevant SSL algorithms for our work: Barlow Twins and VIbCReg.
 
@@ -156,7 +157,7 @@ The \textit{invariance term} helps make the embeddings invariant to the distorti
 
 VIbCReg \cite{lee2024vibcreg} is a non-contrastive SSL model with a siamese architecture based on VICReg \cite{bardes2022vicreg}. It improves upon VICReg by incorporating better covariance regularization and IterNorm \cite{huang2019iterative}. A key difference from Barlow Twins is that variance/covariance regularization is applied to each branch individually.\newline
 
-As with Barlow Twins, a batch $D$ is augmented to create two views and passed through an encoder and projector. The embedding $Z$ and $Z'$ are \textit{whitened} using IterNorm \cite{huang2019iterative}.\newline
+As with Barlow Twins, a batch $D$ is augmented to create two views and passed through an encoder and projector. The embedding $Z$ and $Z'$ are then \textit{whitened} using IterNorm \cite{huang2019iterative} before calculating the similarity loss.\newline
 
 \begin{figure}[h]
     \includegraphics[scale=0.15]{VICReg_VIbCReg.png}
@@ -165,7 +166,7 @@ As with Barlow Twins, a batch $D$ is augmented to create two views and passed th
     \label{fig:VIbCReg}
 \end{figure}
 
-The loss consists of a similarity loss between the branches, and feature decoration (FD) loss, and a feature component expressiveness (FcE) term at each branch. Input data is processed in batches, with $Z \in \mathbb{R}^{B\times F}$ where $B$ and $F$ denotes the batch and feature sizes, respectively. We denote a row in $Z$ by $Z_b$ and column by $Z_f$, and similarly for $Z'$.\newline
+The loss consists of a similarity loss between the branches, a feature decoration (FD) term and a feature component expressiveness (FcE) term at each branch. Input data is processed in batches, with $Z \in \mathbb{R}^{B\times F}$ where $B$ and $F$ denotes the batch and feature sizes, respectively. We denote a row in $Z$ by $Z_b$ and column by $Z_f$, and similarly for $Z'$.\newline
 
 The similarity loss is defined as the mean square error between the two embeddings
 \begin{equation}

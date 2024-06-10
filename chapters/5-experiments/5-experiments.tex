@@ -18,7 +18,7 @@
 \TODO{This section i need som assistance with. Find it difficult to write anything smart.}
 \TODO{Am i missing anything? Probably.}
 
-To evaluate our model NC-VQVAE and address the research questions, we compare it to the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning methods. Additionally, as we are interested in the effect of augmentations on representation learning, for each SSL method we train three distinct models using different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage. All experiments were run on the Idun HPC cluster \cite{Idun}, using several compute nodes. The total training time of all 728 models was approximately 700 hours. 
+To evaluate our model, NC-VQVAE, and address the research questions, we compare it to the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning methods. Additionally, as we are interested in the effect of augmentations on representation learning, for each SSL method we train three distinct models using different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage. All experiments were run on the Idun HPC cluster \cite{Idun}, using several compute nodes. The total training time of all 728 models was approximately 700 hours. 
 
 
 \subsection{Implementation details}
@@ -47,12 +47,10 @@ The downsampling rate is determined by $2^n$, ensuring the resulting latent repr
 
 
 \subsubsection{VQ}
-
-We adopt a codebook size of 32 and a dimension of 64, utilizing exponential moving average with a decay of 0.9 and a commitment loss weight $\beta = 1$.
+The implementation for VQVAE is taken from \cite{VQ_repo}. We adopt a codebook size of 32 and a dimension of 64, utilizing exponential moving average with a decay of 0.9 and a commitment loss weight $\beta = 1$. Codebook embeddings learned in stage 1 is used to initialize the codebook embeddings in stage 2. 
 
 \subsubsection{SSL}
-For both Barlow Twins and VIbCReg, we implement the projector following the guidelines in \cite{lee2024computer}. 
-We use identical projectors for both methods, consisting of 3 linear layers. The first two are normalized using \texttt{BatchNorm1d}. Both hidden and output layer has dimension size set to 4096.\newline
+For both Barlow Twins and VIbCReg, we implement the projector following the guidelines in \cite{lee2024computer}. We use identical projectors for both methods, consisting of 3 linear layers. The first two are normalized using \texttt{BatchNorm1d}. Both hidden and output layer has dimension size set to 4096.\newline
 
 For Barlow Twins the weight of the redundancy reduction term, $\lambda$, is set to $0.005$. The weight of the Barlow Twins loss in the NC-VQVAE is set to $\eta = 1/D$ where $D$ is the projector output dimension.\newline
 
@@ -109,8 +107,10 @@ SupervisedFCN is employed for calculating Inception Score (IS), Fréchet Incepti
 
 
 \section{UCR Time Series Classification Archive}
-The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 datasets of univariate time series for classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
+\TODO{Elaborate?}
+\TODO{Plots of datasets in appendix?}
 
+The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 labeled datasets of univariate time series for classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
 \begin{table}[h]
     \centering
