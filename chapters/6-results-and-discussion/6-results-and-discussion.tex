@@ -212,7 +212,7 @@ Further analysis reveals that Slice and Shuffle, as well as Window Warp and Ampl
         \centering
         \includegraphics[width=\textwidth]{naive_FordA_TSNE.png}
     \end{minipage}
-    \caption{TSNE plots of FordA. Barlow (left) and VIbCReg (center) with Slice and Shuffle, naive VQVAE (right). Best performing model in terms of KNN accuracy is chosen. }
+    \caption{TSNE plots of FordA. Barlow (left) and VIbCReg (center) with Slice and Shuffle, naive VQVAE (right).}
     \label{fig:FordA_TSNE}
 \end{figure}
 
@@ -233,13 +233,34 @@ Further analysis reveals that Slice and Shuffle, as well as Window Warp and Ampl
         \centering
         \includegraphics[width=\textwidth]{TSNE_naive_TwoPatterns.png}
     \end{minipage}
-    \caption{TSNE plot of discrete latent representations from VIbCReg with Slice and Shuffle (left), Barlow Twins with Window Warp and Amplitude Resize (center) and naive VQVAE (right). Dataset is TwoPatterns. The latent space is significantly more structured with NC-VQVAE.}
+    \caption{TSNE plot of discrete latent representations from VIbCReg with Slice and Shuffle (left), Barlow Twins with Window Warp and Amplitude Resize (center) and naive VQVAE (right). Dataset is TwoPatterns.}
     \label{fig:TSNE_TwoPatterns}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{TSNE_Barlow_Uwave_warp.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{TSNE_VIB_Uwave_warp.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{TSNE_Naive_Uwave.png}
+    \end{minipage}
+    \caption{TSNE plot of discrete latent representations from VIbCReg with Window Warp and Amplitude Resize (left), Barlow Twins with Window Warp and Amplitude Resize (center) and naive VQVAE (right). Dataset is UWaveGestureLibraryAll.}
+    \label{fig:TSNE_UWave}
 \end{figure}
 
 \subsection*{Summary of Stage 1}
 
 In summary, the results from stage 1 indicate that NC-VQVAE can reconstruct on par with the naive VQVAE, and in some cases improve the reconstruction loss, while substantially improving probe accuracy for most datasets. Addressing research question 1, we conclude that representations learned with NC-VQVAE are more expressive compared to the naive VQVAE, encoding more class-specific information without compromising reconstruction quality. Regarding research question 2, the choice of augmentation plays a pivotal role in the results, with warp and slice typically outperforming Gaussian augmentation, particularly in terms of probe accuracy. Additionally, significant variations across datasets support the hypothesis that the optimal choice of augmentations is highly dependent on the dataset.
+\TODO{Talk about the clustering form t-SNE}
 
 \subsection{Losses}
 
@@ -362,7 +383,6 @@ In Figure \ref{fig:mean_gen_scores}, an overview of the results highlights that 
 \end{figure}
 
 It is important to note that the FID and IS scores are calculated using the SupervisedFCN, which is trained on the UCR Archive. Consequently, there may be a bias towards samples that mimic the training data.
-
 
 \subsection{CAS}
 
