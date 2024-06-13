@@ -2,49 +2,22 @@
 
 \begin{document}
 
+We are able to simultaneously reconstruct well and significantly improve downstream classification accuracy. Additionally, from the t-SNE plots \ref{fig:FordA_TSNE}, \ref{fig:TSNE_TwoPatterns} and \ref{fig:TSNE_UWave}, we observe that NC-VQVAE can efficiently perform clustering as well, which is very interesting from a representation learning perspective. We improve both IS, FID and CAS for most datasets, indicating that the conditional distribution is better captured, as well as the synthetic data being closer to the ground truth.\newline
 
-\section{Conclusion}
+NC-VQVAE is more adept at mimicking training data and less likely to overlook underrepresented classes. However, for datasets with limited training samples, our model can be prone to overfitting. Some challenges associated with TimeVQVAE remain, particularly in modeling data with sharp differences in modularity.\newline
 
-\subsection*{Summary of Stage 1}
+While issues persist, we believe our model represents a step forward. The representations learned by NC-VQVAE are more expressive than those from the naive VQVAE, showing that multiple objectives can be optimized without sacrificing reconstruction capability. These expressive representations facilitate capturing the semantics of the training data and producing synthetic samples with better global consistency.\newline
 
-In summary, the results from stage 1 indicate that NC-VQVAE can reconstruct on par with the naive VQVAE, and in some cases improve the reconstruction loss, while substantially improving probe accuracy for most datasets. Addressing research question 1, we conclude that representations learned with NC-VQVAE are more expressive compared to the naive VQVAE, encoding more class-specific information without compromising reconstruction quality. Regarding research question 2, the choice of augmentation plays a pivotal role in the results, with warp and slice typically outperforming Gaussian augmentation, particularly in terms of probe accuracy. Additionally, significant variations across datasets support the hypothesis that the optimal choice of augmentations is highly dependent on the dataset.
+In summary, NC-VQVAE demonstrate the ability to classify accurately and perform effective clustering while maintaining reconstruction capabilities, as well as enhancing generative quality.
 
-\subsection*{Summary of Stage 2}
-
-In summary, the results from stage 2 suggest that NC-VQVAE offers advantages over the naive VQVAE in capturing conditional distributions, as indicated by higher IS and CAS scores. Additionally, NC-VQVAE demonstrates improved sample quality compared to ground truth data, with lower FID scores. Visual inspections further reveal that NC-VQVAE achieves better mode coverage and captures global sample consistency to a greater extent than its naive counterpart.\newline
-
-Addressing research question 3, we conclude that the expressive representations learned from NC-VQVAE contribute to learning class-specific details and enhancing the quality of synthetic samples. However, it's worth noting that NC-VQVAE is prone to overfitting when faced with small datasets or classes with few samples, whereas the naive VQVAE struggle to capture global consistencies effectively.\newline
-
-Regarding research question 4, we observe that the generative performance is less sensitive to the choice of augmentations compared to the downstream classification accuracy observed in stage 1. Nonetheless, Gaussian noise yields the least variability in performance compared to the baseline, outperforming the naive VQVAE consistently in terms of IS, FID, and CAS metrics.
-
-
-\subsection*{Conclusion}
-We are able to simultaneously reconstruct well and significantly improve downstream classification accuracy, which is very interesting from a representation learning perspective. From the t-SNE plots \ref{fig:FordA_TSNE} and \ref{fig:TSNE_TwoPatterns}, 
-We improve both IS, FID and CAS for most datasets, indicating that the conditional distribution is better captured, as well as the synthetic data being closer to the ground truth. Additionally we see some differences in Barlow Twins and VIbCReg when it comes to sample diversity.\newline
-
-To summarize NC-VQVAE is able to capture the conditional distribution of the data better than naive VQVAE for a wide variety of datasets. For datasets with few training samples, our model can be prone to overfitting. We see our model as a step in the right direction, but further development is needed to ensure better intraclass diversity, possibly through a more refined sampling procedure. \newline
-
-
-NC-VQVAE is better able to mimic the training data. When data is abundant, then our model better captures the entire distribution, while covering \newline
-
-Some of the issues of TimeVQVAE are still highly relevant, such as the difficulty in modelling data with sharp differences in modularity, such as TwoPatterns and ElectricDevices.\newline
-
-
-
-Even though there are issues, we believe our model is a step in the right direction. The representations learned by NC-VQVAE are more expressive than naive VQVAE, demonstrating that we can optimize more than one objective, without sacrificing the reconstruction capability. 
-
-The representations enable easier learning of the semantics of the conditional distributions, to such a degree that one has to take measures not to overfit. 
-
-The representations makes it easier to capture the global consistency of the samples, which tha naive VQVAE has large issues with. This without the HF-LF split.
-
-The added flexibility of NC-VQVAE, with possibility of choosing dataset specific augmentations, can in some applications be beneficial.\newline
 
 
 \section{Further work}
+There are many exiting directions this work can be taken further.
 
-In \cite{morningstar2024augmentations} they suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention.\newline
+In \cite{morningstar2024augmentations} they suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention. An easy to use library of time series augmentations would be very beneficial to the community.\newline
+
 HF-LF split - augmentations tailored for HF and LF, as they often have quite different characteristics.\newline
-Wavelet transform to improve HF-LF split.\newline
 
 Further optimize the relationship between aug recon loss and choice of augmentations.\newline
 
@@ -58,7 +31,13 @@ Develop better generative metrics. \newline
 
 More thorough analysis on the effect of the different losses. \newline
 
-Investigate the reason why the prior loss is not minimized, but we still observe much higher quality samples.
+Investigate the reason why the prior loss is not minimized, but we still observe much higher quality samples.\newline
+
+Understand the discrepancy between validation prior loss and generative quality. NC-VQVAE consistently produces samples with higher fidelity and improved generative scores, but it fails to model the latent space in such a way that the validation prior loss is minimized. The reason is a mystery, but would be very interesting to investigate further.\newline
+
+
+To better understand the geometry and topology of the discrete latent representations, and further investigate the effect of different augmentations and SSL methods, applying topological data analysis techniques is a possible direction of future research. 
+To leverage 
 
 
 

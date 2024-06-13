@@ -1,7 +1,6 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-\TODO{Should i elaborate on anything? Feels a bit brief, but i am kinda stuck}
 
 Our work in this thesis, as mentioned earlier, builds upon the paper "Vector Quantized Time Series Generation with a Bidirectional Prior Model" \cite{TimeVQVAE}. We simplify the model architecture by omitting the high-low frequency split, reducing the model to what they refer to as naive TimeVQVAE in their paper. We expand upon naive TimeVQVAE by integrating a self-supervised learning (SSL) extension. \newline
 
@@ -12,8 +11,6 @@ A schematic figure of our proposed tokenization model is given in Figure \ref{fi
 Our model, termed NC-VQVAE, is a generative time series model that learns expressive discrete latent representations by combining VQVAE with non-contrastive SSL algorithms. NC-VQVAE uses the two-stage modeling approach and can be considered an extension of their naive TimeVQVAE. Our model primarily extends the tokenization stage, incorporating Barlow Twins and VIbCReg as our non-contrastive SSL methods, while the framework remains flexible. For the second stage, we model the prior using a bidirectional transformer similar to MaskGIT.
 
 \subsection{Stage 1: Tokenization}
-\TODO{Pseudocode}
-
 The architecture of the tokenization model, shown in Figure \ref{fig:NCVQVAE}, consists of two branches: the original and augmented branch. The model takes a time series $x$ as input and creates an augmented view $x'$. The original branch follows the naive TimeVQVAE architecture from \cite{TimeVQVAE}, while the augmented branch is an autoencoder, constructed by omitting the quantization layer. The views are passed through their respective branches, and we compute the SSL loss derived from the original discrete latent representation $z_q$ and the augmented continuous latent $z'$, before the decoder reconstructs each latent representation. \newline 
 
 The SSL loss is calculated by concatenating the global average and max pool of both representations individually and passing the resulting vectors through the projector.\newline

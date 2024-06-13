@@ -1,7 +1,6 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-\TODO{Should i elaborate on anything? Feels a bit brief, but i am kinda stuck}
 Our work involves building a framework that leverage non-contrastive self-supervised learning (SSL) to improve representation learning in a Vector Quantized Variational Autoencoder (VQVAE) type model. This section presents the works related to ours. To the best of our knowledge, enhancing VQ-based tokenization models with SSL methods has not yet been investigated in the time series domain. Therefore, the related works consist of models used as different components in our model.\newline
 
 We base our model on a simplified version of TimeVQVAE, which utilize a bidirectional transformer model, MaskGIT, for prior learning. Although our non-contrastive SSL extension could use any model with a siamese architecture, we experiment with the proven methods Barlow Twins and VIbCReg.
@@ -155,7 +154,7 @@ The \textit{invariance term} helps make the embeddings invariant to the distorti
 
 \subsection{VIbCReg}
 
-VIbCReg \cite{lee2024vibcreg} is a non-contrastive SSL model with a siamese architecture based on VICReg \cite{bardes2022vicreg}. It improves upon VICReg by incorporating better covariance regularization and IterNorm \cite{huang2019iterative}. A key difference from Barlow Twins is that variance/covariance regularization is applied to each branch individually.\newline
+VIbCReg \cite{lee2024computer} is a non-contrastive SSL model with a siamese architecture based on VICReg \cite{bardes2022vicreg}. It improves upon VICReg by incorporating better covariance regularization and IterNorm \cite{huang2019iterative}. A key difference from Barlow Twins is that variance/covariance regularization is applied to each branch individually.\newline
 
 As with Barlow Twins, a batch $D$ is augmented to create two views and passed through an encoder and projector. The embedding $Z$ and $Z'$ are then \textit{whitened} using IterNorm \cite{huang2019iterative} before calculating the similarity loss.\newline
 

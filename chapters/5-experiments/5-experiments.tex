@@ -15,11 +15,8 @@
 % Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \newline
 
 \section{Main Experiments}
-\TODO{This section i need som assistance with. Find it difficult to write anything smart.}
-\TODO{Am i missing anything? Probably.}
 
 To evaluate our model, NC-VQVAE, and address the research questions, we compare it to the naive VQVAE using both Barlow Twins and VIbCReg as self-supervised learning methods. Additionally, as we are interested in the effect of augmentations on representation learning, for each SSL method we train three distinct models using different sets of augmentations. Furthermore, each configuration is trained using four different seeds, resulting in a total of 364 models trained at each stage. All experiments were run on the Idun HPC cluster \cite{Idun}, using several compute nodes. The total training time of all 728 models was approximately 700 hours. 
-
 
 \subsection{Implementation details}
 
@@ -94,7 +91,23 @@ In our experiments we consider three sets of augmentations with different charac
 
 
 \subsubsection{Prior learning}
-We adopt the implementation from \cite{chang2022maskgit}. In the iterative decoding algorithm, the number of iterations $T$ is set to 10, and use cosine as mask scheduling function ($\gamma$). 
+Adopting the implementation from \cite{chang2022maskgit} we set the number of iterations $T$ in the iterative decoding algorithm to 10 and use cosine as mask scheduling function ($\gamma$). \newline
+
+The bidirectional transformer is implemented with parameter presented in Table \ref{tab:bidirectional_transformer}.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lc}
+        \toprule
+        Hidden dimmension size& 256\\
+        Number of layers & 4\\
+        Number of heads & 2\\
+        Feed-forward ratio& 1\\
+        \bottomrule
+    \end{tabular}
+    \caption{Sizes of different components of the bidirectional transformer.}
+    \label{tab:bidirectional_transformer}
+\end{table}
+
 
 \subsubsection{Training}
 We utilize the AdamW optimizer with batch sizes set to 128 for stage 1 and 256 for stage 2, an initial learning rate of $10^{-3}$, cosine learning rate scheduler, and a weight decay of $10^{-5}$. Both stage 1 and stage 2 training procedures run for 1000 epochs.
@@ -107,8 +120,6 @@ SupervisedFCN is employed for calculating Inception Score (IS), Fréchet Incepti
 
 
 \section{UCR Time Series Classification Archive}
-\TODO{Elaborate?}
-\TODO{Plots of datasets in appendix?}
 
 The evaluation of our model NC-VQVAE is done on a subset of the UCR Time Series Archive \cite{UCRArchive2018}. The UCR archive is a collection of 128 labeled datasets of univariate time series for classification. The different datasets in the archive span a wide range characteristics and include among others sensor, device, image-derived and simulated data. Each dataset has a predefined training and test split.\newline
 
