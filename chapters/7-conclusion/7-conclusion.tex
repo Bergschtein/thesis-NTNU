@@ -2,7 +2,7 @@
 
 \begin{document}
 
-We are able to simultaneously reconstruct well and significantly improve downstream classification accuracy. Additionally, from the t-SNE plots \ref{fig:FordA_TSNE}, \ref{fig:TSNE_TwoPatterns} and \ref{fig:TSNE_UWave}, we observe that NC-VQVAE can efficiently perform clustering as well, which is very interesting from a representation learning perspective. We improve both IS, FID and CAS for most datasets, indicating that the conditional distribution is better captured, as well as the synthetic data being closer to the ground truth.\newline
+We are able to simultaneously reconstruct well and significantly improve downstream classification accuracy. Additionally, from the t-SNE plots \ref{fig:FordA_TSNE}, \ref{fig:TSNE_TwoPatterns} and \ref{fig:TSNE_UWave}, we observe that NC-VQVAE can efficiently perform clustering as well. We improve both IS, FID and CAS for most datasets, indicating that the conditional distribution is better captured, as well as the synthetic data being closer to the ground truth.\newline
 
 NC-VQVAE is more adept at mimicking training data and less likely to overlook underrepresented classes. However, for datasets with limited training samples, our model can be prone to overfitting. Some challenges associated with TimeVQVAE remain, particularly in modeling data with sharp differences in modularity.\newline
 
@@ -10,36 +10,13 @@ While issues persist, we believe our model represents a step forward. The repres
 
 In summary, NC-VQVAE demonstrate the ability to classify accurately and perform effective clustering while maintaining reconstruction capabilities, as well as enhancing generative quality.
 
-
-
 \section{Further work}
-There are many exiting directions this work can be taken further.
+There are many exiting directions this work can be taken further. In \cite{morningstar2024augmentations} they underscore that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention. An easy to use library of time series augmentations would be very beneficial to the community.\newline
 
-In \cite{morningstar2024augmentations} they suggest that focus on augmentations is of great importance. The hunt for good augmentations in the time series domain is ongoing and should probably get more attention. An easy to use library of time series augmentations would be very beneficial to the community.\newline
+As we considered a simplified version of TimeVQVAE, it is natural to investigate effective ways of incorporating the HF-LF split. A possible approach could be to concatenate HF and LF representations and pass them through the projector. This would also open the possibility of applying augmentations tailored for HF and LF. In the same direction of sort of obvious extension, would be to further optimize the relationship between the reconstruction loss on the augmented branch and choice of augmentations, and understanding their interplay. Undergoing a more thorough analysis on the effect of the different losses, would be interesting. \newline
 
-HF-LF split - augmentations tailored for HF and LF, as they often have quite different characteristics.\newline
+It is of interest to better understand the geometry and topology of the discrete latent representations. A possible direction of future research could be to further investigate the effect of different augmentations and SSL methods by applying topological data analysis techniques. \newline
 
-Further optimize the relationship between aug recon loss and choice of augmentations.\newline
-
-Improving on the stage 2 learning to better handle the expressive representations, and be able to create more diverse samples. Higher masking ratio during training, lower value for $T$ etc.\newline
-
-The differences in Barlow and VIbCReg indicate that further optimization of the SSL method/pretext task for generative performance is possible and could be an interesting extension of this project. \newline
-
-Investigation of the attention maps. Could one find if there is a HF direction, translation direction etc. similarly to how one in NLP can find gender direction, nationality direction etc?\newline
-
-Develop better generative metrics. \newline
-
-More thorough analysis on the effect of the different losses. \newline
-
-Investigate the reason why the prior loss is not minimized, but we still observe much higher quality samples.\newline
-
-Understand the discrepancy between validation prior loss and generative quality. NC-VQVAE consistently produces samples with higher fidelity and improved generative scores, but it fails to model the latent space in such a way that the validation prior loss is minimized. The reason is a mystery, but would be very interesting to investigate further.\newline
-
-
-To better understand the geometry and topology of the discrete latent representations, and further investigate the effect of different augmentations and SSL methods, applying topological data analysis techniques is a possible direction of future research. 
-To leverage 
-
-
-
+The discrepancy between validation prior loss and generative quality observed with NC-VQVAE is not understood. NC-VQVAE consistently produces samples with higher fidelity and improved generative scores, but it fails to model the latent space in such a way that the validation prior loss is minimized. It would be very interesting to investigate further, and one possibility would be to consider the attention maps and try to deduce relationships between the tokens.
 
 \end{document}
