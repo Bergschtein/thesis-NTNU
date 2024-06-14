@@ -1,18 +1,6 @@
 \documentclass[../../thesis.tex]{subfiles}
 
 \begin{document}
-% \section{Initial Experimentation and Model Development}
-% \TODO{This section is under construction. Contemplating if i should even include it at all in some form.}
-
-% The overarching objective in creating our model is to learn more expressive latent representations for better time series generation. We want to keep the reconstruction capabilities of the tokenization model at a high level, where the rationality is that if the tokenization model reconstructs well the latent representations contains all relevant information of the input. We simultaneously want enforce better class separability in the latent representations, as we hypothesize that such additional structure eases/improved learning of the generative model.\newline
-
-% During development we encountered several problems:\newline
-% When we attempted a siamese architecture, with quantization in the augmented branch, and to derive the SSL loss from the discrete representations there were a correlation problem. The codewords were very highly correlated, which resulted from the passing both views through the VQ.  $SSL(z_q,z_q')$ \newline
-% In an attempt to solve this we attempted to derive the SSL loss from the continuous latent representations, but the resulting discrete latent representations performed poorly on the downstream classification task. Separability problem: $SSL(z,z')$ \newline
-
-% The solution was to remove the VQ in the augmented branch and rather derive the SSL loss from $z_q$ and $z'$. Solution: $SSL(z_q,z')$ \newline
-
-% Overfitting problem: Using $SG()$ on augmented branch / Not using augRecons \newline
 
 \section{Main Experiments}
 

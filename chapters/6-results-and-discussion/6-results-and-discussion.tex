@@ -760,7 +760,6 @@ Observing Figure  \ref{fig:aug_recons_val_recons}, we note that the reconstructi
 Examining Figure \ref{fig:aug_recons_KNN} and \ref{fig:aug_recons_SVM}, we observe that augmentation reconstruction weight affects KNN to a larger degree than SVM, indicating that the weight introduces differences in local structure of the discrete latent space, while the global structure is less affected. Furthermore, it's evident that VIbCReg consistently produces high probe accuracies and demonstrates greater robustness compared to Barlow Twins across different augmentation reconstruction weights.
 
 \section{Discussion}
-\TODO{Finish all subsections}
 
 \subsection*{Difficulty in assessing generative samples}
 
@@ -769,18 +768,7 @@ The difficulty in visually assessing generative performance for datasets with co
 
 Many datasets in the UCR Archive and our selected subset is heavily imbalanced. As the SupervisedFCN used to evaluate FID and IS is trained on these imbalanced datasets, they may underrepresented the quality of synthetic samples from the minority classes. We have from the visual inspection seen that NC-VQVAE is superior to naive VQVAE in its ability to capture the conditional distributions, even then the sample size is very small. Additionally, the SupervisedFCN may be better at recognizing and evaluating features of the dominant classes and worse at recognizing features of minority classes. This can lead to biased scores that favor synthetic samples resembling the overrepresented classes.\newline
 
-% FordA, FordB, TwoPatterns, UWaveGestureLibraryAll,ShapesAll has very balanced classes.
-
-% Wafer: 903, 97
-% ECG5000: 292, 177, 10, 19, 2. 
-% ElectricDevices:727, 2231, 851, 1474, 2406, 509, 728.
-% StarLightCurves:152, 275, 573
-% Sony1: 6, 14
-% Sony2: 11, 16
-% Mallat:6, 8, 6, 11, 2, 6, 9, 7
-% Symbols: 8, 5, 3, 3, 3, 3\newline
-
-The current metrics are dependent on high quality data. Large sample sizes, balanced classes etc. There is a lack of large high quality datasets in the time series domain. 
+The current metrics are dependent on high quality data with large sample sizes, balanced classes etc. There is currently a lack of large high quality datasets in the time series domain, and something akin to ImageNet for time series would be beneficial for the community. 
 
 \subsection*{The role of augmentations}
 We observe that both probe accuracies and generative scores are dependent on the particular choice of augmentations. The probe accuracies are generally better when augmentation are clearly different from the original view, as for warp and slice, while the generative scores has a tendency to follow the opposite pattern, though not as clearly. Additionally, we have observed that the optimal choice of augmentations is highly dataset dependent, and a systematic analysis of different augmentations on specific datasets is needed to understand the dynamics better.
