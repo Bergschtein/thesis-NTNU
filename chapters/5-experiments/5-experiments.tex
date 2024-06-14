@@ -32,7 +32,7 @@ The downsampling rate is determined by $2^n$, ensuring the resulting latent repr
 
 
 \subsubsection{VQ}
-The implementation for VQVAE is taken from \cite{VQ_repo}. We adopt a codebook size of 32 and a dimension of 64, utilizing exponential moving average with a decay of 0.9 and a commitment loss weight $\beta = 1$. Codebook embeddings learned in stage 1 is used to initialize the codebook embeddings in stage 2. 
+The implementation for VQVAE is taken from \cite{VQrepo}. We adopt a codebook size of 32 and a dimension of 64, utilizing exponential moving average with a decay of 0.9 and a commitment loss weight $\beta = 1$. Codebook embeddings learned in stage 1 is used to initialize the codebook embeddings in stage 2. 
 
 \subsubsection{SSL}
 For both Barlow Twins and VIbCReg, we implement the projector following the guidelines in \cite{lee2024computer}. We use identical projectors for both methods, consisting of 3 linear layers. The first two are normalized using \texttt{BatchNorm1d}. Both hidden and output layer has dimension size set to 4096.\newline
@@ -86,7 +86,7 @@ The bidirectional transformer is implemented with parameter presented in Table \
     \centering
     \begin{tabular}{lc}
         \toprule
-        Hidden dimmension size& 256\\
+        Hidden dimension size& 256\\
         Number of layers & 4\\
         Number of heads & 2\\
         Feed-forward ratio& 1\\
