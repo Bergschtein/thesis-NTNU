@@ -1,9 +1,0 @@
-[0] Config.pm:311> INFO - This is Biber 2.16
-[0] Config.pm:314> INFO - Logfile is 'chapters/0-abstract/0b-sammendrag.blg'
-[127] biber-darwin:340> INFO - === Mon Aug 28, 2023, 13:57:53
-[155] Biber.pm:415> INFO - Reading 'chapters/0-abstract/0b-sammendrag.bcf'
-[315] Biber.pm:952> INFO - Found 0 citekeys in bib section 0
-[329] Utils.pm:395> WARN - The file 'chapters/0-abstract/0b-sammendrag.bcf' does not contain any citations!
-[341] bbl.pm:654> INFO - Writing 'chapters/0-abstract/0b-sammendrag.bbl' with encoding 'UTF-8'
-[342] bbl.pm:757> INFO - Output to chapters/0-abstract/0b-sammendrag.bbl
-[342] Biber.pm:128> INFO - WARNINGS: 1
